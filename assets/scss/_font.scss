@@ -1,0 +1,85 @@
+@import url('//fonts.googleapis.com/earlyaccess/nanummyeongjo.css');
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'S-CoreDream-3Light';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'SimKyungha';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2202-2@1.0/SimKyungha.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Ownglyph_corncorn-Rg';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2412-1@1.0/Ownglyph_corncorn-Rg.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.FONT_001 {
+    button,
+    a,
+    span,
+    p,
+    div,
+    input,
+    textarea {
+        font-family: 'Pretendard-Regular';
+    }
+}
+
+.FONT_002 {
+    button,
+    a,
+    span,
+    p,
+    div,
+    input,
+    textarea {
+        font-family: 'Nanum Myeongjo';
+    }
+}
+
+.FONT_003 {
+    button,
+    a,
+    span,
+    p,
+    div,
+    input,
+    textarea {
+        font-family: 'S-CoreDream-3Light';
+    }
+}
+
+.FONT_004 {
+    button,
+    a,
+    span,
+    p,
+    div,
+    input,
+    textarea {
+        font-family: 'SimKyungha';
+    }
+}
+
+.FONT_005 {
+    button,
+    a,
+    span,
+    p,
+    div,
+    input,
+    textarea {
+        font-family: 'Ownglyph_corncorn-Rg';
+    }
+}

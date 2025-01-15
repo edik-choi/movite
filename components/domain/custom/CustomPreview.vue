@@ -1,0 +1,250 @@
+<script lang="ts" setup>
+import dayjs from 'dayjs'
+import 'dayjs/locale/ko'
+import { fontList, themeColorList } from '@/data/domain/custom'
+
+interface Props {
+    selectedFontIndex: number
+    selectedThemeColorIndex: number
+    maleName: string
+    maleRelation: string
+    maleFatherName: string
+    isMaleFatherLate: boolean
+    maleMotherName: string
+    isMaleMotherLate: boolean
+    femaleName: string
+    femaleRelation: string
+    femaleFatherName: string
+    isFemaleFatherLate: boolean
+    femaleMotherName: string
+    isFemaleMotherLate: boolean
+    isShowFemaleFirst: boolean
+    isShowLateAsFlower: boolean
+    greetingsTitle: string
+    greetingsContent: string
+    selectedDate: Date
+    selectedAddress: string
+    detailedAddress: string
+    noticeTitle: string
+    noticeContent: string
+    closingsContent: string
+    maleContactName1: string
+    maleContactPhoneNumber1: string
+    maleContactName2: string
+    maleContactPhoneNumber2: string
+    maleContactName3: string
+    maleContactPhoneNumber3: string
+    femaleContactName1: string
+    femaleContactPhoneNumber1: string
+    femaleContactName2: string
+    femaleContactPhoneNumber2: string
+    femaleContactName3: string
+    femaleContactPhoneNumber3: string
+}
+
+const props = withDefaults(defineProps<Props>(), {})
+
+dayjs.locale('ko')
+
+const formattedSeletedDate = (date: Date) => {
+    const minutes = date.getMinutes()
+    if (minutes === 0) {
+        return dayjs(date).locale('ko').format('YYYY년 M월 D일 A h시')
+    } else {
+        return dayjs(date).locale('ko').format('YYYY년 M월 D일 A h시 m분')
+    }
+}
+</script>
+
+<template>
+    <div
+        class="custom_preview_wrap"
+        :class="fontList[selectedFontIndex].id"
+        :style="{ background: themeColorList[selectedThemeColorIndex].background }"
+    >
+        <div class="preview_contents_wrap">
+            <div class="greetings_wrap">
+                <p class="greetings_title">{{ greetingsTitle }}</p>
+                <p class="greetings_text" v-html="greetingsContent"></p>
+            </div>
+            <div class="organizers_wrap" :class="{ reverse: isShowFemaleFirst }">
+                <p>
+                    <span v-if="maleFatherName && isMaleFatherLate">{{ isShowLateAsFlower ? '꽃' : '故人' }}</span>
+                    <span>{{ maleFatherName }}</span>
+                    <span v-if="maleFatherName && maleMotherName">·</span>
+                    <span v-if="maleMotherName && isMaleMotherLate">{{ isShowLateAsFlower ? '꽃' : '故人' }}</span>
+                    <span>{{ maleMotherName }}</span>
+                    <span v-if="(maleFatherName && maleRelation) || (maleMotherName && maleRelation)">의</span>
+                    <span v-if="maleName && maleRelation" class="relation">{{ maleRelation }}</span>
+                    <span v-if="maleName">{{ maleName }}</span>
+                </p>
+                <p>
+                    <span v-if="femaleFatherName && isFemaleFatherLate">{{ isShowLateAsFlower ? '꽃' : '故人' }}</span>
+                    <span>{{ femaleFatherName }}</span>
+                    <span v-if="femaleFatherName && femaleMotherName">·</span>
+                    <span v-if="femaleMotherName && isFemaleMotherLate">{{ isShowLateAsFlower ? '꽃' : '故人' }}</span>
+                    <span>{{ femaleMotherName }}</span>
+                    <span v-if="(femaleFatherName && femaleRelation) || (femaleMotherName && femaleRelation)">의</span>
+                    <span v-if="femaleName && femaleRelation" class="relation">{{ femaleRelation }}</span>
+                    <span v-if="femaleName">{{ femaleName }}</span>
+                </p>
+            </div>
+            <div class="event_details_wrap">
+                <p>
+                    {{ formattedSeletedDate(selectedDate) }}
+                </p>
+                <p v-if="selectedAddress" class="details_address_text">{{ selectedAddress }}</p>
+                <p v-if="selectedAddress" class="details_address_text">{{ detailedAddress }}</p>
+            </div>
+        </div>
+        <div v-if="noticeTitle" class="preview_contents_wrap">
+            <div class="notice_wrap">
+                <p class="notice_title_text">{{ noticeTitle }}</p>
+                <p class="notice_content_text">{{ noticeContent }}</p>
+            </div>
+        </div>
+        <div v-if="closingsContent" class="preview_contents_wrap">
+            <div class="closings_wrap">
+                <p class="closings_content_text">{{ closingsContent }}</p>
+            </div>
+        </div>
+        <div v-if="maleContactName1" class="preview_contents_wrap">
+            <div class="contact_wrap">
+                <p class="contact_title_text">신랑측 연락처</p>
+                <div class="contact_content_wrap" v-if="maleContactName1">
+                    <p>{{ maleContactName1 }}</p>
+                    <div class="content_buttons_wrap">
+                        <button>통화</button>
+                        <button>복사</button>
+                    </div>
+                </div>
+                <div class="contact_content_wrap" v-if="maleContactName2">
+                    <p>{{ maleContactName2 }}</p>
+                    <div class="content_buttons_wrap">
+                        <button>통화</button>
+                        <button>복사</button>
+                    </div>
+                </div>
+                <div class="contact_content_wrap" v-if="maleContactName3">
+                    <p>{{ maleContactName3 }}</p>
+                    <div class="content_buttons_wrap">
+                        <button>통화</button>
+                        <button>복사</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div v-if="femaleContactName1" class="preview_contents_wrap">
+            <div class="contact_wrap">
+                <p class="contact_title_text">신부측 연락처</p>
+                <div class="contact_content_wrap" v-if="femaleContactName1">
+                    <p>{{ femaleContactName1 }}</p>
+                    <div class="content_buttons_wrap">
+                        <button>통화</button>
+                        <button>복사</button>
+                    </div>
+                </div>
+                <div class="contact_content_wrap" v-if="femaleContactName2">
+                    <p>{{ femaleContactName2 }}</p>
+                    <div class="content_buttons_wrap">
+                        <button>통화</button>
+                        <button>복사</button>
+                    </div>
+                </div>
+                <div class="contact_content_wrap" v-if="femaleContactName3">
+                    <p>{{ femaleContactName3 }}</p>
+                    <div class="content_buttons_wrap">
+                        <button>통화</button>
+                        <button>복사</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<style lang="scss" scoped>
+.custom_preview_wrap {
+    width: 380px;
+    height: 600px;
+    padding: 20px 20px;
+    margin-right: 30px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    transition: 0.3s;
+    overflow-y: scroll;
+    .preview_contents_wrap {
+        padding: 50px 20px;
+        background: #fff;
+        border-radius: 8px;
+        & + .preview_contents_wrap {
+            margin-top: 50px;
+        }
+        p,
+        span {
+            text-align: center;
+            color: #666;
+        }
+        .greetings_wrap {
+            .greetings_title {
+                font-weight: 600;
+            }
+            .greetings_text {
+                margin-top: 40px;
+                line-height: 1.6;
+                white-space: pre-line;
+            }
+        }
+        .organizers_wrap {
+            display: flex;
+            flex-flow: column;
+            gap: 10px;
+            margin-top: 40px;
+            &.reverse {
+                flex-flow: column-reverse;
+            }
+            p {
+                text-align: center;
+                span {
+                    display: inline-block;
+                    &.relation {
+                        min-width: 50px;
+                    }
+                    & + span {
+                        margin-left: 4px;
+                    }
+                }
+            }
+        }
+        .event_details_wrap {
+            display: flex;
+            flex-flow: column;
+            gap: 10px;
+            margin-top: 40px;
+        }
+        .notice_wrap {
+            .notice_title_text {
+                font-weight: 600;
+            }
+            .notice_content_text {
+                margin-top: 20px;
+                line-height: 1.6;
+                white-space: pre-line;
+            }
+        }
+        .contact_wrap {
+            .contact_title_text {
+                font-weight: 600;
+            }
+            .contact_content_wrap {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 40px;
+                .content_buttons_wrap {
+                    display: flex;
+                }
+            }
+        }
+    }
+}
+</style>
