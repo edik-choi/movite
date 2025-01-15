@@ -1,1 +1,0 @@
-export { default } from "file:///Users/edik/Documents/DEV/Vue/movite/node_modules/@nuxt/vite-builder/dist/runtime/client.manifest.mjs"

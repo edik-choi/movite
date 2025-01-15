@@ -246,7 +246,9 @@ const updateFemaleContactPhoneNumber3 = (_value: string) => {
                     />
                 </Accordion>
                 <Accordion expanded title="교통수단"></Accordion>
-                <Accordion expanded title="갤러리"></Accordion>
+                <Accordion expanded title="갤러리">
+                    <CustomGalerie />
+                </Accordion>
                 <Accordion expanded title="공지사항">
                     <CustomNotice @updateNoticeTitle="updateNoticeTitle" @updateNoticeContent="updateNoticeContent" />
                 </Accordion>
