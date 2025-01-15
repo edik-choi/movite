@@ -26,7 +26,6 @@ const bankDetailsTitlePlaceholder = '제목을 입력해 주세요'
 const updateBankDetailsTitle = (_value: string) => {
     bankDetailsTitle.value = _value
     emits('updateBankDetailsTitle', bankDetailsTitle.value)
-    console.log('ddd')
 }
 
 const bankDetailsContent = ref('')
