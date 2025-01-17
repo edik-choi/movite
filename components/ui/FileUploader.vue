@@ -1,43 +1,29 @@
 <script lang="ts" setup>
-interface Props {
-    uploadUrl: string
+import axios from 'axios'
+
+const file = ref<File | null>(null)
+
+function onFileChange(event: Event) {
+    const target = event.target as HTMLInputElement
+    file.value = target.files?.[0] || null
 }
 
-const props = withDefaults(defineProps<Props>(), {})
-
-const selectedFile = ref<File | null>(null)
-const imagePreview = ref<string | null>(null)
-
-const handleFileUpload = (event: Event) => {
-    const input = event.target as HTMLInputElement
-    if (input.files && input.files[0]) {
-        selectedFile.value = input.files[0]
-        const reader = new FileReader()
-
-        reader.onload = (e) => {
-            imagePreview.value = e.target?.result as string | null
-        }
-
-        reader.readAsDataURL(selectedFile.value)
-    }
-}
-
-const submitFile = async () => {
-    if (!selectedFile.value) {
-        alert('Please select a file first!')
+async function uploadFile() {
+    if (!file.value) {
+        alert('Please select a file.')
         return
     }
 
     const formData = new FormData()
-    formData.append('file', selectedFile.value)
+    formData.append('file', file.value)
 
     try {
-        const response = await fetch(props.uploadUrl, {
-            method: 'POST',
-            body: formData,
+        const response = await axios.post('http://localhost:3000/upload', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
         })
-        const data = await response.json()
-        console.log('Upload successful:', data)
+        console.log('File uploaded successfully:', response.data)
     } catch (error) {
         console.error('Error uploading file:', error)
     }
@@ -46,13 +32,8 @@ const submitFile = async () => {
 
 <template>
     <div class="file_uploader_wrap">
-        <input type="file" @change="handleFileUpload" />
-        <button @click="submitFile">Upload</button>
-
-        <div v-if="imagePreview">
-            <h3>Preview:</h3>
-            <img :src="imagePreview" alt="Image Preview" width="200" />
-        </div>
+        <input type="file" @change="onFileChange" />
+        <button @click="uploadFile">Upload</button>
     </div>
 </template>
 
