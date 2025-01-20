@@ -171,13 +171,28 @@ const femaleContactPhoneNumber3 = ref('')
 const updateFemaleContactPhoneNumber3 = (_value: string) => {
     femaleContactPhoneNumber3.value = _value
 }
+
+const save = async () => {
+    try {
+        const { $axios } = useNuxtApp()
+        await $axios.post('/save', {
+            maleName: maleName.value
+        })
+        alert('저장되었습니다!')
+    } catch (error) {
+        console.error('저장 중 오류가 발생했습니다:', error)
+        alert('저장에 실패했습니다.')
+    }
+}
 </script>
 
 <template>
     <div>
+        
         <Container>
             <template #side>
                 <h2>{{ message }}</h2>
+                <button @click="save">save</button>
                 <CustomPreview
                     :selectedFontIndex="selectedFontIndex"
                     :selectedThemeColorIndex="selectedThemeColorIndex"
