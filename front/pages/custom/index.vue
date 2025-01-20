@@ -5,8 +5,8 @@ const message = ref('')
 
 onMounted(async () => {
     try {
-        const { $axios } = useNuxtApp() // 플러그인에서 제공한 axios 인스턴스를 사용
-        const response = await $axios.get('/hello') // 백엔드 API 호출
+        const { $axios } = useNuxtApp()
+        const response = await $axios.get('/hello')
         message.value = response.data.message
     } catch (error) {
         console.error('Error fetching data from backend', error)
