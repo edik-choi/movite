@@ -1,0 +1,1 @@
+export { default } from "file:///Users/edik/Documents/DEV/Vue/movite/front/node_modules/@nuxt/vite-builder/dist/runtime/vite-node.mjs"

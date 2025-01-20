@@ -1,0 +1,122 @@
+{
+  "compilerOptions": {
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noEmit": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "jsx": "preserve",
+    "allowSyntheticDefaultImports": true,
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment",
+    "paths": {
+      "#imports": [
+        "./types/nitro-imports"
+      ],
+      "~/*": [
+        "../../front/*",
+        "../../front/*"
+      ],
+      "@/*": [
+        "../../front/*",
+        "../../front/*"
+      ],
+      "~~/*": [
+        "../../front/*",
+        "../../front/*"
+      ],
+      "@@/*": [
+        "../../front/*",
+        "../../front/*"
+      ],
+      "nitropack": [
+        "../../front/node_modules/nitropack"
+      ],
+      "defu": [
+        "../../front/node_modules/defu"
+      ],
+      "h3": [
+        "../../front/node_modules/h3"
+      ],
+      "consola": [
+        "../../front/node_modules/consola"
+      ],
+      "ofetch": [
+        "../../front/node_modules/ofetch"
+      ],
+      "@unhead/vue": [
+        "../../front/node_modules/@unhead/vue"
+      ],
+      "@nuxt/devtools": [
+        "../../front/node_modules/@nuxt/devtools"
+      ],
+      "@vue/runtime-core": [
+        "../../front/node_modules/@vue/runtime-core"
+      ],
+      "@vue/compiler-sfc": [
+        "../../front/node_modules/@vue/compiler-sfc"
+      ],
+      "unplugin-vue-router/client": [
+        "../../front/node_modules/unplugin-vue-router/client"
+      ],
+      "@nuxt/schema": [
+        "../../front/node_modules/@nuxt/schema"
+      ],
+      "nuxt": [
+        "../../front/node_modules/nuxt"
+      ],
+      "#internal/nuxt/paths": [
+        "../../front/node_modules/nuxt/dist/core/runtime/nitro/paths"
+      ],
+      "~": [
+        "../../front"
+      ],
+      "@": [
+        "../../front"
+      ],
+      "~~": [
+        "../../front"
+      ],
+      "@@": [
+        "../../front"
+      ],
+      "assets": [
+        "../../front/assets"
+      ],
+      "assets/*": [
+        "../../front/assets/*"
+      ],
+      "public": [
+        "../../front/public"
+      ],
+      "public/*": [
+        "../../front/public/*"
+      ],
+      "#vue-router": [
+        "./vue-router"
+      ]
+    },
+    "lib": [
+      "esnext",
+      "webworker",
+      "dom.iterable"
+    ]
+  },
+  "include": [
+    "./types/nitro-nuxt.d.ts",
+    "../../front/node_modules/@nuxt/devtools/runtime/server",
+    "../../front/node_modules/@nuxt/telemetry/runtime/server",
+    "./types/nitro.d.ts",
+    "../../front/**/*",
+    "../../front/server/**/*"
+  ],
+  "exclude": [
+    "../../front/node_modules",
+    "../../node_modules",
+    "../../front/node_modules/nuxt/node_modules",
+    "../../front/dist"
+  ]
+}
