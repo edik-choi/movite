@@ -1,39 +1,27 @@
 <script lang="ts" setup>
-import axios from 'axios'
+const imageUrl = ref<string | null>(null)
 
-const file = ref<File | null>(null)
-
-function onFileChange(event: Event) {
+const handleFileChange = (event: Event) => {
     const target = event.target as HTMLInputElement
-    file.value = target.files?.[0] || null
-}
+    if (target.files && target.files[0]) {
+        const file = target.files[0]
+        const reader = new FileReader()
 
-async function uploadFile() {
-    if (!file.value) {
-        alert('Please select a file.')
-        return
-    }
+        reader.onload = () => {
+            imageUrl.value = reader.result as string
+        }
 
-    const formData = new FormData()
-    formData.append('file', file.value)
-
-    try {
-        const response = await axios.post('http://localhost:3000/upload', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        })
-        console.log('File uploaded successfully:', response.data)
-    } catch (error) {
-        console.error('Error uploading file:', error)
+        reader.readAsDataURL(file)
     }
 }
 </script>
 
 <template>
     <div class="file_uploader_wrap">
-        <input type="file" @change="onFileChange" />
-        <button @click="uploadFile">Upload</button>
+        <input type="file" @change="handleFileChange" accept="image/*" />
+        <div v-if="imageUrl">
+            <img :src="imageUrl" alt="Preview" />
+        </div>
     </div>
 </template>
 

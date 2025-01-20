@@ -165,6 +165,7 @@ const updateFemaleContactPhoneNumber3 = (_value: string) => {
     <div>
         <Container>
             <template #side>
+                <button @click="saveInvite">save</button>
                 <CustomPreview
                     :selectedFontIndex="selectedFontIndex"
                     :selectedThemeColorIndex="selectedThemeColorIndex"
@@ -247,7 +248,7 @@ const updateFemaleContactPhoneNumber3 = (_value: string) => {
                 </Accordion>
                 <Accordion expanded title="교통수단"></Accordion>
                 <Accordion expanded title="갤러리">
-                    <FileUploader />
+                    <Axios />
                 </Accordion>
                 <Accordion expanded title="공지사항">
                     <CustomNotice @updateNoticeTitle="updateNoticeTitle" @updateNoticeContent="updateNoticeContent" />
