@@ -165,7 +165,6 @@ const updateFemaleContactPhoneNumber3 = (_value: string) => {
     <div>
         <Container>
             <template #side>
-                <button @click="saveInvite">save</button>
                 <CustomPreview
                     :selectedFontIndex="selectedFontIndex"
                     :selectedThemeColorIndex="selectedThemeColorIndex"
