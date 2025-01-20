@@ -90,7 +90,7 @@
         "./imports"
       ],
       "#app-manifest": [
-        "./manifest/meta/dev.json"
+        "./manifest/meta/dev"
       ],
       "#build": [
         "."
@@ -140,7 +140,7 @@
     "../../front/node_modules/@nuxt/telemetry/dist/runtime",
     "../../front",
     "./imports",
-    "./manifest/meta/dev.json",
+    "./manifest/meta/dev",
     "."
   ],
   "exclude": [

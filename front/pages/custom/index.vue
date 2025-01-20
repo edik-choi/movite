@@ -176,7 +176,9 @@ const save = async () => {
     try {
         const { $axios } = useNuxtApp()
         await $axios.post('/save', {
-            maleName: maleName.value
+            maleName: maleName.value,
+            selectedFontIndex: selectedFontIndex.value,
+            selectedThemeColorIndex: selectedThemeColorIndex.value,
         })
         alert('저장되었습니다!')
     } catch (error) {
@@ -223,7 +225,7 @@ const save = async () => {
                     :maleContactName2="maleContactName2"
                     :maleContactPhoneNumber2="maleContactPhoneNumber2"
                     :maleContactName3="maleContactName3"
-                    :maleContactPhoneNumber3="femaleContactPhoneNumber3"
+                    :maleContactPhoneNumber3="maleContactPhoneNumber3"
                     :femaleContactName1="femaleContactName1"
                     :femaleContactPhoneNumber1="femaleContactPhoneNumber1"
                     :femaleContactName2="femaleContactName2"

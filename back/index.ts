@@ -13,8 +13,8 @@ app.get('/api/hello', (req, res) => {
 
 app.post('/api/save', (req, res) => {
     try {
-        const { maleName } = req.body
-        console.log('저장된 데이터:', maleName)
+        const { maleName, selectedFontIndex, selectedThemeColorIndex } = req.body
+        console.log('저장된 데이터:', maleName, selectedFontIndex, selectedThemeColorIndex)
         
         // 여기에 실제 데이터베이스 저장 로직이 들어갈 수 있습니다
         
