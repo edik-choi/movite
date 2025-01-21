@@ -9,37 +9,33 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {})
 
 const emits = defineEmits<{
-    (e: 'selectedItem', id: number, label: string): void
+    (e: 'selectItem', id: number, label: string): void
 }>()
 
 const isListShow = ref(false)
-const handleShowList = () => {
+const openList = () => {
     isListShow.value = !isListShow.value
 }
 
-const selectedId = ref()
-const selectedLabel = ref()
-const handleSelect = (id: number, label: string) => {
-    selectedId.value = id
-    selectedLabel.value = label
-    handleShowList()
+const id = ref()
+const label = ref()
+const selectItem = (_id: number, _label: string) => {
+    id.value = _id
+    label.value = _label
+    openList()
+    emits('selectItem', id.value, label.value)
 }
 </script>
 
 <template>
     <div class="dropdown_wrap">
-        <input
-            type="text"
-            :value="`${selectedLabel ? selectedLabel : '선택'}`"
-            @click="handleShowList"
-            readonly
-        />
+        <input type="text" :value="`${label ? label : '선택'}`" @click="openList" readonly />
         <div v-show="isListShow" class="dropdown_list_wrap">
             <button
                 v-for="item in selectList"
                 :key="item.id"
-                :class="{ selected: item.label === selectedLabel }"
-                @click="handleSelect(item.id, item.label)"
+                :class="{ selected: item.label === label }"
+                @click="selectItem(item.id, item.label)"
             >
                 {{ item.label }}
             </button>

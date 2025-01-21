@@ -7,16 +7,16 @@ const emits = defineEmits<{
     (e: 'selectThemeColorIndex', index: number): void
 }>()
 
-const selectedFontIndex = ref(0)
-const handleSelectedFontIndex = (index: number) => {
-    selectedFontIndex.value = index
-    emits('selectFontIndex', selectedFontIndex.value)
+const fontIndex = ref(0)
+const selectFontIndex = (index: number) => {
+    fontIndex.value = index
+    emits('selectFontIndex', fontIndex.value)
 }
 
-const selectedThemeColorIndex = ref(0)
-const handleSelectedThemeColorIndex = (index: number) => {
-    selectedThemeColorIndex.value = index
-    emits('selectThemeColorIndex', selectedThemeColorIndex.value)
+const themeColorIndex = ref(0)
+const selectThemeColorIndex = (index: number) => {
+    themeColorIndex.value = index
+    emits('selectThemeColorIndex', themeColorIndex.value)
 }
 </script>
 
@@ -30,8 +30,8 @@ const handleSelectedThemeColorIndex = (index: number) => {
                 :class="font.id"
                 :name="font.name"
                 :label="font.label"
-                :checked="selectedFontIndex === index"
-                @input="handleSelectedFontIndex(index)"
+                :checked="fontIndex === index"
+                @input="selectFontIndex(index)"
             />
         </InputFormItem>
     </InputForm>
@@ -43,8 +43,8 @@ const handleSelectedThemeColorIndex = (index: number) => {
                 :id="color.id"
                 :class="color.id"
                 :name="color.name"
-                :checked="selectedThemeColorIndex === index"
-                @input="handleSelectedThemeColorIndex(index)"
+                :checked="themeColorIndex === index"
+                @input="selectThemeColorIndex(index)"
             >
                 <span class="label_theme_color" :style="{ background: color.background }" />
             </Radio>

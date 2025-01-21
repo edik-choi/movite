@@ -4,8 +4,8 @@ import 'dayjs/locale/ko'
 import { fontList, themeColorList } from '@/data/domain/custom'
 
 interface Props {
-    selectedFontIndex: number
-    selectedThemeColorIndex: number
+    fontIndex: number
+    themeColorIndex: number
     maleName: string
     maleRelation: string
     maleFatherName: string
@@ -22,9 +22,9 @@ interface Props {
     isShowLateAsFlower: boolean
     greetingsTitle: string
     greetingsContent: string
-    selectedDate: Date
-    selectedAddress: string
-    detailedAddress: string
+    date: Date
+    address: string
+    detailAddress: string
     noticeTitle: string
     noticeContent: string
     closingsContent: string
@@ -59,8 +59,8 @@ const formattedSeletedDate = (date: Date) => {
 <template>
     <div
         class="custom_preview_wrap"
-        :class="fontList[selectedFontIndex].id"
-        :style="{ background: themeColorList[selectedThemeColorIndex].background }"
+        :class="fontList[fontIndex].id"
+        :style="{ background: themeColorList[themeColorIndex].background }"
     >
         <div class="preview_contents_wrap">
             <div class="greetings_wrap">
@@ -91,10 +91,10 @@ const formattedSeletedDate = (date: Date) => {
             </div>
             <div class="event_details_wrap">
                 <p>
-                    {{ formattedSeletedDate(selectedDate) }}
+                    {{ formattedSeletedDate(date) }}
                 </p>
-                <p v-if="selectedAddress" class="details_address_text">{{ selectedAddress }}</p>
-                <p v-if="selectedAddress" class="details_address_text">{{ detailedAddress }}</p>
+                <p v-if="address" class="details_address_text">{{ address }}</p>
+                <p v-if="address" class="details_address_text">{{ detailAddress }}</p>
             </div>
         </div>
         <div v-if="noticeTitle" class="preview_contents_wrap">

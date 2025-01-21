@@ -13,99 +13,104 @@ onMounted(async () => {
     }
 })
 
-const selectedFontIndex = ref(0)
-const handleSelectedFontIndex = (index: number) => {
-    selectedFontIndex.value = index
+const fontIndex = ref(0)
+const selectFontIndex = (index: number) => {
+    fontIndex.value = index
 }
 
-const selectedThemeColorIndex = ref(0)
-const handleSelectedThemeColorIndex = (index: number) => {
-    selectedThemeColorIndex.value = index
+const themeColorIndex = ref(0)
+const selectThemeColorIndex = (index: number) => {
+    themeColorIndex.value = index
 }
 
 const maleName = ref(nameSample.male)
-const handleUpdateMaleName = (_value: string) => {
+const updateMaleName = (_value: string) => {
     maleName.value = _value
 }
 const maleRelation = ref('차남')
-const handleUpdateMaleRelation = (_value: string) => {
+const updateMaleRelation = (_value: string) => {
     maleRelation.value = _value
 }
 const isMaleFatherLate = ref(false)
-const handleSelectMaleFatherLate = (_value: boolean) => {
+const selectMaleFatherLate = (_value: boolean) => {
     isMaleFatherLate.value = _value
 }
 const maleFatherName = ref(nameSample.maleFather)
-const handleUpdateMaleFatherName = (_value: string) => {
+const updateMaleFatherName = (_value: string) => {
     maleFatherName.value = _value
 }
 const isMaleMotherLate = ref(false)
-const handleSelectMaleMotherLate = (_value: boolean) => {
+const selectMaleMotherLate = (_value: boolean) => {
     isMaleMotherLate.value = _value
 }
 const maleMotherName = ref(nameSample.maleMother)
-const handleUpdateMaleMotherName = (_value: string) => {
+const updateMaleMotherName = (_value: string) => {
     maleMotherName.value = _value
 }
 
 const femaleName = ref(nameSample.female)
-const handleUpdateFemaleName = (_value: string) => {
+const updateFemaleName = (_value: string) => {
     femaleName.value = _value
 }
 const femaleRelation = ref('장녀')
-const handleUpdateFemaleRelation = (_value: string) => {
+const updateFemaleRelation = (_value: string) => {
     femaleRelation.value = _value
 }
 const isFemaleFatherLate = ref(false)
-const handleSelectFemaleFatherLate = (_value: boolean) => {
+const selectFemaleFatherLate = (_value: boolean) => {
     isFemaleFatherLate.value = _value
 }
 const femaleFatherName = ref(nameSample.femaleFather)
-const handleUpdateFemaleFatherName = (_value: string) => {
+const updateFemaleFatherName = (_value: string) => {
     femaleFatherName.value = _value
 }
 const isFemaleMotherLate = ref(false)
-const handleSelectFemaleMotherLate = (_value: boolean) => {
+const selectFemaleMotherLate = (_value: boolean) => {
     isFemaleMotherLate.value = _value
 }
 const femaleMotherName = ref(nameSample.femaleMother)
-const handleUpdateFemaleMotherName = (_value: string) => {
+const updateFemaleMotherName = (_value: string) => {
     femaleMotherName.value = _value
 }
 
 const isShowFemaleFirst = ref(false)
-const handleSelectShowFemaleFirst = (_value: boolean) => {
+const selectShowFemaleFirst = (_value: boolean) => {
     isShowFemaleFirst.value = _value
 }
 
 const isShowLateAsFlower = ref(false)
-const handleSelectShowLateAsFlower = (_value: boolean) => {
+const selectShowLateAsFlower = (_value: boolean) => {
     isShowLateAsFlower.value = _value
 }
 
 const greetingsTitle = ref(greetingsSample.title)
-const handleUpdateGreetingsTitle = (_value: string) => {
+const updateGreetingsTitle = (_value: string) => {
     greetingsTitle.value = _value
 }
 
 const greetingsContent = ref(greetingsSample.content)
-const handleUpdateGreetingsText = (_value: string) => {
+const updateGreetingsText = (_value: string) => {
     greetingsContent.value = _value
 }
 
-const selectedDate = ref(new Date())
-const handleSelectedDate = (date: Date) => {
-    selectedDate.value = date
+const date = ref(new Date())
+const selectDate = (_date: Date) => {
+    date.value = _date
 }
 
-const selectedAddress = ref('')
-const handleSelectedAddress = (_value: string) => {
-    selectedAddress.value = _value
+const address = ref('')
+const selectedAddress = (_value: string) => {
+    address.value = _value
 }
 
-const detailedAddress = ref('')
-const handleUpdateDetailedAddress = (_value: string) => {
-    detailedAddress.value = _value
+const detailAddress = ref('')
+const updateDetailAddress = (_value: string) => {
+    detailAddress.value = _value
+}
+
+const detailDirections = ref('')
+const updateDetailDirections = (_value: string) => {
+    detailDirections.value = _value
 }
 
 const noticeTitle = ref('')
@@ -177,8 +182,8 @@ const updateFemaleContactPhoneNumber3 = (_value: string) => {
 //         const { $axios } = useNuxtApp()
 //         await $axios.post('/save', {
 //             maleName: maleName.value,
-//             selectedFontIndex: selectedFontIndex.value,
-//             selectedThemeColorIndex: selectedThemeColorIndex.value,
+//             fontIndex: fontIndex.value,
+//             themeColorIndex: themeColorIndex.value,
 //         })
 //         alert('저장되었습니다!')
 //     } catch (error) {
@@ -195,8 +200,8 @@ const updateFemaleContactPhoneNumber3 = (_value: string) => {
                 <h2>{{ message }}</h2>
                 <!-- <button @click="save">save</button> -->
                 <CustomPreview
-                    :selectedFontIndex="selectedFontIndex"
-                    :selectedThemeColorIndex="selectedThemeColorIndex"
+                    :fontIndex="fontIndex"
+                    :themeColorIndex="themeColorIndex"
                     :maleName="maleName"
                     :maleRelation="maleRelation"
                     :maleFatherName="maleFatherName"
@@ -213,9 +218,9 @@ const updateFemaleContactPhoneNumber3 = (_value: string) => {
                     :isShowLateAsFlower="isShowLateAsFlower"
                     :greetingsTitle="greetingsTitle"
                     :greetingsContent="greetingsContent"
-                    :selectedDate="selectedDate"
-                    :selectedAddress="selectedAddress"
-                    :detailedAddress="detailedAddress"
+                    :date="date"
+                    :address="address"
+                    :detailAddress="detailAddress"
                     :noticeTitle="noticeTitle"
                     :noticeContent="noticeContent"
                     :closingsContent="closingsContent"
@@ -235,27 +240,24 @@ const updateFemaleContactPhoneNumber3 = (_value: string) => {
             </template>
             <template #contents>
                 <Accordion expanded title="디자인">
-                    <CustomDesign
-                        @selectFontIndex="handleSelectedFontIndex"
-                        @selectThemeColorIndex="handleSelectedThemeColorIndex"
-                    />
+                    <CustomDesign @selectFontIndex="selectFontIndex" @selectThemeColorIndex="selectThemeColorIndex" />
                 </Accordion>
                 <Accordion expanded title="성함">
                     <CustomOrganizers
-                        @updateMaleName="handleUpdateMaleName"
-                        @updateMaleRelation="handleUpdateMaleRelation"
-                        @selectMaleFatherLate="handleSelectMaleFatherLate"
-                        @updateMaleFatherName="handleUpdateMaleFatherName"
-                        @selectMaleMotherLate="handleSelectMaleMotherLate"
-                        @updateMaleMotherName="handleUpdateMaleMotherName"
-                        @updateFemaleName="handleUpdateFemaleName"
-                        @updateFemaleRelation="handleUpdateFemaleRelation"
-                        @selectFemaleFatherLate="handleSelectFemaleFatherLate"
-                        @updateFemaleFatherName="handleUpdateFemaleFatherName"
-                        @selectFemaleMotherLate="handleSelectFemaleMotherLate"
-                        @updateFemaleMotherName="handleUpdateFemaleMotherName"
-                        @selectShowFemaleFirst="handleSelectShowFemaleFirst"
-                        @selectShowLateAsFlower="handleSelectShowLateAsFlower"
+                        @updateMaleName="updateMaleName"
+                        @updateMaleRelation="updateMaleRelation"
+                        @selectMaleFatherLate="selectMaleFatherLate"
+                        @updateMaleFatherName="updateMaleFatherName"
+                        @selectMaleMotherLate="selectMaleMotherLate"
+                        @updateMaleMotherName="updateMaleMotherName"
+                        @updateFemaleName="updateFemaleName"
+                        @updateFemaleRelation="updateFemaleRelation"
+                        @selectFemaleFatherLate="selectFemaleFatherLate"
+                        @updateFemaleFatherName="updateFemaleFatherName"
+                        @selectFemaleMotherLate="selectFemaleMotherLate"
+                        @updateFemaleMotherName="updateFemaleMotherName"
+                        @selectShowFemaleFirst="selectShowFemaleFirst"
+                        @selectShowLateAsFlower="selectShowLateAsFlower"
                     />
                 </Accordion>
                 <Accordion expanded title="메인"></Accordion>
@@ -263,15 +265,16 @@ const updateFemaleContactPhoneNumber3 = (_value: string) => {
                     <CustomGreetings
                         :greetingsTitle="greetingsTitle"
                         :greetingsContent="greetingsContent"
-                        @updateGreetingsTitle="handleUpdateGreetingsTitle"
-                        @updateGreetingsText="handleUpdateGreetingsText"
+                        @updateGreetingsTitle="updateGreetingsTitle"
+                        @updateGreetingsText="updateGreetingsText"
                     />
                 </Accordion>
                 <Accordion expanded title="일정 및 장소">
                     <CustomEventDetails
-                        @selectedDate="handleSelectedDate"
-                        @selectedAddress="handleSelectedAddress"
-                        @detailedAddress="handleUpdateDetailedAddress"
+                        @selectDate="selectDate"
+                        @selectAddress="selectedAddress"
+                        @UpdateDetailAddress="updateDetailAddress"
+                        @UpdateDetailDirections="updateDetailDirections"
                     />
                 </Accordion>
                 <Accordion expanded title="갤러리"> </Accordion>

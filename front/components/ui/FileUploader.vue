@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 const imageUrl = ref<string | null>(null)
 
-const handleFileChange = (event: Event) => {
+const changeFile = (event: Event) => {
     const target = event.target as HTMLInputElement
     if (target.files && target.files[0]) {
         const file = target.files[0]
@@ -18,7 +18,7 @@ const handleFileChange = (event: Event) => {
 
 <template>
     <div class="file_uploader_wrap">
-        <input type="file" @change="handleFileChange" accept="image/*" />
+        <input type="file" @change="changeFile" accept="image/*" />
         <div v-if="imageUrl">
             <img :src="imageUrl" alt="Preview" />
         </div>

@@ -7,18 +7,14 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {})
 
 const isContentsShow = ref(props.expanded ? true : false)
-const handleShowContents = () => {
+const openContents = () => {
     isContentsShow.value = !isContentsShow.value
 }
 </script>
 
 <template>
     <div class="accordion_wrap">
-        <button
-            class="accordion_button"
-            @click="handleShowContents"
-            :class="{ expanded: isContentsShow }"
-        >
+        <button class="accordion_button" @click="openContents" :class="{ expanded: isContentsShow }">
             {{ title }}
         </button>
         <div v-show="isContentsShow" class="accordion_contents_wrap">

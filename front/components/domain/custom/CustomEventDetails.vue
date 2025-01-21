@@ -1,40 +1,60 @@
 <script lang="ts" setup>
 const emits = defineEmits<{
-    (e: 'selectedDate', date: Date): void
-    (e: 'selectedAddress', value: string): void
-    (e: 'detailedAddress', value: string): void
+    (e: 'selectDate', date: Date): void
+    (e: 'selectAddress', value: string): void
+    (e: 'updateDetailAddress', value: string): void
+    (e: 'updateDetailDirections', value: string): void
 }>()
 
-const selectedDate = ref(new Date())
+const date = ref(new Date())
 
-const handleSelectedDate = (date: Date) => {
-    selectedDate.value = date
-    emits('selectedDate', selectedDate.value)
+const selectDate = (_date: Date) => {
+    date.value = _date
+    emits('selectDate', date.value)
 }
 
-const selectedAddress = ref('')
-const handleSelectedAddress = (_value: string) => {
-    selectedAddress.value = _value
-    emits('selectedAddress', selectedAddress.value)
+const address = ref('')
+const selectAddress = (_value: string) => {
+    address.value = _value
+    emits('selectAddress', address.value)
 }
 
-const detailedAddress = ref('')
-const handleUpdateDetailedAddress = (_value: string) => {
-    detailedAddress.value = _value
-    emits('detailedAddress', detailedAddress.value)
+const detailAddress = ref('')
+const updateDetailAddress = (_value: string) => {
+    detailAddress.value = _value
+    emits('updateDetailAddress', detailAddress.value)
+}
+
+const detailDirections = ref('')
+const detailDirectionsPlaceholder = ref('오시는 길을 입력해 주세요')
+const updateDetailDirections = (_value: string) => {
+    detailDirections.value = _value
+    emits('updateDetailDirections', detailDirections.value)
 }
 </script>
 
 <template>
     <InputForm required title="날짜 및 시간">
         <InputFormItem>
-            <DatePicker @selectedDate="handleSelectedDate" />
+            <DatePicker @selectDate="selectDate" />
         </InputFormItem>
     </InputForm>
     <InputForm required title="장소">
         <InputFormItem>
-            <Address @selectedAddress="handleSelectedAddress" @detailedAddress="handleUpdateDetailedAddress" />
+            <Address @selectAddress="selectAddress" @updateDetailAddress="updateDetailAddress" />
         </InputFormItem>
+    </InputForm>
+    <InputForm title="오시는 길">
+        <InputFormItem>
+            <TextArea
+                :initValue="detailDirections"
+                :placeholder="detailDirectionsPlaceholder"
+                @input="updateDetailDirections"
+            />
+        </InputFormItem>
+    </InputForm>
+    <InputForm title="약도">
+        <InputFormItem></InputFormItem>
     </InputForm>
     <InputForm title="지도 표기"></InputForm>
     <InputForm title="네비게이션 공유 표기"></InputForm>

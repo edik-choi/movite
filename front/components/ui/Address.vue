@@ -3,44 +3,44 @@ import { VueDaumPostcode } from 'vue-daum-postcode'
 import type { VueDaumPostcodeCompleteResult } from 'vue-daum-postcode'
 
 const emits = defineEmits<{
-    (e: 'selectedAddress', value: string): void
-    (e: 'detailedAddress', value: string): void
+    (e: 'selectAddress', value: string): void
+    (e: 'updateDetailAddress', value: string): void
 }>()
 
 const loadingText = ref('로딩 중 입니다')
 
-const selectedAddress = ref('')
-const selectedAddressPlaceholder = ref('이 곳을 클릭해 주세요')
+const address = ref('')
+const addressPlaceholder = ref('이 곳을 클릭해 주세요')
 
-const detailedAddress = ref('')
-const detailedAddressPlaceholder = ref('상세 주소를 입력해 주세요')
+const detailAddress = ref('')
+const detailAddressPlaceholder = ref('상세 주소를 입력해 주세요')
 
 const isAddressModalOpen = ref(false)
-const handleShow = () => {
+const showModal = () => {
     isAddressModalOpen.value = true
 }
-const handleClose = () => {
+const closeModal = () => {
     isAddressModalOpen.value = false
 }
 
 const onComplete = (newResult: VueDaumPostcodeCompleteResult) => {
-    selectedAddress.value = newResult.address
-    emits('selectedAddress', selectedAddress.value)
+    address.value = newResult.address
+    emits('selectAddress', address.value)
     isAddressModalOpen.value = false
 }
 
-const updateDetailedAddress = (_value: string) => {
-    detailedAddress.value = _value
-    emits('detailedAddress', _value)
+const updateDetailAddress = (_value: string) => {
+    detailAddress.value = _value
+    emits('updateDetailAddress', _value)
 }
 </script>
 
 <template>
-    <button @click="handleShow">
-        <Text readOnly clickable :initValue="selectedAddress" :placeholder="selectedAddressPlaceholder" />
+    <button @click="showModal">
+        <Text readOnly clickable :initValue="address" :placeholder="addressPlaceholder" />
     </button>
-    <Text :initValue="detailedAddress" :placeholder="detailedAddressPlaceholder" @input="updateDetailedAddress" />
-    <Modal v-if="isAddressModalOpen" @close="handleClose">
+    <Text :initValue="address" :placeholder="detailAddressPlaceholder" @input="updateDetailAddress" />
+    <Modal v-if="isAddressModalOpen" @close="closeModal">
         <VueDaumPostcode @complete="onComplete">
             <template #loading>{{ loadingText }}</template>
         </VueDaumPostcode>

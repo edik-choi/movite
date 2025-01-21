@@ -3,10 +3,10 @@ import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 
 const emits = defineEmits<{
-    (e: 'selectedDate', date: Date): void
+    (e: 'selectDate', date: Date): void
 }>()
 
-const date = () => {
+const getDate = () => {
     const now = new Date()
     const minutes = now.getMinutes()
     const adjustedMinutes = minutes < 30 ? 0 : 30
@@ -18,11 +18,11 @@ const date = () => {
     return now
 }
 
-const selectedDate = ref(date())
+const date = ref(getDate())
 
-const handleSelectedDate = (date: Date) => {
-    selectedDate.value = date
-    emits('selectedDate', selectedDate.value)
+const selectDate = (_date: Date) => {
+    date.value = _date
+    emits('selectDate', date.value)
 }
 
 const disablePastDates = (date: Date) => {
@@ -49,13 +49,13 @@ const format = (date: Date) => {
 }
 
 onMounted(() => {
-    emits('selectedDate', selectedDate.value)
+    emits('selectDate', date.value)
 })
 </script>
 
 <template>
     <VueDatePicker
-        v-model="selectedDate"
+        v-model="date"
         locale="ko"
         cancelText="취소"
         selectText="확인"
@@ -66,7 +66,7 @@ onMounted(() => {
         :enableTimePicker="true"
         :disabledDates="disablePastDates"
         :clearable="false"
-        @update:modelValue="handleSelectedDate"
+        @update:modelValue="selectDate"
     />
 </template>
 
