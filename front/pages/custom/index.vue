@@ -190,7 +190,6 @@ const updateFemaleContactPhoneNumber3 = (_value: string) => {
 
 <template>
     <div>
-        
         <Container>
             <template #side>
                 <h2>{{ message }}</h2>
@@ -302,7 +301,7 @@ const updateFemaleContactPhoneNumber3 = (_value: string) => {
                 <Accordion expanded title="계좌번호">
                     <CustomBankDetails />
                 </Accordion>
-                <Accordion expanded title="방명록"></Accordion>
+                <!-- <Accordion expanded title="방명록"></Accordion> -->
                 <Accordion expanded title="공유링크">
                     <InputForm title="카카오톡"></InputForm>
                     <InputForm title="URL"></InputForm>
