@@ -118,6 +118,16 @@ const updateDetailDirections = (_value: string) => {
     detailDirections.value = _value
 }
 
+const directionsImageUrls = ref<string[]>([]) 
+const updateDirectionsImageUrls = (_value: string[]) => {
+    directionsImageUrls.value = _value
+}
+
+const galerieImageUrls = ref<string[]>([]) 
+const updateGalerieImageUrls = (_value: string[]) => {
+    galerieImageUrls.value = _value
+}
+
 const noticeTitle = ref('')
 const updateNoticeTitle = (_value: string) => {
     noticeTitle.value = _value
@@ -228,6 +238,7 @@ const updateFemaleContactPhoneNumber3 = (_value: string) => {
                     :address="address"
                     :detailAddress="detailAddress"
                     :detailDirections="detailDirections"
+                    :directionsImageUrls="directionsImageUrls"
                     :noticeTitle="noticeTitle"
                     :noticeContent="noticeContent"
                     :closingsContent="closingsContent"
@@ -283,10 +294,11 @@ const updateFemaleContactPhoneNumber3 = (_value: string) => {
                         @selectAddress="selectedAddress"
                         @UpdateDetailAddress="updateDetailAddress"
                         @UpdateDetailDirections="updateDetailDirections"
+                        @updateDirectionsImageUrls="updateDirectionsImageUrls"
                     />
                 </Accordion>
                 <Accordion expanded title="갤러리">
-                    <CustomGalerie />
+                    <CustomGalerie @updateGalerieImageUrls="updateGalerieImageUrls" />
                 </Accordion>
                 <Accordion expanded title="공지사항">
                     <CustomNotice @updateNoticeTitle="updateNoticeTitle" @updateNoticeContent="updateNoticeContent" />

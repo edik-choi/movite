@@ -4,6 +4,7 @@ const emits = defineEmits<{
     (e: 'selectAddress', value: string): void
     (e: 'updateDetailAddress', value: string): void
     (e: 'updateDetailDirections', value: string): void
+    (e: 'updateDirectionsImageUrls', value: string[]): void
 }>()
 
 const date = ref(new Date())
@@ -31,6 +32,16 @@ const updateDetailDirections = (_value: string) => {
     detailDirections.value = _value
     emits('updateDetailDirections', detailDirections.value)
 }
+
+const directionsImageUrls = ref<string[]>([]) 
+const updateDirectionsImageUrls = (_value: string[]) => {
+    directionsImageUrls.value = _value
+    emits('updateDirectionsImageUrls', directionsImageUrls.value)
+}
+
+const deleteDirectionsImage = (index: number) => {
+    directionsImageUrls.value.splice(index, 1)
+}
 </script>
 
 <template>
@@ -54,7 +65,12 @@ const updateDetailDirections = (_value: string) => {
         </InputFormItem>
     </InputForm>
     <InputForm title="약도">
-        <InputFormItem></InputFormItem>
+        <InputFormItem>
+            <ImageUploader replaceMode id="directionsImageUploader" @updateImageUrls="updateDirectionsImageUrls" />
+        </InputFormItem>
+        <InputFormItem v-if="directionsImageUrls.length > 0">
+            <ImageGalerie :imageUrls="directionsImageUrls" @deleteImage="deleteDirectionsImage" />
+        </InputFormItem>
     </InputForm>
     <InputForm title="지도 표기"></InputForm>
     <InputForm title="네비게이션 공유 표기"></InputForm>

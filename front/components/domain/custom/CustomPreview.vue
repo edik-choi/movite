@@ -27,6 +27,7 @@ interface Props {
     address: string
     detailAddress: string
     detailDirections: string
+    directionsImageUrls: string[]
     noticeTitle: string
     noticeContent: string
     closingsContent: string
@@ -101,6 +102,9 @@ const formattedSeletedDate = (date: Date) => {
                 <div v-if="detailDirections" class="details_directions_wrap">
                     <p class="directions_title">오시는 길</p>
                     <p>{{ detailDirections }}</p>
+                </div>
+                <div v-if="directionsImageUrls.length > 0" class="directions_image_wrap">
+                    <img :src="directionsImageUrls[0]" alt="오시는 길 이미지">
                 </div>
             </div>
         </div>
@@ -233,6 +237,13 @@ const formattedSeletedDate = (date: Date) => {
             flex-flow: column;
             gap: 10px;
             margin-top: 40px;
+            .directions_image_wrap {
+                margin-top: 40px;
+                img {
+                    width: 100%;
+                    border-radius: 8px;
+                }
+            }
         }
         .notice_wrap {
             .notice_title_text {
