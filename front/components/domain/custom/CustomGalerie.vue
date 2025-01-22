@@ -12,7 +12,7 @@ const deleteImage = (index: number) => {
 <template>
     <InputForm title="갤러리">
         <InputFormItem>
-            <ImageUploader @updateImageUrls="updateImageUrls" />
+            <ImageUploader id="galerieImageUploader" @updateImageUrls="updateImageUrls" />
         </InputFormItem>
         <InputFormItem v-if="imageUrls.length > 0">
             <ImageGalerie :imageUrls="imageUrls" @deleteImage="deleteImage" />

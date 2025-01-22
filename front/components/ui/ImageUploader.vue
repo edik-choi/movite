@@ -8,6 +8,7 @@ const config = useRuntimeConfig()
 const baseURL = config.public.apiBase
 
 const props = defineProps<{
+    id: string
     replaceMode?: boolean
 }>()
 
@@ -50,8 +51,25 @@ const changeFile = async (event: Event) => {
 
 <template>
     <div class="file_uploader_wrap">
-        <input type="file" @change="changeFile" accept="image/*" />
+        <input :id="id" type="file" @change="changeFile" accept="image/*" />
+        <label :for="id">사진 등록</label>
     </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.file_uploader_wrap {
+    input {
+        display: none;
+    }
+    label {
+        height: 40px;
+        padding: 10px 16px;
+        background: #fff;
+        border: 1px solid #000;
+        border-radius: 8px;
+        color: #000;
+        box-sizing: border-box;
+        cursor: pointer;
+    }
+}
+</style>

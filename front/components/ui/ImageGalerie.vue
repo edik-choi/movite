@@ -54,7 +54,7 @@ const handleDeleteImage = async (index: number) => {
     
     img {
         width: 100%;
-        border-radius: 10px;
+        border-radius: 8px;
     }
 
     .delete-btn {
