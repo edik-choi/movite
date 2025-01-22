@@ -26,15 +26,15 @@ const updateGreetingsText = (_value: string) => {
     emits('updateGreetingsText', greetingsContent.value)
 }
 
-const imageUrls = ref<string[]>([]) 
-const updateImageUrls = (_value: string[]) => {
-    imageUrls.value = _value
-    emits('updateGreetingsImageUrls', imageUrls.value)
+const greetingsImageUrls = ref<string[]>([]) 
+const updateGreetingsImageUrls = (_value: string[]) => {
+    greetingsImageUrls.value = _value
+    emits('updateGreetingsImageUrls', greetingsImageUrls.value)
 }
 
-const deleteImage = (index: number) => {
-    imageUrls.value.splice(index, 1)
-    emits('updateGreetingsImageUrls', imageUrls.value)
+const deleteGreetingsImage = (index: number) => {
+    greetingsImageUrls.value.splice(index, 1)
+    emits('updateGreetingsImageUrls', greetingsImageUrls.value)
 }
 </script>
 
@@ -60,10 +60,10 @@ const deleteImage = (index: number) => {
     </InputForm>
     <InputForm title="사진">
         <InputFormItem>
-            <ImageUploader id="greetingsImageUploader" replaceMode @updateImageUrls="updateImageUrls" />
+            <ImageUploader id="greetingsImageUploader" replaceMode @updateImageUrls="updateGreetingsImageUrls" />
         </InputFormItem>
-        <InputFormItem v-if="imageUrls.length > 0">
-            <ImageGalerie :imageUrls="imageUrls" @deleteImage="deleteImage" />  
+        <InputFormItem v-if="greetingsImageUrls.length > 0">
+            <ImageGalerie :imageUrls="greetingsImageUrls" @deleteImage="deleteGreetingsImage" />  
         </InputFormItem>
     </InputForm>
 </template>
