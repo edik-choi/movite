@@ -1,6 +1,7 @@
-import express, { Request, Response, NextFunction } from 'express'
+import express, { Request, Response } from 'express'
 import cors from 'cors'
 import path from 'path'
+import fs from 'fs' 
 import multer from 'multer'
 
 const app = express()
@@ -25,6 +26,55 @@ app.get('/api/hello', (req: Request, res: Response): void => {
     res.json({ message: 'Hello from the backend!' })
 })
 
+// API: /api/upload - 이미지 업로드 처리
+app.post('/api/upload', upload.single('image'), (req: Request, res: Response) => {
+    if (!req.file) {
+        res.status(400).json({
+            status: 'error',
+            message: '파일이 업로드되지 않았습니다.',
+        })
+        return
+    }
+
+    // 업로드된 파일의 URL 반환
+    const imageUrl = `/uploads/${req.file.filename}`
+
+    res.json({
+        status: 'success',
+        imageUrl: imageUrl, // 클라이언트에서 사용할 이미지 URL
+    })
+})
+
+app.delete('/api/upload/:filename', (req: Request, res: Response): void => {
+    try {
+        const filename = req.params.filename
+        const filePath = path.join(process.cwd(), 'uploads', filename)
+
+        // 파일이 존재하는지 확인
+        if (!fs.existsSync(filePath)) {
+            res.status(404).json({
+                status: 'error',
+                message: '파일을 찾을 수 없습니다.'
+            })
+            return
+        }
+
+        // 파일 삭제
+        fs.unlinkSync(filePath)
+
+        res.json({
+            status: 'success',
+            message: '이미지가 성공적으로 삭제되었습니다.'
+        })
+    } catch (error) {
+        console.error('이미지 삭제 중 오류 발생:', error)
+        res.status(500).json({
+            status: 'error',
+            message: '서버에서 이미지 삭제 중 오류가 발생했습니다.'
+        })
+    }
+})
+
 // API: /api/save
 app.post('/api/save', (req: Request, res: Response): void => {
     try {
@@ -44,25 +94,6 @@ app.post('/api/save', (req: Request, res: Response): void => {
             message: '서버 오류가 발생했습니다',
         })
     }
-})
-
-// API: /api/upload - 이미지 업로드 처리
-app.post('/api/upload', upload.single('image'), (req: Request, res: Response) => {
-    if (!req.file) {
-        res.status(400).json({
-            status: 'error',
-            message: '파일이 업로드되지 않았습니다.',
-        })
-        return
-    }
-
-    // 업로드된 파일의 URL 반환
-    const imageUrl = `/uploads/${req.file.filename}`
-
-    res.json({
-        status: 'success',
-        imageUrl: imageUrl, // 클라이언트에서 사용할 이미지 URL
-    })
 })
 
 app.listen(port, () => {
