@@ -39,7 +39,7 @@ const updateDetailAddress = (_value: string) => {
     <button @click="showModal">
         <Text readOnly clickable :initValue="address" :placeholder="addressPlaceholder" />
     </button>
-    <Text :initValue="address" :placeholder="detailAddressPlaceholder" @input="updateDetailAddress" />
+    <Text :initValue="detailAddress" :placeholder="detailAddressPlaceholder" @input="updateDetailAddress" />
     <Modal v-if="isAddressModalOpen" @close="closeModal">
         <VueDaumPostcode @complete="onComplete">
             <template #loading>{{ loadingText }}</template>
