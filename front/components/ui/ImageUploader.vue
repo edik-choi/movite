@@ -27,7 +27,14 @@ const changeFile = async (event: Event) => {
             })
             const newImageUrl = `${baseURL}${response.data.imageUrl}`
             
-            if (props.replaceMode) {
+            if (props.replaceMode && imageUrls.value.length > 0) {
+                const oldImagePath = imageUrls.value[0].split('/').pop()
+                
+                try {
+                    await $axios.delete(`/upload/${oldImagePath}`)
+                } catch (error) {
+                    console.error('기존 이미지 삭제 중 오류 발생:', error)
+                }
                 imageUrls.value = [newImageUrl]
             } else {
                 imageUrls.value.push(newImageUrl)
