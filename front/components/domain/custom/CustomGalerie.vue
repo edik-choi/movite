@@ -8,7 +8,7 @@ const updateImageUrls = (_value: string[]) => {
 <template>
     <InputForm title="갤러리">
         <InputFormItem>
-            <ImageUploader @updateImageUrls="updateImageUrls" />
+            <ImageUploader replaceMode @updateImageUrls="updateImageUrls" />
         </InputFormItem>
         <InputFormItem v-if="imageUrls.length > 0">
             <div class="galerie_wrap">

@@ -7,6 +7,10 @@ const imageUrls = ref<string[]>([])
 const config = useRuntimeConfig()
 const baseURL = config.public.apiBase
 
+const props = defineProps<{
+    replaceMode?: boolean
+}>()
+
 const changeFile = async (event: Event) => {
     const { $axios } = useNuxtApp()
     const target = event.target as HTMLInputElement
@@ -22,7 +26,13 @@ const changeFile = async (event: Event) => {
                 }
             })
             const newImageUrl = `${baseURL}${response.data.imageUrl}`
-            imageUrls.value.push(newImageUrl)
+            
+            if (props.replaceMode) {
+                imageUrls.value = [newImageUrl]
+            } else {
+                imageUrls.value.push(newImageUrl)
+            }
+            
             emits('updateImageUrls', imageUrls.value)
         } catch (error) {
             console.error('이미지 업로드 중 오류 발생:', error)
