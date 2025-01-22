@@ -221,6 +221,7 @@ const updateFemaleContactPhoneNumber3 = (_value: string) => {
                     :date="date"
                     :address="address"
                     :detailAddress="detailAddress"
+                    :detailDirections="detailDirections"
                     :noticeTitle="noticeTitle"
                     :noticeContent="noticeContent"
                     :closingsContent="closingsContent"
@@ -277,7 +278,9 @@ const updateFemaleContactPhoneNumber3 = (_value: string) => {
                         @UpdateDetailDirections="updateDetailDirections"
                     />
                 </Accordion>
-                <Accordion expanded title="갤러리"> </Accordion>
+                <Accordion expanded title="갤러리">
+                    <CustomGalerie />
+                </Accordion>
                 <Accordion expanded title="공지사항">
                     <CustomNotice @updateNoticeTitle="updateNoticeTitle" @updateNoticeContent="updateNoticeContent" />
                 </Accordion>

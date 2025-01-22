@@ -25,6 +25,7 @@ interface Props {
     date: Date
     address: string
     detailAddress: string
+    detailDirections: string
     noticeTitle: string
     noticeContent: string
     closingsContent: string
@@ -95,6 +96,10 @@ const formattedSeletedDate = (date: Date) => {
                 </p>
                 <p v-if="address" class="details_address_text">{{ address }}</p>
                 <p v-if="address" class="details_address_text">{{ detailAddress }}</p>
+                <div v-if="detailDirections" class="details_directions_wrap">
+                    <p class="directions_title">오시는 길</p>
+                    <p>{{ detailDirections }}</p>
+                </div>
             </div>
         </div>
         <div v-if="noticeTitle" class="preview_contents_wrap">
