@@ -24,6 +24,11 @@ const updateGreetingsText = (_value: string) => {
     greetingsContent.value = _value
     emits('updateGreetingsText', greetingsContent.value)
 }
+
+const imageUrls = ref<string[]>([]) 
+const updateImageUrls = (_value: string[]) => {
+    imageUrls.value = _value
+}
 </script>
 
 <template>
@@ -46,7 +51,14 @@ const updateGreetingsText = (_value: string) => {
             />
         </InputFormItem>
     </InputForm>
-    <InputForm title="사진"></InputForm>
+    <InputForm title="사진">
+        <InputFormItem>
+            <ImageUploader replaceMode @updateImageUrls="updateImageUrls" />
+        </InputFormItem>
+        <InputFormItem v-if="imageUrls.length > 0">
+            <ImageGalerie :imageUrls="imageUrls" />  
+        </InputFormItem>
+    </InputForm>
 </template>
 
 <style lang="scss" scoped></style>
