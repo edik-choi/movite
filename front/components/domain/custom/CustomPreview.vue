@@ -22,6 +22,7 @@ interface Props {
     isShowLateAsFlower: boolean
     greetingsTitle: string
     greetingsContent: string
+    greetingsImageUrls: string[]
     date: Date
     address: string
     detailAddress: string
@@ -65,6 +66,7 @@ const formattedSeletedDate = (date: Date) => {
     >
         <div class="preview_contents_wrap">
             <div class="greetings_wrap">
+                <img class="greetings_image" v-if="greetingsImageUrls.length > 0" :src="greetingsImageUrls[0]" alt="인사말 이미지">
                 <p class="greetings_title">{{ greetingsTitle }}</p>
                 <p class="greetings_text" v-html="greetingsContent"></p>
             </div>
@@ -191,7 +193,12 @@ const formattedSeletedDate = (date: Date) => {
             color: #666;
         }
         .greetings_wrap {
+            .greetings_image {
+                width: 100%;
+                border-radius: 8px;
+            }
             .greetings_title {
+                margin-top: 40px;
                 font-weight: 600;
             }
             .greetings_text {

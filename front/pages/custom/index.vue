@@ -93,6 +93,11 @@ const updateGreetingsText = (_value: string) => {
     greetingsContent.value = _value
 }
 
+const greetingsImageUrls = ref<string[]>([]) 
+const updateGreetingsImageUrls = (_value: string[]) => {
+    greetingsImageUrls.value = _value
+}
+
 const date = ref(new Date())
 const selectDate = (_date: Date) => {
     date.value = _date
@@ -218,6 +223,7 @@ const updateFemaleContactPhoneNumber3 = (_value: string) => {
                     :isShowLateAsFlower="isShowLateAsFlower"
                     :greetingsTitle="greetingsTitle"
                     :greetingsContent="greetingsContent"
+                    :greetingsImageUrls="greetingsImageUrls"
                     :date="date"
                     :address="address"
                     :detailAddress="detailAddress"
@@ -268,6 +274,7 @@ const updateFemaleContactPhoneNumber3 = (_value: string) => {
                         :greetingsContent="greetingsContent"
                         @updateGreetingsTitle="updateGreetingsTitle"
                         @updateGreetingsText="updateGreetingsText"
+                        @updateGreetingsImageUrls="updateGreetingsImageUrls"
                     />
                 </Accordion>
                 <Accordion expanded title="일정 및 장소">
