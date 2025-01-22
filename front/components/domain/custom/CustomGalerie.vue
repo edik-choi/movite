@@ -1,7 +1,12 @@
 <script lang="ts" setup>
+const emits = defineEmits<{
+    (e: 'updateGalerieImageUrls', value: string[]): void
+}>()
+
 const galerieImageUrls = ref<string[]>([]) 
 const updateGalerieImageUrls = (_value: string[]) => {
     galerieImageUrls.value = _value
+    emits('updateGalerieImageUrls', galerieImageUrls.value)
 }
 
 const deleteGalerieImage = (index: number) => {
