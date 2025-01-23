@@ -1,1 +1,0 @@
-import{_ as n,t as o,v as s,x as r,z as _,N as a}from"./D0_CFTVD.js";const d={},l={class:"header"};function f(t,e){return o(),s("div",l,e[0]||(e[0]=[r("button",null,"Home",-1)]))}const u=n(d,[["render",f],["__scopeId","data-v-a39d6d63"]]),i={};function m(t,e){const c=u;return o(),s("div",null,[_(c),a(t.$slots,"default")])}const x=n(i,[["render",m]]);export{x as default};

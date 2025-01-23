@@ -1,1 +1,0 @@
-import{_ as n}from"./DZoW8N2N.js";import{_ as o,v as r,z as a,A as s,t as _,x as c}from"./D0_CFTVD.js";const l={};function m(d,e){const t=n;return _(),r("div",null,[a(t,null,{default:s(()=>e[0]||(e[0]=[c("h1",null,"Home",-1)])),_:1})])}const u=o(l,[["render",m]]);export{u as default};

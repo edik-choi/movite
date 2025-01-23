@@ -623,7 +623,7 @@ const _Y6RXXA2QpP = (function(nitro) {
 
 const rootDir = "/Users/edik/Documents/DEV/Vue/movite/front";
 
-const appHead = {"meta":[{"name":"viewport","content":"width=device-width, initial-scale=1"},{"charset":"utf-8"}],"link":[],"style":[],"script":[],"noscript":[]};
+const appHead = {"meta":[{"name":"viewport","content":"width=device-width, initial-scale=1"},{"charset":"utf-8"}],"link":[],"style":[],"script":[{"src":"https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=j1yptz7znk&submodules=geocoder","defer":true}],"noscript":[]};
 
 const appRootTag = "div";
 

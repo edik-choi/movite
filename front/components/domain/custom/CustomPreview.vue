@@ -67,7 +67,12 @@ const formattedSeletedDate = (date: Date) => {
     >
         <div class="preview_contents_wrap">
             <div class="greetings_wrap">
-                <img class="greetings_image" v-if="greetingsImageUrls.length > 0" :src="greetingsImageUrls[0]" alt="인사말 이미지">
+                <img
+                    class="greetings_image"
+                    v-if="greetingsImageUrls.length > 0"
+                    :src="greetingsImageUrls[0]"
+                    alt="인사말 이미지"
+                />
                 <p class="greetings_title">{{ greetingsTitle }}</p>
                 <p class="greetings_text" v-html="greetingsContent"></p>
             </div>
@@ -104,7 +109,10 @@ const formattedSeletedDate = (date: Date) => {
                     <p>{{ detailDirections }}</p>
                 </div>
                 <div v-if="directionsImageUrls.length > 0" class="directions_image_wrap">
-                    <img :src="directionsImageUrls[0]" alt="오시는 길 이미지">
+                    <img :src="directionsImageUrls[0]" alt="오시는 길 이미지" />
+                </div>
+                <div class="map_wrap">
+                    <Map :address="address" />
                 </div>
             </div>
         </div>
