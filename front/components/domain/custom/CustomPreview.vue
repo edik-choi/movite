@@ -130,18 +130,21 @@ const formattedSeletedDate = (date: Date) => {
                     <p class="navi_title">네비게이션 공유</p>
                     <div class="navi_buttons_wrap">
                         <a
+                            class="naver"
                             :href="`nmap://route/car?dname=${
                                 address ? address : '서울시청'
                             }&dlat=${geocodeX}&dlng=${geocodeY}`"
                             >네이버지도</a
                         >
                         <a
+                            class="tmap"
                             :href="`tmap://route?goalname=${
                                 address ? address : '서울시청'
                             }&goalx=${geocodeX}&goaly=${geocodeY}`"
                             >티맵</a
                         >
                         <a
+                            class="kakao"
                             :href="`https://map.kakao.com/link/to/${
                                 address ? address : '서울시청'
                             },${geocodeX},${geocodeY}`"
@@ -298,8 +301,28 @@ const formattedSeletedDate = (date: Date) => {
                 .navi_buttons_wrap {
                     display: flex;
                     justify-content: center;
-                    gap: 10px;
+                    gap: 20px;
                     margin-top: 20px;
+                    a {
+                        width: 60px;
+                        height: 60px;
+                        border: 1px solid #eee;
+                        border-radius: 8px;
+                        font-size: 0;
+                        color: transparent;
+                        &.naver {
+                            background: url(../../../assets/images/icon_navermap.jpeg) no-repeat center;
+                            background-size: 100%;
+                        }
+                        &.tmap {
+                            background: url(../../../assets/images/icon_tmap.jpeg) no-repeat center;
+                            background-size: 100%;
+                        }
+                        &.kakao {
+                            background: url(../../../assets/images/icon_kakaonavi.jpeg) no-repeat center;
+                            background-size: 100%;
+                        }
+                    }
                 }
             }
         }
