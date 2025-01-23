@@ -6,18 +6,18 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {})
 
-const isContentsShow = ref(props.expanded ? true : false)
-const openContents = () => {
-    isContentsShow.value = !isContentsShow.value
+const isContentsVisibility = ref(props.expanded ? true : false)
+const toggleContentsVisibility = () => {
+    isContentsVisibility.value = !isContentsVisibility.value
 }
 </script>
 
 <template>
     <div class="accordion_wrap">
-        <button class="accordion_button" @click="openContents" :class="{ expanded: isContentsShow }">
+        <button class="accordion_button" @click="toggleContentsVisibility" :class="{ expanded: isContentsVisibility }">
             {{ title }}
         </button>
-        <div v-show="isContentsShow" class="accordion_contents_wrap">
+        <div v-show="isContentsVisibility" class="accordion_contents_wrap">
             <slot />
         </div>
     </div>
