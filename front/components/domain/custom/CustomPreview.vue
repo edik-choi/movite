@@ -58,6 +58,13 @@ const formattedSeletedDate = (date: Date) => {
         return dayjs(date).locale('ko').format('YYYY년 M월 D일 A h시 m분')
     }
 }
+
+const geocodeX = ref(37.5666805)
+const geocodeY = ref(126.9784147)
+const updateGeocode = (_geocodeX: number, _geocodeY: number) => {
+    geocodeX.value = _geocodeX
+    geocodeY.value = _geocodeY
+}
 </script>
 
 <template>
@@ -121,7 +128,24 @@ const formattedSeletedDate = (date: Date) => {
                     <img :src="directionsImageUrls[0]" alt="오시는 길 이미지" />
                 </div>
                 <div v-if="isMapVisible" class="map_wrap">
-                    <Map :address="address" />
+                    <Map :address="address" @updateGeocode="updateGeocode" />
+                </div>
+                <div>
+                    <a
+                        :href="`nmap://route/car?dname=${
+                            address ? address : '서울시청'
+                        }&dlat=${geocodeX}&dlng=${geocodeY}`"
+                        >네이버지도</a
+                    >
+                    <a
+                        :href="`tmap://route?goalname=${
+                            address ? address : '서울시청'
+                        }&goalx=${geocodeX}&goaly=${geocodeY}`"
+                        >티맵</a
+                    >
+                    <a :href="`https://map.kakao.com/link/to/${address ? address : '서울시청'},${geocodeX},${geocodeY}`"
+                        >카카오내비</a
+                    >
                 </div>
             </div>
         </div>

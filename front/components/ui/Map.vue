@@ -5,9 +5,15 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {})
 
+const emits = defineEmits<{
+    (e: 'updateGeocode', geocodeX: number, geocodeY: number): void
+}>()
+
 const mapRef = ref<HTMLElement | null>(null)
 const map = ref<any>(null)
 const marker = ref<any>(null)
+const geocodeX = ref(37.5666805)
+const geocodeY = ref(126.9784147)
 
 const initMap = () => {
     if (window.naver && mapRef.value) {
@@ -50,6 +56,10 @@ const updateMap = async (address: string) => {
             const newPosition = new window.naver.maps.LatLng(position.lat, position.lng)
             map.value.setCenter(newPosition)
             marker.value.setPosition(newPosition)
+
+            geocodeX.value = position.lat
+            geocodeY.value = position.lng
+            emits('updateGeocode', geocodeX.value, geocodeY.value)
         }
     } catch (error) {
         console.error('지도 업데이트 중 오류 발생:', error)
