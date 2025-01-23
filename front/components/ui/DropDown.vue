@@ -12,9 +12,9 @@ const emits = defineEmits<{
     (e: 'selectItem', id: number, label: string): void
 }>()
 
-const isListShow = ref(false)
+const isListVisible = ref(false)
 const openList = () => {
-    isListShow.value = !isListShow.value
+    isListVisible.value = !isListVisible.value
 }
 
 const id = ref()
@@ -30,7 +30,7 @@ const selectItem = (_id: number, _label: string) => {
 <template>
     <div class="dropdown_wrap">
         <input type="text" :value="`${label ? label : '선택'}`" @click="openList" readonly />
-        <div v-show="isListShow" class="dropdown_list_wrap">
+        <div v-show="isListVisible" class="dropdown_list_wrap">
             <button
                 v-for="item in selectList"
                 :key="item.id"
