@@ -28,6 +28,7 @@ interface Props {
     detailAddress: string
     detailDirections: string
     directionsImageUrls: string[]
+    isMapVisible: boolean
     noticeTitle: string
     noticeContent: string
     closingsContent: string
@@ -111,7 +112,7 @@ const formattedSeletedDate = (date: Date) => {
                 <div v-if="directionsImageUrls.length > 0" class="directions_image_wrap">
                     <img :src="directionsImageUrls[0]" alt="오시는 길 이미지" />
                 </div>
-                <div class="map_wrap">
+                <div v-if="isMapVisible" class="map_wrap">
                     <Map :address="address" />
                 </div>
             </div>
@@ -251,6 +252,9 @@ const formattedSeletedDate = (date: Date) => {
                     width: 100%;
                     border-radius: 8px;
                 }
+            }
+            .map_wrap {
+                margin-top: 40px;
             }
         }
         .notice_wrap {

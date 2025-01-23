@@ -93,7 +93,7 @@ const updateGreetingsText = (_value: string) => {
     greetingsContent.value = _value
 }
 
-const greetingsImageUrls = ref<string[]>([]) 
+const greetingsImageUrls = ref<string[]>([])
 const updateGreetingsImageUrls = (_value: string[]) => {
     greetingsImageUrls.value = _value
 }
@@ -118,12 +118,17 @@ const updateDetailDirections = (_value: string) => {
     detailDirections.value = _value
 }
 
-const directionsImageUrls = ref<string[]>([]) 
+const directionsImageUrls = ref<string[]>([])
 const updateDirectionsImageUrls = (_value: string[]) => {
     directionsImageUrls.value = _value
 }
 
-const galerieImageUrls = ref<string[]>([]) 
+const isMapVisible = ref(false)
+const updateMapVisibility = (_value: boolean) => {
+    isMapVisible.value = _value
+}
+
+const galerieImageUrls = ref<string[]>([])
 const updateGalerieImageUrls = (_value: string[]) => {
     galerieImageUrls.value = _value
 }
@@ -239,6 +244,7 @@ const updateFemaleContactPhoneNumber3 = (_value: string) => {
                     :detailAddress="detailAddress"
                     :detailDirections="detailDirections"
                     :directionsImageUrls="directionsImageUrls"
+                    :isMapVisible="isMapVisible"
                     :noticeTitle="noticeTitle"
                     :noticeContent="noticeContent"
                     :closingsContent="closingsContent"
@@ -295,6 +301,7 @@ const updateFemaleContactPhoneNumber3 = (_value: string) => {
                         @UpdateDetailAddress="updateDetailAddress"
                         @UpdateDetailDirections="updateDetailDirections"
                         @updateDirectionsImageUrls="updateDirectionsImageUrls"
+                        @updateMapVisibility="updateMapVisibility"
                     />
                 </Accordion>
                 <Accordion expanded title="갤러리">

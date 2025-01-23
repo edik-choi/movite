@@ -5,6 +5,7 @@ const emits = defineEmits<{
     (e: 'updateDetailAddress', value: string): void
     (e: 'updateDetailDirections', value: string): void
     (e: 'updateDirectionsImageUrls', value: string[]): void
+    (e: 'updateMapVisibility', value: boolean): void
 }>()
 
 const date = ref(new Date())
@@ -33,7 +34,7 @@ const updateDetailDirections = (_value: string) => {
     emits('updateDetailDirections', detailDirections.value)
 }
 
-const directionsImageUrls = ref<string[]>([]) 
+const directionsImageUrls = ref<string[]>([])
 const updateDirectionsImageUrls = (_value: string[]) => {
     directionsImageUrls.value = _value
     emits('updateDirectionsImageUrls', directionsImageUrls.value)
@@ -41,6 +42,12 @@ const updateDirectionsImageUrls = (_value: string[]) => {
 
 const deleteDirectionsImage = (index: number) => {
     directionsImageUrls.value.splice(index, 1)
+}
+
+const isMapVisible = ref(false)
+const updateMapVisibility = (_value: boolean) => {
+    isMapVisible.value = _value
+    emits('updateMapVisibility', isMapVisible.value)
 }
 </script>
 
@@ -72,7 +79,11 @@ const deleteDirectionsImage = (index: number) => {
             <ImageGalerie :imageUrls="directionsImageUrls" @deleteImage="deleteDirectionsImage" />
         </InputFormItem>
     </InputForm>
-    <InputForm title="지도 표기"></InputForm>
+    <InputForm title="지도 표기">
+        <InputFormItem>
+            <CheckBox id="MAP_VISIBILITY" label="지도 표기" @input="updateMapVisibility" />
+        </InputFormItem>
+    </InputForm>
     <InputForm title="네비게이션 공유 표기"></InputForm>
 </template>
 
