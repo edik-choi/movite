@@ -67,6 +67,9 @@ watch(
 
 onMounted(() => {
     initMap()
+    if (props.address) {
+        updateMap(props.address)
+    }
 })
 </script>
 
