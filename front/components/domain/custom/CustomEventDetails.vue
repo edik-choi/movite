@@ -6,6 +6,7 @@ const emits = defineEmits<{
     (e: 'updateDetailDirections', value: string): void
     (e: 'updateDirectionsImageUrls', value: string[]): void
     (e: 'updateMapVisibility', value: boolean): void
+    (e: 'updateGeocode', geocodeX: number, geocodeY: number): void
 }>()
 
 const date = ref(new Date())
@@ -49,6 +50,14 @@ const updateMapVisibility = (_value: boolean) => {
     isMapVisible.value = _value
     emits('updateMapVisibility', isMapVisible.value)
 }
+
+const geocodeX = ref(37.5666805)
+const geocodeY = ref(126.9784147)
+const updateGeocode = (_geocodeX: number, _geocodeY: number) => {
+    geocodeX.value = _geocodeX
+    geocodeY.value = _geocodeY
+    emits('updateGeocode', geocodeX.value, geocodeY.value)
+}
 </script>
 
 <template>
@@ -59,7 +68,11 @@ const updateMapVisibility = (_value: boolean) => {
     </InputForm>
     <InputForm required title="장소">
         <InputFormItem>
-            <Address @selectAddress="selectAddress" @updateDetailAddress="updateDetailAddress" />
+            <Address
+                @selectAddress="selectAddress"
+                @updateDetailAddress="updateDetailAddress"
+                @updateGeocode="updateGeocode"
+            />
         </InputFormItem>
     </InputForm>
     <InputForm title="오시는 길">

@@ -29,6 +29,8 @@ interface Props {
     detailDirections: string
     directionsImageUrls: string[]
     isMapVisible: boolean
+    geocodeX: number
+    geocodeY: number
     noticeTitle: string
     noticeContent: string
     closingsContent: string
@@ -57,13 +59,6 @@ const formattedSeletedDate = (date: Date) => {
     } else {
         return dayjs(date).locale('ko').format('YYYY년 M월 D일 A h시 m분')
     }
-}
-
-const geocodeX = ref(37.5666805)
-const geocodeY = ref(126.9784147)
-const updateGeocode = (_geocodeX: number, _geocodeY: number) => {
-    geocodeX.value = _geocodeX
-    geocodeY.value = _geocodeY
 }
 </script>
 
@@ -128,7 +123,7 @@ const updateGeocode = (_geocodeX: number, _geocodeY: number) => {
                     <img :src="directionsImageUrls[0]" alt="오시는 길 이미지" />
                 </div>
                 <div v-if="isMapVisible" class="map_wrap">
-                    <Map :address="address" @updateGeocode="updateGeocode" />
+                    <Map :address="address" />
                 </div>
                 <div>
                     <a

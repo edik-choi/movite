@@ -5,19 +5,13 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {})
 
-const emits = defineEmits<{
-    (e: 'updateGeocode', geocodeX: number, geocodeY: number): void
-}>()
-
 const mapRef = ref<HTMLElement | null>(null)
 const map = ref<any>(null)
 const marker = ref<any>(null)
-const geocodeX = ref(37.5666805)
-const geocodeY = ref(126.9784147)
 
 const initMap = () => {
     if (window.naver && mapRef.value) {
-        const position = new window.naver.maps.LatLng(37.5666805, 126.9784147) // 서울시청 기본 위치
+        const position = new window.naver.maps.LatLng(37.5666805, 126.9784147)
         map.value = new window.naver.maps.Map(mapRef.value, {
             center: position,
             zoom: 15,
@@ -31,13 +25,10 @@ const initMap = () => {
 
 const geocodeAddress = async (address: string): Promise<{ lat: number; lng: number } | null> => {
     return new Promise((resolve, reject) => {
-        const geocoder = window.naver.maps.Service // Service에서 geocode 호출
+        const geocoder = window.naver.maps.Service
         geocoder.geocode(
             { query: address },
-            (
-                status: naver.maps.Service.Status, // 올바른 타입 적용
-                response: naver.maps.Service.GeocodeResponse
-            ) => {
+            (status: naver.maps.Service.Status, response: naver.maps.Service.GeocodeResponse) => {
                 if (status === naver.maps.Service.Status.OK && response.v2.addresses.length > 0) {
                     const result = response.v2.addresses[0]
                     resolve({ lat: parseFloat(result.y), lng: parseFloat(result.x) })
@@ -56,10 +47,6 @@ const updateMap = async (address: string) => {
             const newPosition = new window.naver.maps.LatLng(position.lat, position.lng)
             map.value.setCenter(newPosition)
             marker.value.setPosition(newPosition)
-
-            geocodeX.value = position.lat
-            geocodeY.value = position.lng
-            emits('updateGeocode', geocodeX.value, geocodeY.value)
         }
     } catch (error) {
         console.error('지도 업데이트 중 오류 발생:', error)

@@ -128,6 +128,13 @@ const updateMapVisibility = (_value: boolean) => {
     isMapVisible.value = _value
 }
 
+const geocodeX = ref(37.5666805)
+const geocodeY = ref(126.9784147)
+const updateGeocode = (_geocodeX: number, _geocodeY: number) => {
+    geocodeX.value = _geocodeX
+    geocodeY.value = _geocodeY
+}
+
 const galerieImageUrls = ref<string[]>([])
 const updateGalerieImageUrls = (_value: string[]) => {
     galerieImageUrls.value = _value
@@ -245,6 +252,8 @@ const updateFemaleContactPhoneNumber3 = (_value: string) => {
                     :detailDirections="detailDirections"
                     :directionsImageUrls="directionsImageUrls"
                     :isMapVisible="isMapVisible"
+                    :geocodeX="geocodeX"
+                    :geocodeY="geocodeY"
                     :noticeTitle="noticeTitle"
                     :noticeContent="noticeContent"
                     :closingsContent="closingsContent"
@@ -302,6 +311,7 @@ const updateFemaleContactPhoneNumber3 = (_value: string) => {
                         @UpdateDetailDirections="updateDetailDirections"
                         @updateDirectionsImageUrls="updateDirectionsImageUrls"
                         @updateMapVisibility="updateMapVisibility"
+                        @updateGeocode="updateGeocode"
                     />
                 </Accordion>
                 <Accordion expanded title="갤러리">

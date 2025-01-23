@@ -5,6 +5,7 @@ import type { VueDaumPostcodeCompleteResult } from 'vue-daum-postcode'
 const emits = defineEmits<{
     (e: 'selectAddress', value: string): void
     (e: 'updateDetailAddress', value: string): void
+    (e: 'updateGeocode', geocodeX: number, geocodeY: number): void
 }>()
 
 const loadingText = ref('로딩 중 입니다')
@@ -26,12 +27,46 @@ const closeAddressModal = () => {
 const onComplete = (newResult: VueDaumPostcodeCompleteResult) => {
     address.value = newResult.address
     emits('selectAddress', address.value)
+    updateGeocode(address.value)
     isAddressModalVisible.value = false
 }
 
 const updateDetailAddress = (_value: string) => {
     detailAddress.value = _value
     emits('updateDetailAddress', _value)
+}
+
+const geocodeX = ref(37.5666805)
+const geocodeY = ref(126.9784147)
+
+const geocodeAddress = async (address: string): Promise<{ lat: number; lng: number } | null> => {
+    return new Promise((resolve, reject) => {
+        const geocoder = window.naver.maps.Service
+        geocoder.geocode(
+            { query: address },
+            (status: naver.maps.Service.Status, response: naver.maps.Service.GeocodeResponse) => {
+                if (status === naver.maps.Service.Status.OK && response.v2.addresses.length > 0) {
+                    const result = response.v2.addresses[0]
+                    resolve({ lat: parseFloat(result.y), lng: parseFloat(result.x) })
+                } else {
+                    reject(`Geocoding failed with status: ${status}`)
+                }
+            }
+        )
+    })
+}
+
+const updateGeocode = async (address: string) => {
+    try {
+        const position = await geocodeAddress(address)
+        if (position) {
+            geocodeX.value = position.lat
+            geocodeY.value = position.lng
+            emits('updateGeocode', geocodeX.value, geocodeY.value)
+        }
+    } catch (error) {
+        console.error('지도 좌표 업데이트 중 오류 발생:', error)
+    }
 }
 </script>
 
