@@ -29,6 +29,7 @@ interface Props {
     detailDirections: string
     directionsImageUrls: string[]
     isMapVisible: boolean
+    isNaviVisible: boolean
     geocodeX: number
     geocodeY: number
     noticeTitle: string
@@ -125,22 +126,28 @@ const formattedSeletedDate = (date: Date) => {
                 <div v-if="isMapVisible" class="map_wrap">
                     <Map :address="address" />
                 </div>
-                <div>
-                    <a
-                        :href="`nmap://route/car?dname=${
-                            address ? address : '서울시청'
-                        }&dlat=${geocodeX}&dlng=${geocodeY}`"
-                        >네이버지도</a
-                    >
-                    <a
-                        :href="`tmap://route?goalname=${
-                            address ? address : '서울시청'
-                        }&goalx=${geocodeX}&goaly=${geocodeY}`"
-                        >티맵</a
-                    >
-                    <a :href="`https://map.kakao.com/link/to/${address ? address : '서울시청'},${geocodeX},${geocodeY}`"
-                        >카카오내비</a
-                    >
+                <div v-if="isNaviVisible" class="navi_wrap">
+                    <p class="navi_title">네비게이션 공유</p>
+                    <div class="navi_buttons_wrap">
+                        <a
+                            :href="`nmap://route/car?dname=${
+                                address ? address : '서울시청'
+                            }&dlat=${geocodeX}&dlng=${geocodeY}`"
+                            >네이버지도</a
+                        >
+                        <a
+                            :href="`tmap://route?goalname=${
+                                address ? address : '서울시청'
+                            }&goalx=${geocodeX}&goaly=${geocodeY}`"
+                            >티맵</a
+                        >
+                        <a
+                            :href="`https://map.kakao.com/link/to/${
+                                address ? address : '서울시청'
+                            },${geocodeX},${geocodeY}`"
+                            >카카오내비</a
+                        >
+                    </div>
                 </div>
             </div>
         </div>
@@ -282,6 +289,18 @@ const formattedSeletedDate = (date: Date) => {
             }
             .map_wrap {
                 margin-top: 40px;
+            }
+            .navi_wrap {
+                margin-top: 40px;
+                .navi_title {
+                    font-weight: 600;
+                }
+                .navi_buttons_wrap {
+                    display: flex;
+                    justify-content: center;
+                    gap: 10px;
+                    margin-top: 20px;
+                }
             }
         }
         .notice_wrap {

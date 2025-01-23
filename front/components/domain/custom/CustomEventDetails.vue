@@ -6,6 +6,7 @@ const emits = defineEmits<{
     (e: 'updateDetailDirections', value: string): void
     (e: 'updateDirectionsImageUrls', value: string[]): void
     (e: 'updateMapVisibility', value: boolean): void
+    (e: 'updateNaviVisibility', value: boolean): void
     (e: 'updateGeocode', geocodeX: number, geocodeY: number): void
 }>()
 
@@ -51,6 +52,12 @@ const updateMapVisibility = (_value: boolean) => {
     emits('updateMapVisibility', isMapVisible.value)
 }
 
+const isNaviVisible = ref(false)
+const updateNaviVisibility = (_value: boolean) => {
+    isNaviVisible.value = _value
+    emits('updateNaviVisibility', isNaviVisible.value)
+}
+
 const geocodeX = ref(37.5666805)
 const geocodeY = ref(126.9784147)
 const updateGeocode = (_geocodeX: number, _geocodeY: number) => {
@@ -94,10 +101,14 @@ const updateGeocode = (_geocodeX: number, _geocodeY: number) => {
     </InputForm>
     <InputForm title="지도 표기">
         <InputFormItem>
-            <CheckBox id="MAP_VISIBILITY" label="지도 표기" @input="updateMapVisibility" />
+            <CheckBox id="MAP_VISIBILITY" label="지도 표기" @input="updateMapVisibility" checked />
         </InputFormItem>
     </InputForm>
-    <InputForm title="네비게이션 공유 표기"></InputForm>
+    <InputForm title="네비게이션 공유 표기">
+        <InputFormItem>
+            <CheckBox id="NAVI_VISIBILITY" label="네비게이션 공유 표기" @input="updateNaviVisibility" checked />
+        </InputFormItem>
+    </InputForm>
 </template>
 
 <style lang="scss" scoped></style>

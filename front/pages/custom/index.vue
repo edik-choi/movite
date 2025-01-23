@@ -123,9 +123,14 @@ const updateDirectionsImageUrls = (_value: string[]) => {
     directionsImageUrls.value = _value
 }
 
-const isMapVisible = ref(false)
+const isMapVisible = ref(true)
 const updateMapVisibility = (_value: boolean) => {
     isMapVisible.value = _value
+}
+
+const isNaviVisible = ref(true)
+const updateNaviVisibility = (_value: boolean) => {
+    isNaviVisible.value = _value
 }
 
 const geocodeX = ref(37.5666805)
@@ -252,6 +257,7 @@ const updateFemaleContactPhoneNumber3 = (_value: string) => {
                     :detailDirections="detailDirections"
                     :directionsImageUrls="directionsImageUrls"
                     :isMapVisible="isMapVisible"
+                    :isNaviVisible="isNaviVisible"
                     :geocodeX="geocodeX"
                     :geocodeY="geocodeY"
                     :noticeTitle="noticeTitle"
@@ -311,6 +317,7 @@ const updateFemaleContactPhoneNumber3 = (_value: string) => {
                         @UpdateDetailDirections="updateDetailDirections"
                         @updateDirectionsImageUrls="updateDirectionsImageUrls"
                         @updateMapVisibility="updateMapVisibility"
+                        @updateNaviVisibility="updateNaviVisibility"
                         @updateGeocode="updateGeocode"
                     />
                 </Accordion>
