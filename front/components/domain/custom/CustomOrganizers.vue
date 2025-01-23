@@ -2,18 +2,18 @@
 const emits = defineEmits<{
     (e: 'updateMaleName', value: string): void
     (e: 'updateMaleRelation', value: string): void
-    (e: 'selectMaleFatherLate', value: boolean): void
+    (e: 'selectMaleFatherDeceased', value: boolean): void
     (e: 'updateMaleFatherName', value: string): void
-    (e: 'selectMaleMotherLate', value: boolean): void
+    (e: 'selectMaleMotherDeceased', value: boolean): void
     (e: 'updateMaleMotherName', value: string): void
     (e: 'updateFemaleName', value: string): void
     (e: 'updateFemaleRelation', value: string): void
-    (e: 'selectFemaleFatherLate', value: boolean): void
+    (e: 'selectFemaleFatherDeceased', value: boolean): void
     (e: 'updateFemaleFatherName', value: string): void
-    (e: 'selectFemaleMotherLate', value: boolean): void
+    (e: 'selectFemaleMotherDeceased', value: boolean): void
     (e: 'updateFemaleMotherName', value: string): void
     (e: 'selectShowFemaleFirst', value: boolean): void
-    (e: 'selectShowLateAsFlower', value: boolean): void
+    (e: 'selectShowDeceasedAsFlower', value: boolean): void
 }>()
 
 const maleName = ref('')
@@ -30,10 +30,10 @@ const updateMaleRelation = (_value: string) => {
     emits('updateMaleRelation', maleRelation.value)
 }
 
-const isMaleFatherLate = ref(false)
-const selectMaleFatherLate = (_value: boolean) => {
-    isMaleFatherLate.value = _value
-    emits('selectMaleFatherLate', isMaleFatherLate.value)
+const isMaleFatherDeceased = ref(false)
+const selectMaleFatherDeceased = (_value: boolean) => {
+    isMaleFatherDeceased.value = _value
+    emits('selectMaleFatherDeceased', isMaleFatherDeceased.value)
 }
 
 const maleFatherName = ref('')
@@ -43,10 +43,10 @@ const updateMaleFatherName = (_value: string) => {
     emits('updateMaleFatherName', maleFatherName.value)
 }
 
-const isMaleMotherLate = ref(false)
-const selectMaleMotherLate = (_value: boolean) => {
-    isMaleMotherLate.value = _value
-    emits('selectMaleMotherLate', isMaleMotherLate.value)
+const isMaleMotherDeceased = ref(false)
+const selectMaleMotherDeceased = (_value: boolean) => {
+    isMaleMotherDeceased.value = _value
+    emits('selectMaleMotherDeceased', isMaleMotherDeceased.value)
 }
 
 const maleMotherName = ref('')
@@ -70,10 +70,10 @@ const updateFemaleRelation = (_value: string) => {
     emits('updateFemaleRelation', femaleRelation.value)
 }
 
-const isFemaleFatherLate = ref(false)
-const selectFemaleFatherLate = (_value: boolean) => {
-    isFemaleFatherLate.value = _value
-    emits('selectFemaleFatherLate', isFemaleFatherLate.value)
+const isFemaleFatherDeceased = ref(false)
+const selectFemaleFatherDeceased = (_value: boolean) => {
+    isFemaleFatherDeceased.value = _value
+    emits('selectFemaleFatherDeceased', isFemaleFatherDeceased.value)
 }
 
 const femaleFatherName = ref('')
@@ -83,10 +83,10 @@ const updateFemaleFatherName = (_value: string) => {
     emits('updateFemaleFatherName', femaleFatherName.value)
 }
 
-const isFemaleMotherLate = ref(false)
-const selectFemaleMotherLate = (_value: boolean) => {
-    isFemaleMotherLate.value = _value
-    emits('selectFemaleMotherLate', isFemaleMotherLate.value)
+const isFemaleMotherDeceased = ref(false)
+const selectFemaleMotherDeceased = (_value: boolean) => {
+    isFemaleMotherDeceased.value = _value
+    emits('selectFemaleMotherDeceased', isFemaleMotherDeceased.value)
 }
 
 const femaleMotherName = ref('')
@@ -102,10 +102,10 @@ const selectShowFemaleFirst = (_value: boolean) => {
     emits('selectShowFemaleFirst', isShowFemaleFirst.value)
 }
 
-const isShowLateAsFlower = ref(false)
-const selectShowLateAsFlower = (_value: boolean) => {
-    isShowLateAsFlower.value = _value
-    emits('selectShowLateAsFlower', isShowLateAsFlower.value)
+const isShowDeceasedAsFlower = ref(false)
+const selectShowDeceasedAsFlower = (_value: boolean) => {
+    isShowDeceasedAsFlower.value = _value
+    emits('selectShowDeceasedAsFlower', isShowDeceasedAsFlower.value)
 }
 </script>
 
@@ -117,11 +117,11 @@ const selectShowLateAsFlower = (_value: boolean) => {
         </InputFormItem>
         <InputFormItem>
             <Text :initValue="maleFatherName" :placeholder="maleFatherNamePlaceholder" @input="updateMaleFatherName" />
-            <CheckBox id="LATE_MALE_FATHER" label="故人" @input="selectMaleFatherLate" />
+            <CheckBox id="DECEASED_MALE_FATHER" label="故人" @input="selectMaleFatherDeceased" />
         </InputFormItem>
         <InputFormItem>
             <Text :initValue="maleMotherName" :placeholder="maleMotherNamePlaceholder" @input="updateMaleMotherName" />
-            <CheckBox id="LATE_MALE_MOTHER" label="故人" @input="selectMaleMotherLate" />
+            <CheckBox id="DECEASED_MALE_MOTHER" label="故人" @input="selectMaleMotherDeceased" />
         </InputFormItem>
     </InputForm>
     <InputForm required devided title="신부측">
@@ -135,7 +135,7 @@ const selectShowLateAsFlower = (_value: boolean) => {
                 :placeholder="femaleFatherNamePlaceholder"
                 @input="updateFemaleFatherName"
             />
-            <CheckBox id="LATE_FEMALE_FATHER" name="LATE" label="故人" @input="selectFemaleFatherLate" />
+            <CheckBox id="DECEASED_FEMALE_FATHER" name="DECEASED" label="故人" @input="selectFemaleFatherDeceased" />
         </InputFormItem>
         <InputFormItem>
             <Text
@@ -143,7 +143,7 @@ const selectShowLateAsFlower = (_value: boolean) => {
                 :placeholder="femaleMotherNamePlaceholder"
                 @input="updateFemaleMotherName"
             />
-            <CheckBox id="LATE_FEMALE_MOTHER" name="LATE" label="故人" @input="selectFemaleMotherLate" />
+            <CheckBox id="DECEASED_FEMALE_MOTHER" name="DECEASED" label="故人" @input="selectFemaleMotherDeceased" />
         </InputFormItem>
     </InputForm>
     <InputForm devided title="표기 순서">
@@ -153,7 +153,7 @@ const selectShowLateAsFlower = (_value: boolean) => {
     </InputForm>
     <InputForm title="故人 표기">
         <InputFormItem>
-            <CheckBox id="LATE_AS_FLOWER" label="故人 대신 꽃으로 표기" @input="selectShowLateAsFlower" />
+            <CheckBox id="DECEASED_AS_FLOWER" label="故人 대신 꽃으로 표기" @input="selectShowDeceasedAsFlower" />
         </InputFormItem>
     </InputForm>
 </template>

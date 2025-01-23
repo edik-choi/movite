@@ -31,17 +31,17 @@ const maleRelation = ref('차남')
 const updateMaleRelation = (_value: string) => {
     maleRelation.value = _value
 }
-const isMaleFatherLate = ref(false)
-const selectMaleFatherLate = (_value: boolean) => {
-    isMaleFatherLate.value = _value
+const isMaleFatherDeceased = ref(false)
+const selectMaleFatherDeceased = (_value: boolean) => {
+    isMaleFatherDeceased.value = _value
 }
 const maleFatherName = ref(nameSample.maleFather)
 const updateMaleFatherName = (_value: string) => {
     maleFatherName.value = _value
 }
-const isMaleMotherLate = ref(false)
-const selectMaleMotherLate = (_value: boolean) => {
-    isMaleMotherLate.value = _value
+const isMaleMotherDeceased = ref(false)
+const selectMaleMotherDeceased = (_value: boolean) => {
+    isMaleMotherDeceased.value = _value
 }
 const maleMotherName = ref(nameSample.maleMother)
 const updateMaleMotherName = (_value: string) => {
@@ -56,17 +56,17 @@ const femaleRelation = ref('장녀')
 const updateFemaleRelation = (_value: string) => {
     femaleRelation.value = _value
 }
-const isFemaleFatherLate = ref(false)
-const selectFemaleFatherLate = (_value: boolean) => {
-    isFemaleFatherLate.value = _value
+const isFemaleFatherDeceased = ref(false)
+const selectFemaleFatherDeceased = (_value: boolean) => {
+    isFemaleFatherDeceased.value = _value
 }
 const femaleFatherName = ref(nameSample.femaleFather)
 const updateFemaleFatherName = (_value: string) => {
     femaleFatherName.value = _value
 }
-const isFemaleMotherLate = ref(false)
-const selectFemaleMotherLate = (_value: boolean) => {
-    isFemaleMotherLate.value = _value
+const isFemaleMotherDeceased = ref(false)
+const selectFemaleMotherDeceased = (_value: boolean) => {
+    isFemaleMotherDeceased.value = _value
 }
 const femaleMotherName = ref(nameSample.femaleMother)
 const updateFemaleMotherName = (_value: string) => {
@@ -78,9 +78,9 @@ const selectShowFemaleFirst = (_value: boolean) => {
     isShowFemaleFirst.value = _value
 }
 
-const isShowLateAsFlower = ref(false)
-const selectShowLateAsFlower = (_value: boolean) => {
-    isShowLateAsFlower.value = _value
+const isShowDeceasedAsFlower = ref(false)
+const selectShowDeceasedAsFlower = (_value: boolean) => {
+    isShowDeceasedAsFlower.value = _value
 }
 
 const greetingsTitle = ref(greetingsSample.title)
@@ -225,17 +225,17 @@ const updateFemaleContactPhoneNumber3 = (_value: string) => {
                     :maleName="maleName"
                     :maleRelation="maleRelation"
                     :maleFatherName="maleFatherName"
-                    :isMaleFatherLate="isMaleFatherLate"
+                    :isMaleFatherDeceased="isMaleFatherDeceased"
                     :maleMotherName="maleMotherName"
-                    :isMaleMotherLate="isMaleMotherLate"
+                    :isMaleMotherDeceased="isMaleMotherDeceased"
                     :femaleName="femaleName"
                     :femaleRelation="femaleRelation"
                     :femaleFatherName="femaleFatherName"
-                    :isFemaleFatherLate="isFemaleFatherLate"
+                    :isFemaleFatherDeceased="isFemaleFatherDeceased"
                     :femaleMotherName="femaleMotherName"
-                    :isFemaleMotherLate="isFemaleMotherLate"
+                    :isFemaleMotherDeceased="isFemaleMotherDeceased"
                     :isShowFemaleFirst="isShowFemaleFirst"
-                    :isShowLateAsFlower="isShowLateAsFlower"
+                    :isShowDeceasedAsFlower="isShowDeceasedAsFlower"
                     :greetingsTitle="greetingsTitle"
                     :greetingsContent="greetingsContent"
                     :greetingsImageUrls="greetingsImageUrls"
@@ -270,18 +270,18 @@ const updateFemaleContactPhoneNumber3 = (_value: string) => {
                     <CustomOrganizers
                         @updateMaleName="updateMaleName"
                         @updateMaleRelation="updateMaleRelation"
-                        @selectMaleFatherLate="selectMaleFatherLate"
+                        @selectMaleFatherDeceased="selectMaleFatherDeceased"
                         @updateMaleFatherName="updateMaleFatherName"
-                        @selectMaleMotherLate="selectMaleMotherLate"
+                        @selectMaleMotherDeceased="selectMaleMotherDeceased"
                         @updateMaleMotherName="updateMaleMotherName"
                         @updateFemaleName="updateFemaleName"
                         @updateFemaleRelation="updateFemaleRelation"
-                        @selectFemaleFatherLate="selectFemaleFatherLate"
+                        @selectFemaleFatherDeceased="selectFemaleFatherDeceased"
                         @updateFemaleFatherName="updateFemaleFatherName"
-                        @selectFemaleMotherLate="selectFemaleMotherLate"
+                        @selectFemaleMotherDeceased="selectFemaleMotherDeceased"
                         @updateFemaleMotherName="updateFemaleMotherName"
                         @selectShowFemaleFirst="selectShowFemaleFirst"
-                        @selectShowLateAsFlower="selectShowLateAsFlower"
+                        @selectShowDeceasedAsFlower="selectShowDeceasedAsFlower"
                     />
                 </Accordion>
                 <Accordion expanded title="메인"></Accordion>

@@ -9,17 +9,17 @@ interface Props {
     maleName: string
     maleRelation: string
     maleFatherName: string
-    isMaleFatherLate: boolean
+    isMaleFatherDeceased: boolean
     maleMotherName: string
-    isMaleMotherLate: boolean
+    isMaleMotherDeceased: boolean
     femaleName: string
     femaleRelation: string
     femaleFatherName: string
-    isFemaleFatherLate: boolean
+    isFemaleFatherDeceased: boolean
     femaleMotherName: string
-    isFemaleMotherLate: boolean
+    isFemaleMotherDeceased: boolean
     isShowFemaleFirst: boolean
-    isShowLateAsFlower: boolean
+    isShowDeceasedAsFlower: boolean
     greetingsTitle: string
     greetingsContent: string
     greetingsImageUrls: string[]
@@ -79,20 +79,28 @@ const formattedSeletedDate = (date: Date) => {
             </div>
             <div class="organizers_wrap" :class="{ reverse: isShowFemaleFirst }">
                 <p>
-                    <span v-if="maleFatherName && isMaleFatherLate">{{ isShowLateAsFlower ? '꽃' : '故人' }}</span>
+                    <span v-if="maleFatherName && isMaleFatherDeceased">{{
+                        isShowDeceasedAsFlower ? '꽃' : '故人'
+                    }}</span>
                     <span>{{ maleFatherName }}</span>
                     <span v-if="maleFatherName && maleMotherName">·</span>
-                    <span v-if="maleMotherName && isMaleMotherLate">{{ isShowLateAsFlower ? '꽃' : '故人' }}</span>
+                    <span v-if="maleMotherName && isMaleMotherDeceased">{{
+                        isShowDeceasedAsFlower ? '꽃' : '故人'
+                    }}</span>
                     <span>{{ maleMotherName }}</span>
                     <span v-if="(maleFatherName && maleRelation) || (maleMotherName && maleRelation)">의</span>
                     <span v-if="maleName && maleRelation" class="relation">{{ maleRelation }}</span>
                     <span v-if="maleName">{{ maleName }}</span>
                 </p>
                 <p>
-                    <span v-if="femaleFatherName && isFemaleFatherLate">{{ isShowLateAsFlower ? '꽃' : '故人' }}</span>
+                    <span v-if="femaleFatherName && isFemaleFatherDeceased">{{
+                        isShowDeceasedAsFlower ? '꽃' : '故人'
+                    }}</span>
                     <span>{{ femaleFatherName }}</span>
                     <span v-if="femaleFatherName && femaleMotherName">·</span>
-                    <span v-if="femaleMotherName && isFemaleMotherLate">{{ isShowLateAsFlower ? '꽃' : '故人' }}</span>
+                    <span v-if="femaleMotherName && isFemaleMotherDeceased">{{
+                        isShowDeceasedAsFlower ? '꽃' : '故人'
+                    }}</span>
                     <span>{{ femaleMotherName }}</span>
                     <span v-if="(femaleFatherName && femaleRelation) || (femaleMotherName && femaleRelation)">의</span>
                     <span v-if="femaleName && femaleRelation" class="relation">{{ femaleRelation }}</span>
