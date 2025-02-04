@@ -279,159 +279,157 @@ const save = async () => {
 </script>
 
 <template>
-    <div>
-        <Container>
-            <template #side>
-                <h2>{{ message }}</h2>
-                <button @click="save">save</button>
-                <CustomPreview
-                    :fontIndex="fontIndex"
-                    :themeColorIndex="themeColorIndex"
-                    :maleName="maleName"
-                    :maleRelation="maleRelation"
-                    :maleFatherName="maleFatherName"
-                    :isMaleFatherDeceased="isMaleFatherDeceased"
-                    :maleMotherName="maleMotherName"
-                    :isMaleMotherDeceased="isMaleMotherDeceased"
-                    :femaleName="femaleName"
-                    :femaleRelation="femaleRelation"
-                    :femaleFatherName="femaleFatherName"
-                    :isFemaleFatherDeceased="isFemaleFatherDeceased"
-                    :femaleMotherName="femaleMotherName"
-                    :isFemaleMotherDeceased="isFemaleMotherDeceased"
-                    :isShowFemaleFirst="isShowFemaleFirst"
-                    :isShowDeceasedAsFlower="isShowDeceasedAsFlower"
+    <Container>
+        <template #side>
+            <h2>{{ message }}</h2>
+            <button @click="save">save</button>
+            <CustomPreview
+                :fontIndex="fontIndex"
+                :themeColorIndex="themeColorIndex"
+                :maleName="maleName"
+                :maleRelation="maleRelation"
+                :maleFatherName="maleFatherName"
+                :isMaleFatherDeceased="isMaleFatherDeceased"
+                :maleMotherName="maleMotherName"
+                :isMaleMotherDeceased="isMaleMotherDeceased"
+                :femaleName="femaleName"
+                :femaleRelation="femaleRelation"
+                :femaleFatherName="femaleFatherName"
+                :isFemaleFatherDeceased="isFemaleFatherDeceased"
+                :femaleMotherName="femaleMotherName"
+                :isFemaleMotherDeceased="isFemaleMotherDeceased"
+                :isShowFemaleFirst="isShowFemaleFirst"
+                :isShowDeceasedAsFlower="isShowDeceasedAsFlower"
+                :greetingsTitle="greetingsTitle"
+                :greetingsContent="greetingsContent"
+                :greetingsImageUrls="greetingsImageUrls"
+                :date="date"
+                :address="address"
+                :detailAddress="detailAddress"
+                :detailDirections="detailDirections"
+                :directionsImageUrls="directionsImageUrls"
+                :isMapVisible="isMapVisible"
+                :isNaviVisible="isNaviVisible"
+                :geocodeX="geocodeX"
+                :geocodeY="geocodeY"
+                :noticeTitle="noticeTitle"
+                :noticeContent="noticeContent"
+                :closingsContent="closingsContent"
+                :maleContactName1="maleContactName1"
+                :maleContactPhoneNumber1="maleContactPhoneNumber1"
+                :maleContactName2="maleContactName2"
+                :maleContactPhoneNumber2="maleContactPhoneNumber2"
+                :maleContactName3="maleContactName3"
+                :maleContactPhoneNumber3="maleContactPhoneNumber3"
+                :femaleContactName1="femaleContactName1"
+                :femaleContactPhoneNumber1="femaleContactPhoneNumber1"
+                :femaleContactName2="femaleContactName2"
+                :femaleContactPhoneNumber2="femaleContactPhoneNumber2"
+                :femaleContactName3="femaleContactName3"
+                :femaleContactPhoneNumber3="femaleContactPhoneNumber3"
+            />
+        </template>
+        <template #contents>
+            <Accordion expanded title="디자인">
+                <CustomDesign
+                    @selectFontIndex="selectFontIndex"
+                    @selectThemeColorIndex="selectThemeColorIndex"
+                />
+            </Accordion>
+            <Accordion expanded title="성함">
+                <CustomOrganizers
+                    @updateMaleName="updateMaleName"
+                    @updateMaleRelation="updateMaleRelation"
+                    @selectMaleFatherDeceased="selectMaleFatherDeceased"
+                    @updateMaleFatherName="updateMaleFatherName"
+                    @selectMaleMotherDeceased="selectMaleMotherDeceased"
+                    @updateMaleMotherName="updateMaleMotherName"
+                    @updateFemaleName="updateFemaleName"
+                    @updateFemaleRelation="updateFemaleRelation"
+                    @selectFemaleFatherDeceased="selectFemaleFatherDeceased"
+                    @updateFemaleFatherName="updateFemaleFatherName"
+                    @selectFemaleMotherDeceased="selectFemaleMotherDeceased"
+                    @updateFemaleMotherName="updateFemaleMotherName"
+                    @selectShowFemaleFirst="selectShowFemaleFirst"
+                    @selectShowDeceasedAsFlower="selectShowDeceasedAsFlower"
+                />
+            </Accordion>
+            <Accordion expanded title="메인"></Accordion>
+            <Accordion expanded title="인사말">
+                <CustomGreetings
                     :greetingsTitle="greetingsTitle"
                     :greetingsContent="greetingsContent"
-                    :greetingsImageUrls="greetingsImageUrls"
-                    :date="date"
-                    :address="address"
-                    :detailAddress="detailAddress"
-                    :detailDirections="detailDirections"
-                    :directionsImageUrls="directionsImageUrls"
-                    :isMapVisible="isMapVisible"
-                    :isNaviVisible="isNaviVisible"
-                    :geocodeX="geocodeX"
-                    :geocodeY="geocodeY"
-                    :noticeTitle="noticeTitle"
-                    :noticeContent="noticeContent"
-                    :closingsContent="closingsContent"
-                    :maleContactName1="maleContactName1"
-                    :maleContactPhoneNumber1="maleContactPhoneNumber1"
-                    :maleContactName2="maleContactName2"
-                    :maleContactPhoneNumber2="maleContactPhoneNumber2"
-                    :maleContactName3="maleContactName3"
-                    :maleContactPhoneNumber3="maleContactPhoneNumber3"
-                    :femaleContactName1="femaleContactName1"
-                    :femaleContactPhoneNumber1="femaleContactPhoneNumber1"
-                    :femaleContactName2="femaleContactName2"
-                    :femaleContactPhoneNumber2="femaleContactPhoneNumber2"
-                    :femaleContactName3="femaleContactName3"
-                    :femaleContactPhoneNumber3="femaleContactPhoneNumber3"
+                    @updateGreetingsTitle="updateGreetingsTitle"
+                    @updateGreetingsText="updateGreetingsText"
+                    @updateGreetingsImageUrls="updateGreetingsImageUrls"
                 />
-            </template>
-            <template #contents>
-                <Accordion expanded title="디자인">
-                    <CustomDesign
-                        @selectFontIndex="selectFontIndex"
-                        @selectThemeColorIndex="selectThemeColorIndex"
-                    />
-                </Accordion>
-                <Accordion expanded title="성함">
-                    <CustomOrganizers
-                        @updateMaleName="updateMaleName"
-                        @updateMaleRelation="updateMaleRelation"
-                        @selectMaleFatherDeceased="selectMaleFatherDeceased"
-                        @updateMaleFatherName="updateMaleFatherName"
-                        @selectMaleMotherDeceased="selectMaleMotherDeceased"
-                        @updateMaleMotherName="updateMaleMotherName"
-                        @updateFemaleName="updateFemaleName"
-                        @updateFemaleRelation="updateFemaleRelation"
-                        @selectFemaleFatherDeceased="selectFemaleFatherDeceased"
-                        @updateFemaleFatherName="updateFemaleFatherName"
-                        @selectFemaleMotherDeceased="selectFemaleMotherDeceased"
-                        @updateFemaleMotherName="updateFemaleMotherName"
-                        @selectShowFemaleFirst="selectShowFemaleFirst"
-                        @selectShowDeceasedAsFlower="selectShowDeceasedAsFlower"
-                    />
-                </Accordion>
-                <Accordion expanded title="메인"></Accordion>
-                <Accordion expanded title="인사말">
-                    <CustomGreetings
-                        :greetingsTitle="greetingsTitle"
-                        :greetingsContent="greetingsContent"
-                        @updateGreetingsTitle="updateGreetingsTitle"
-                        @updateGreetingsText="updateGreetingsText"
-                        @updateGreetingsImageUrls="updateGreetingsImageUrls"
-                    />
-                </Accordion>
-                <Accordion expanded title="일정 및 장소">
-                    <CustomEventDetails
-                        @selectDate="selectDate"
-                        @selectAddress="selectedAddress"
-                        @UpdateDetailAddress="updateDetailAddress"
-                        @UpdateDetailDirections="updateDetailDirections"
-                        @updateDirectionsImageUrls="updateDirectionsImageUrls"
-                        @updateMapVisibility="updateMapVisibility"
-                        @updateNaviVisibility="updateNaviVisibility"
-                        @updateGeocode="updateGeocode"
-                    />
-                </Accordion>
-                <Accordion expanded title="갤러리">
-                    <CustomGalerie
-                        @updateGalerieImageUrls="updateGalerieImageUrls"
-                    />
-                </Accordion>
-                <Accordion expanded title="공지사항">
-                    <CustomNotice
-                        @updateNoticeTitle="updateNoticeTitle"
-                        @updateNoticeContent="updateNoticeContent"
-                    />
-                </Accordion>
-                <Accordion expanded title="맺음말">
-                    <CustomClosings
-                        @updateClosingsContent="updateClosingsContent"
-                    />
-                </Accordion>
-                <Accordion expanded title="연락처">
-                    <CustomContact
-                        @updateMaleContactName1="updateMaleContactName1"
-                        @updateMaleContactPhoneNumber1="
-                            updateMaleContactPhoneNumber1
-                        "
-                        @updateMaleContactName2="updateMaleContactName2"
-                        @updateMaleContactPhoneNumber2="
-                            updateMaleContactPhoneNumber2
-                        "
-                        @updateMaleContactName3="updateMaleContactName3"
-                        @updateMaleContactPhoneNumber3="
-                            updateMaleContactPhoneNumber3
-                        "
-                        @updateFemaleContactName1="updateFemaleContactName1"
-                        @updateFemaleContactPhoneNumber1="
-                            updateFemaleContactPhoneNumber1
-                        "
-                        @updateFemaleContactName2="updateFemaleContactName2"
-                        @updateFemaleContactPhoneNumber2="
-                            updateFemaleContactPhoneNumber2
-                        "
-                        @updateFemaleContactName3="updateFemaleContactName3"
-                        @updateFemaleContactPhoneNumber3="
-                            updateFemaleContactPhoneNumber3
-                        "
-                    />
-                </Accordion>
-                <Accordion expanded title="계좌번호">
-                    <CustomBankDetails />
-                </Accordion>
-                <!-- <Accordion expanded title="방명록"></Accordion> -->
-                <Accordion expanded title="공유링크">
-                    <InputForm title="카카오톡"></InputForm>
-                    <InputForm title="URL"></InputForm>
-                </Accordion>
-            </template>
-        </Container>
-    </div>
+            </Accordion>
+            <Accordion expanded title="일정 및 장소">
+                <CustomEventDetails
+                    @selectDate="selectDate"
+                    @selectAddress="selectedAddress"
+                    @UpdateDetailAddress="updateDetailAddress"
+                    @UpdateDetailDirections="updateDetailDirections"
+                    @updateDirectionsImageUrls="updateDirectionsImageUrls"
+                    @updateMapVisibility="updateMapVisibility"
+                    @updateNaviVisibility="updateNaviVisibility"
+                    @updateGeocode="updateGeocode"
+                />
+            </Accordion>
+            <Accordion expanded title="갤러리">
+                <CustomGalerie
+                    @updateGalerieImageUrls="updateGalerieImageUrls"
+                />
+            </Accordion>
+            <Accordion expanded title="공지사항">
+                <CustomNotice
+                    @updateNoticeTitle="updateNoticeTitle"
+                    @updateNoticeContent="updateNoticeContent"
+                />
+            </Accordion>
+            <Accordion expanded title="맺음말">
+                <CustomClosings
+                    @updateClosingsContent="updateClosingsContent"
+                />
+            </Accordion>
+            <Accordion expanded title="연락처">
+                <CustomContact
+                    @updateMaleContactName1="updateMaleContactName1"
+                    @updateMaleContactPhoneNumber1="
+                        updateMaleContactPhoneNumber1
+                    "
+                    @updateMaleContactName2="updateMaleContactName2"
+                    @updateMaleContactPhoneNumber2="
+                        updateMaleContactPhoneNumber2
+                    "
+                    @updateMaleContactName3="updateMaleContactName3"
+                    @updateMaleContactPhoneNumber3="
+                        updateMaleContactPhoneNumber3
+                    "
+                    @updateFemaleContactName1="updateFemaleContactName1"
+                    @updateFemaleContactPhoneNumber1="
+                        updateFemaleContactPhoneNumber1
+                    "
+                    @updateFemaleContactName2="updateFemaleContactName2"
+                    @updateFemaleContactPhoneNumber2="
+                        updateFemaleContactPhoneNumber2
+                    "
+                    @updateFemaleContactName3="updateFemaleContactName3"
+                    @updateFemaleContactPhoneNumber3="
+                        updateFemaleContactPhoneNumber3
+                    "
+                />
+            </Accordion>
+            <Accordion expanded title="계좌번호">
+                <CustomBankDetails />
+            </Accordion>
+            <!-- <Accordion expanded title="방명록"></Accordion> -->
+            <Accordion expanded title="공유링크">
+                <InputForm title="카카오톡"></InputForm>
+                <InputForm title="URL"></InputForm>
+            </Accordion>
+        </template>
+    </Container>
 </template>
 
 <style lang="scss" scoped></style>
