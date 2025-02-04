@@ -15,7 +15,8 @@ onMounted(async () => {
 
 // 클릭한 버튼의 id값을 이용하여 /view/:id 로 라우트
 const goToView = (id: string) => {
-    router.push(`/view/${id}`)
+    const url = `/view/${id}`
+    window.open(url, '_blank')
 }
 </script>
 

@@ -1,9 +1,12 @@
 <script setup lang="ts">
+definePageMeta({
+    layout: false,
+})
+
 const route = useRoute()
 const data = ref<any>(null)
 
 onMounted(async () => {
-    // 동적 라우트의 id 파라미터를 문자열로 가져옵니다.
     const id = route.params.id as string
 
     try {
