@@ -3,6 +3,14 @@ definePageMeta({
     layout: false,
 })
 
+useSeoMeta({
+    title: '청첩장',
+    description: '청첩장',
+    ogTitle: '청첩장',
+    ogDescription: '청첩장',
+    ogImage: '',
+})
+
 const route = useRoute()
 const data = ref<any>(null)
 
