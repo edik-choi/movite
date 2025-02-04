@@ -21,11 +21,6 @@ const upload = multer({
 // 업로드된 파일을 클라이언트가 접근할 수 있도록 정적 파일 서빙
 app.use('/uploads', express.static('uploads'))
 
-// API: /api/hello
-app.get('/api/hello', (req: Request, res: Response): void => {
-    res.json({ message: 'Hello from the backend!' })
-})
-
 // API: /api/upload - 이미지 업로드 처리
 app.post(
     '/api/upload',

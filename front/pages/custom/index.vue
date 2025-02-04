@@ -1,18 +1,6 @@
 <script lang="ts" setup>
 import { nameSample, greetingsSample } from '@/data/domain/custom'
 
-const message = ref('')
-
-onMounted(async () => {
-    try {
-        const { $axios } = useNuxtApp()
-        const response = await $axios.get('/hello')
-        message.value = response.data.message
-    } catch (error) {
-        console.error('Error fetching data from backend', error)
-    }
-})
-
 const fontIndex = ref(0)
 const selectFontIndex = (index: number) => {
     fontIndex.value = index
@@ -283,7 +271,6 @@ const save = async () => {
 <template>
     <Container>
         <template #side>
-            <h2>{{ message }}</h2>
             <button @click="save">save</button>
             <CustomPreview
                 :fontIndex="fontIndex"
