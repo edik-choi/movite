@@ -23,7 +23,7 @@ interface Props {
     greetingsTitle: string
     greetingsContent: string
     greetingsImageUrls: string[]
-    date: Date
+    date: Date | string
     address: string
     detailAddress: string
     detailDirections: string
@@ -53,8 +53,8 @@ const props = withDefaults(defineProps<Props>(), {})
 
 dayjs.locale('ko')
 
-const formattedSeletedDate = (date: Date) => {
-    const minutes = date.getMinutes()
+const formattedSeletedDate = (date: Date | string) => {
+    const minutes = new Date(date).getMinutes()
     if (minutes === 0) {
         return dayjs(date).locale('ko').format('YYYY년 M월 D일 A h시')
     } else {
@@ -80,7 +80,10 @@ const formattedSeletedDate = (date: Date) => {
                 <p class="greetings_title">{{ greetingsTitle }}</p>
                 <p class="greetings_text" v-html="greetingsContent"></p>
             </div>
-            <div class="organizers_wrap" :class="{ reverse: isShowFemaleFirst }">
+            <div
+                class="organizers_wrap"
+                :class="{ reverse: isShowFemaleFirst }"
+            >
                 <p>
                     <span v-if="maleFatherName && isMaleFatherDeceased">{{
                         isShowDeceasedAsFlower ? '꽃' : '故人'
@@ -91,8 +94,16 @@ const formattedSeletedDate = (date: Date) => {
                         isShowDeceasedAsFlower ? '꽃' : '故人'
                     }}</span>
                     <span>{{ maleMotherName }}</span>
-                    <span v-if="(maleFatherName && maleRelation) || (maleMotherName && maleRelation)">의</span>
-                    <span v-if="maleName && maleRelation" class="relation">{{ maleRelation }}</span>
+                    <span
+                        v-if="
+                            (maleFatherName && maleRelation) ||
+                            (maleMotherName && maleRelation)
+                        "
+                        >의</span
+                    >
+                    <span v-if="maleName && maleRelation" class="relation">{{
+                        maleRelation
+                    }}</span>
                     <span v-if="maleName">{{ maleName }}</span>
                 </p>
                 <p>
@@ -105,8 +116,18 @@ const formattedSeletedDate = (date: Date) => {
                         isShowDeceasedAsFlower ? '꽃' : '故人'
                     }}</span>
                     <span>{{ femaleMotherName }}</span>
-                    <span v-if="(femaleFatherName && femaleRelation) || (femaleMotherName && femaleRelation)">의</span>
-                    <span v-if="femaleName && femaleRelation" class="relation">{{ femaleRelation }}</span>
+                    <span
+                        v-if="
+                            (femaleFatherName && femaleRelation) ||
+                            (femaleMotherName && femaleRelation)
+                        "
+                        >의</span
+                    >
+                    <span
+                        v-if="femaleName && femaleRelation"
+                        class="relation"
+                        >{{ femaleRelation }}</span
+                    >
                     <span v-if="femaleName">{{ femaleName }}</span>
                 </p>
             </div>
@@ -115,12 +136,17 @@ const formattedSeletedDate = (date: Date) => {
                     {{ formattedSeletedDate(date) }}
                 </p>
                 <p v-if="address" class="details_address_text">{{ address }}</p>
-                <p v-if="address" class="details_address_text">{{ detailAddress }}</p>
+                <p v-if="address" class="details_address_text">
+                    {{ detailAddress }}
+                </p>
                 <div v-if="detailDirections" class="details_directions_wrap">
                     <p class="directions_title">오시는 길</p>
                     <p>{{ detailDirections }}</p>
                 </div>
-                <div v-if="directionsImageUrls.length > 0" class="directions_image_wrap">
+                <div
+                    v-if="directionsImageUrls.length > 0"
+                    class="directions_image_wrap"
+                >
                     <img :src="directionsImageUrls[0]" alt="오시는 길 이미지" />
                 </div>
                 <div v-if="isMapVisible" class="map_wrap">
@@ -311,15 +337,18 @@ const formattedSeletedDate = (date: Date) => {
                         font-size: 0;
                         color: transparent;
                         &.naver {
-                            background: url(../../../assets/images/icon_navermap.jpeg) no-repeat center;
+                            background: url(../../../assets/images/icon_navermap.jpeg)
+                                no-repeat center;
                             background-size: 100%;
                         }
                         &.tmap {
-                            background: url(../../../assets/images/icon_tmap.jpeg) no-repeat center;
+                            background: url(../../../assets/images/icon_tmap.jpeg)
+                                no-repeat center;
                             background-size: 100%;
                         }
                         &.kakao {
-                            background: url(../../../assets/images/icon_kakaonavi.jpeg) no-repeat center;
+                            background: url(../../../assets/images/icon_kakaonavi.jpeg)
+                                no-repeat center;
                             background-size: 100%;
                         }
                     }

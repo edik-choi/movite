@@ -79,6 +79,7 @@ app.delete('/api/upload/:filename', (req: Request, res: Response): void => {
     }
 })
 
+// db.js 데이터 저장
 app.post('/api/save', (req: Request, res: Response): void => {
     try {
         // 요청 본문 전체를 확인 (배열 또는 객체일 수 있음)
@@ -124,6 +125,29 @@ app.post('/api/save', (req: Request, res: Response): void => {
             status: 'error',
             message: '서버 오류가 발생했습니다',
         })
+    }
+})
+
+// db.js 데이터 로드
+app.get('/api/data', (req: Request, res: Response): void => {
+    try {
+        // db.js 파일 경로 설정
+        const dbFilePath = path.join(process.cwd(), 'db.js')
+        if (fs.existsSync(dbFilePath)) {
+            const fileContent = fs.readFileSync(dbFilePath, 'utf-8')
+            // 파일 내용은 "module.exports = [...] ;" 형식이므로 앞부분과 마지막 세미콜론을 제거합니다.
+            const jsonStr = fileContent
+                .replace(/^module\.exports\s*=\s*/, '')
+                .replace(/;$/, '')
+            const data = JSON.parse(jsonStr)
+            res.json(data)
+        } else {
+            // 파일이 없으면 빈 배열 반환
+            res.json([])
+        }
+    } catch (error) {
+        console.error('db.js 파일 읽기 중 오류 발생:', error)
+        res.status(500).json({ error: 'db.js 파일 읽기 오류' })
     }
 })
 

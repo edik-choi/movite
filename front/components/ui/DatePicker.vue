@@ -45,7 +45,9 @@ const format = (date: Date) => {
     const hours = date.getHours()
     const minutes = date.getMinutes()
 
-    return `${year}년 ${month}월 ${day}일 ${hours}시 ${minutes === 0 ? '' : minutes + '분'}`
+    return `${year}년 ${month}월 ${day}일 ${hours}시 ${
+        minutes === 0 ? '' : minutes + '분'
+    }`
 }
 
 onMounted(() => {
