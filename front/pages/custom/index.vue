@@ -210,7 +210,9 @@ const updateFemaleContactPhoneNumber3 = (_value: string) => {
 }
 
 const generateRandomId = (): string => {
-    return Math.random().toString(36).substring(2, 10) + Date.now().toString(36)
+    const timestamp = Date.now().toString(36).slice(-3) // 현재 시간을 36진수로 변환 (뒤 3자리 사용)
+    const randomPart = Math.random().toString(36).substring(2, 5) // 3자리 랜덤 문자열
+    return randomPart + timestamp // 랜덤 값 + 타임스탬프 조합
 }
 
 // save 함수: CustomPreview에 연결된 모든 값들을 객체로 모아서 배열에 담아 전송
