@@ -209,20 +209,73 @@ const updateFemaleContactPhoneNumber3 = (_value: string) => {
     femaleContactPhoneNumber3.value = _value
 }
 
-// const save = async () => {
-//     try {
-//         const { $axios } = useNuxtApp()
-//         await $axios.post('/save', {
-//             maleName: maleName.value,
-//             fontIndex: fontIndex.value,
-//             themeColorIndex: themeColorIndex.value,
-//         })
-//         alert('저장되었습니다!')
-//     } catch (error) {
-//         console.error('저장 중 오류가 발생했습니다:', error)
-//         alert('저장에 실패했습니다.')
-//     }
-// }
+const generateRandomId = (): string => {
+    return Math.random().toString(36).substring(2, 10) + Date.now().toString(36)
+}
+
+// save 함수: CustomPreview에 연결된 모든 값들을 객체로 모아서 배열에 담아 전송
+const save = async () => {
+    try {
+        const { $axios } = useNuxtApp()
+
+        // CustomPreview에 전달된 값들을 하나의 객체로 구성합니다.
+        const dataToSave = {
+            id: generateRandomId(), // 중복되지 않는 랜덤 id
+            fontIndex: fontIndex.value,
+            themeColorIndex: themeColorIndex.value,
+            maleName: maleName.value,
+            maleRelation: maleRelation.value,
+            maleFatherName: maleFatherName.value,
+            isMaleFatherDeceased: isMaleFatherDeceased.value,
+            maleMotherName: maleMotherName.value,
+            isMaleMotherDeceased: isMaleMotherDeceased.value,
+            femaleName: femaleName.value,
+            femaleRelation: femaleRelation.value,
+            femaleFatherName: femaleFatherName.value,
+            isFemaleFatherDeceased: isFemaleFatherDeceased.value,
+            femaleMotherName: femaleMotherName.value,
+            isFemaleMotherDeceased: isFemaleMotherDeceased.value,
+            isShowFemaleFirst: isShowFemaleFirst.value,
+            isShowDeceasedAsFlower: isShowDeceasedAsFlower.value,
+            greetingsTitle: greetingsTitle.value,
+            greetingsContent: greetingsContent.value,
+            greetingsImageUrls: greetingsImageUrls.value,
+            date: date.value,
+            address: address.value,
+            detailAddress: detailAddress.value,
+            detailDirections: detailDirections.value,
+            directionsImageUrls: directionsImageUrls.value,
+            isMapVisible: isMapVisible.value,
+            isNaviVisible: isNaviVisible.value,
+            geocodeX: geocodeX.value,
+            geocodeY: geocodeY.value,
+            noticeTitle: noticeTitle.value,
+            noticeContent: noticeContent.value,
+            closingsContent: closingsContent.value,
+            maleContactName1: maleContactName1.value,
+            maleContactPhoneNumber1: maleContactPhoneNumber1.value,
+            maleContactName2: maleContactName2.value,
+            maleContactPhoneNumber2: maleContactPhoneNumber2.value,
+            maleContactName3: maleContactName3.value,
+            maleContactPhoneNumber3: maleContactPhoneNumber3.value,
+            femaleContactName1: femaleContactName1.value,
+            femaleContactPhoneNumber1: femaleContactPhoneNumber1.value,
+            femaleContactName2: femaleContactName2.value,
+            femaleContactPhoneNumber2: femaleContactPhoneNumber2.value,
+            femaleContactName3: femaleContactName3.value,
+            femaleContactPhoneNumber3: femaleContactPhoneNumber3.value,
+        }
+
+        // 데이터 배열에 새 객체를 추가하여 전송 (예시에서는 배열에 단일 객체만 담습니다)
+        const payload = [dataToSave]
+
+        await $axios.post('/save', payload)
+        alert('저장되었습니다!')
+    } catch (error) {
+        console.error('저장 중 오류가 발생했습니다:', error)
+        alert('저장에 실패했습니다.')
+    }
+}
 </script>
 
 <template>
@@ -230,7 +283,7 @@ const updateFemaleContactPhoneNumber3 = (_value: string) => {
         <Container>
             <template #side>
                 <h2>{{ message }}</h2>
-                <!-- <button @click="save">save</button> -->
+                <button @click="save">save</button>
                 <CustomPreview
                     :fontIndex="fontIndex"
                     :themeColorIndex="themeColorIndex"
@@ -279,7 +332,10 @@ const updateFemaleContactPhoneNumber3 = (_value: string) => {
             </template>
             <template #contents>
                 <Accordion expanded title="디자인">
-                    <CustomDesign @selectFontIndex="selectFontIndex" @selectThemeColorIndex="selectThemeColorIndex" />
+                    <CustomDesign
+                        @selectFontIndex="selectFontIndex"
+                        @selectThemeColorIndex="selectThemeColorIndex"
+                    />
                 </Accordion>
                 <Accordion expanded title="성함">
                     <CustomOrganizers
@@ -322,28 +378,47 @@ const updateFemaleContactPhoneNumber3 = (_value: string) => {
                     />
                 </Accordion>
                 <Accordion expanded title="갤러리">
-                    <CustomGalerie @updateGalerieImageUrls="updateGalerieImageUrls" />
+                    <CustomGalerie
+                        @updateGalerieImageUrls="updateGalerieImageUrls"
+                    />
                 </Accordion>
                 <Accordion expanded title="공지사항">
-                    <CustomNotice @updateNoticeTitle="updateNoticeTitle" @updateNoticeContent="updateNoticeContent" />
+                    <CustomNotice
+                        @updateNoticeTitle="updateNoticeTitle"
+                        @updateNoticeContent="updateNoticeContent"
+                    />
                 </Accordion>
                 <Accordion expanded title="맺음말">
-                    <CustomClosings @updateClosingsContent="updateClosingsContent" />
+                    <CustomClosings
+                        @updateClosingsContent="updateClosingsContent"
+                    />
                 </Accordion>
                 <Accordion expanded title="연락처">
                     <CustomContact
                         @updateMaleContactName1="updateMaleContactName1"
-                        @updateMaleContactPhoneNumber1="updateMaleContactPhoneNumber1"
+                        @updateMaleContactPhoneNumber1="
+                            updateMaleContactPhoneNumber1
+                        "
                         @updateMaleContactName2="updateMaleContactName2"
-                        @updateMaleContactPhoneNumber2="updateMaleContactPhoneNumber2"
+                        @updateMaleContactPhoneNumber2="
+                            updateMaleContactPhoneNumber2
+                        "
                         @updateMaleContactName3="updateMaleContactName3"
-                        @updateMaleContactPhoneNumber3="updateMaleContactPhoneNumber3"
+                        @updateMaleContactPhoneNumber3="
+                            updateMaleContactPhoneNumber3
+                        "
                         @updateFemaleContactName1="updateFemaleContactName1"
-                        @updateFemaleContactPhoneNumber1="updateFemaleContactPhoneNumber1"
+                        @updateFemaleContactPhoneNumber1="
+                            updateFemaleContactPhoneNumber1
+                        "
                         @updateFemaleContactName2="updateFemaleContactName2"
-                        @updateFemaleContactPhoneNumber2="updateFemaleContactPhoneNumber2"
+                        @updateFemaleContactPhoneNumber2="
+                            updateFemaleContactPhoneNumber2
+                        "
                         @updateFemaleContactName3="updateFemaleContactName3"
-                        @updateFemaleContactPhoneNumber3="updateFemaleContactPhoneNumber3"
+                        @updateFemaleContactPhoneNumber3="
+                            updateFemaleContactPhoneNumber3
+                        "
                     />
                 </Accordion>
                 <Accordion expanded title="계좌번호">
