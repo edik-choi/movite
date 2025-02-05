@@ -3,8 +3,10 @@ definePageMeta({
     layout: false,
 })
 
+const seoTitle = ref('신랑·신부의 청첩장')
+
 useSeoMeta({
-    title: '청첩장',
+    title: seoTitle,
     description: '청첩장',
     ogTitle: '청첩장',
     ogDescription: '청첩장',
@@ -23,6 +25,10 @@ onMounted(async () => {
         data.value = response.data.find(
             (item: { id: string }) => item.id === id
         )
+
+        if (data.value.maleName) {
+            seoTitle.value = `${data.value.maleName}·${data.value.femaleName}의 청첩장`
+        }
 
         if (!data.value) {
             console.error(`ID ${id} 에 해당하는 데이터를 찾을 수 없습니다.`)
