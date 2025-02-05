@@ -3,7 +3,7 @@ definePageMeta({
     layout: false,
 })
 
-const seoTitle = ref('신랑·신부의 청첩장')
+const seoTitle = ref('신랑 · 신부의 청첩장')
 
 useSeoMeta({
     title: seoTitle,
@@ -27,7 +27,7 @@ onMounted(async () => {
         )
 
         if (data.value.maleName) {
-            seoTitle.value = `${data.value.maleName}·${data.value.femaleName}의 청첩장`
+            seoTitle.value = `${data.value.maleName} · ${data.value.femaleName}의 청첩장`
         }
 
         if (!data.value) {
