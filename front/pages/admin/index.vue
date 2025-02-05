@@ -1,9 +1,9 @@
 <script setup lang="ts">
-const items = ref<Array<any>>([])
-const router = useRouter()
 import dayjs from 'dayjs'
 import 'dayjs/locale/ko'
 import { InvitationTableHeader } from '~/data/domain/admin'
+
+const items = ref<Array<any>>([])
 
 onMounted(async () => {
     try {
@@ -15,6 +15,7 @@ onMounted(async () => {
         console.error('데이터 불러오기 오류:', error)
     }
 })
+
 const invitationEmptyMessage = '신청된 청첩장이 없습니다.'
 
 const formattedDate = (item: string) => {
@@ -24,6 +25,16 @@ const formattedDate = (item: string) => {
 const goToView = (id: string) => {
     const url = `/view/${id}`
     window.open(url, '_blank')
+}
+
+const deleteInvitation = async (id: string) => {
+    try {
+        const { $axios } = useNuxtApp()
+        await $axios.delete(`/data/${id}`)
+        items.value = items.value.filter((item) => item.id !== id)
+    } catch (error) {
+        console.error('삭제 오류:', error)
+    }
 }
 </script>
 
@@ -38,6 +49,9 @@ const goToView = (id: string) => {
                     <li>{{ `${item.maleName} · ${item.femaleName}` }}</li>
                     <li>{{ item.id }}</li>
                     <li><button @click="goToView(item.id)">VIEW</button></li>
+                    <li>
+                        <button @click="deleteInvitation(item.id)">삭제</button>
+                    </li>
                 </TableItem>
                 <TableItem
                     v-if="!items.length"

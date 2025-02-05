@@ -11,4 +11,7 @@ export const InvitationTableHeader = [
     {
         content: '청첩장 링크',
     },
+    {
+        content: '삭제',
+    },
 ]

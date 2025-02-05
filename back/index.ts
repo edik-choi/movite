@@ -146,6 +146,37 @@ app.get('/api/data', (req: Request, res: Response): void => {
     }
 })
 
+app.delete('/api/data/:id', (req: Request, res: Response): void => {
+    try {
+        const id = req.params.id
+        const dbFilePath = path.join(process.cwd(), 'db.js')
+
+        if (!fs.existsSync(dbFilePath)) {
+            res.status(404).json({
+                status: 'error',
+                message: '데이터 파일이 없습니다.',
+            })
+        }
+
+        const fileContent = fs.readFileSync(dbFilePath, 'utf-8')
+        const jsonStr = fileContent
+            .replace(/^module\.exports\s*=\s*/, '')
+            .replace(/;$/, '')
+        let data = JSON.parse(jsonStr)
+
+        const newData = data.filter((item: any) => item.id !== id)
+        fs.writeFileSync(
+            dbFilePath,
+            'module.exports = ' + JSON.stringify(newData, null, 2) + ';',
+            'utf-8'
+        )
+
+        res.json({ status: 'success', message: '데이터 삭제 완료' })
+    } catch (error) {
+        res.status(500).json({ status: 'error', message: '서버 오류 발생' })
+    }
+})
+
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`)
 })
