@@ -17,21 +17,29 @@ const route = useRoute()
 const data = ref<any>(null)
 
 onMounted(async () => {
-    const id = route.params.id as string
-
     try {
+        const id = route.params.id as string
         const { $axios } = useNuxtApp()
-        const response = await $axios.get('/data')
+        const storedUser = localStorage.getItem('naverUser')
+
+        if (!storedUser) {
+            console.warn('로그인이 필요합니다.')
+            return
+        }
+
+        const user = JSON.parse(storedUser)
+        const userId = user.id
+
+        // 🔹 특정 유저의 데이터만 가져오기
+        const response = await $axios.get(`/data/${userId}`)
         data.value = response.data.find(
             (item: { id: string }) => item.id === id
         )
 
-        if (data.value.maleName) {
+        if (data.value) {
             seoTitle.value = `${data.value.maleName} · ${data.value.femaleName}의 청첩장`
-        }
-
-        if (!data.value) {
-            console.error(`ID ${id} 에 해당하는 데이터를 찾을 수 없습니다.`)
+        } else {
+            console.error(`ID ${id}에 해당하는 데이터를 찾을 수 없습니다.`)
         }
     } catch (error) {
         console.error('데이터 상세보기 로드 오류:', error)

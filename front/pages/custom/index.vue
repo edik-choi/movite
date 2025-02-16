@@ -203,14 +203,21 @@ const generateRandomId = (): string => {
     return randomPart + timestamp // 랜덤 값 + 타임스탬프 조합
 }
 
-// save 함수: CustomPreview에 연결된 모든 값들을 객체로 모아서 배열에 담아 전송
 const save = async () => {
     try {
         const { $axios } = useNuxtApp()
+        const storedUser = localStorage.getItem('naverUser')
+        if (!storedUser) {
+            alert('로그인이 필요합니다.')
+            return
+        }
 
-        // CustomPreview에 전달된 값들을 하나의 객체로 구성합니다.
+        const user = JSON.parse(storedUser) // 🔹 로그인한 사용자 정보
+        const userId = user.id // 🔹 네이버 로그인 ID 사용
+
         const dataToSave = {
-            id: generateRandomId(), // 중복되지 않는 랜덤 id
+            id: generateRandomId(),
+            userId, // ✅ 사용자 ID 추가
             fontIndex: fontIndex.value,
             themeColorIndex: themeColorIndex.value,
             maleName: maleName.value,
@@ -256,10 +263,7 @@ const save = async () => {
             femaleContactPhoneNumber3: femaleContactPhoneNumber3.value,
         }
 
-        // 데이터 배열에 새 객체를 추가하여 전송 (예시에서는 배열에 단일 객체만 담습니다)
-        const payload = [dataToSave]
-
-        await $axios.post('/save', payload)
+        await $axios.post('/save', { userId, data: dataToSave })
         alert('저장되었습니다!')
     } catch (error) {
         console.error('저장 중 오류가 발생했습니다:', error)

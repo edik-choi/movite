@@ -8,8 +8,16 @@ const items = ref<Array<any>>([])
 onMounted(async () => {
     try {
         const { $axios } = useNuxtApp()
-        const response = await $axios.get('/data')
+        const storedUser = localStorage.getItem('naverUser')
+        if (!storedUser) {
+            console.warn('로그인이 필요합니다.')
+            return
+        }
 
+        const user = JSON.parse(storedUser)
+        const userId = user.id
+
+        const response = await $axios.get(`/data/${userId}`)
         items.value = response.data
     } catch (error) {
         console.error('데이터 불러오기 오류:', error)
@@ -44,7 +52,16 @@ const confirmDelete = async () => {
 
     try {
         const { $axios } = useNuxtApp()
-        await $axios.delete(`/data/${selectedId.value}`)
+        const storedUser = localStorage.getItem('naverUser')
+        if (!storedUser) {
+            alert('로그인이 필요합니다.')
+            return
+        }
+
+        const user = JSON.parse(storedUser)
+        const userId = user.id
+
+        await $axios.delete(`/data/${userId}/${selectedId.value}`)
         items.value = items.value.filter((item) => item.id !== selectedId.value)
     } catch (error) {
         console.error('삭제 오류:', error)

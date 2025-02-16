@@ -152,19 +152,22 @@ app.delete('/api/upload/:filename', (req: Request, res: Response): void => {
 // db.js 데이터 저장
 app.post('/api/save', (req: Request, res: Response): void => {
     try {
-        // 요청 본문 전체를 확인 (배열 또는 객체일 수 있음)
-        console.log('요청 본문:', req.body)
-        // req.body가 배열이 아니면 배열로 감싸서 처리
-        const payload = Array.isArray(req.body) ? req.body : [req.body]
+        const { userId, data } = req.body // 🔹 userId 추가
+        if (!userId) {
+            res.status(400).json({
+                status: 'error',
+                message: 'userId가 필요합니다.',
+            })
+            return
+        }
 
-        // 서버 현재 경로에 있는 db.js 파일 경로 설정
+        const payload = Array.isArray(data) ? data : [data]
+
         const dbFilePath = path.join(process.cwd(), 'db.js')
         let existingData: any[] = []
 
-        // db.js 파일이 존재하면 읽어서 기존 데이터를 가져옵니다.
         if (fs.existsSync(dbFilePath)) {
             const fileContent = fs.readFileSync(dbFilePath, 'utf-8')
-            // db.js 파일은 "module.exports = ..." 형식이므로 앞부분과 마지막 세미콜론을 제거합니다.
             const jsonStr = fileContent
                 .replace(/^module\.exports\s*=\s*/, '')
                 .replace(/;$/, '')
@@ -176,19 +179,18 @@ app.post('/api/save', (req: Request, res: Response): void => {
             }
         }
 
-        // 새 데이터를 기존 데이터와 병합
-        const updatedData = existingData.concat(payload)
+        // 🔹 각 데이터에 userId 추가하여 저장
+        const newData = payload.map((item) => ({ ...item, userId }))
 
-        // 병합한 데이터를 다시 db.js 파일에 저장 (module.exports = ...; 형식)
-        const fileData =
-            'module.exports = ' + JSON.stringify(updatedData, null, 2) + ';'
-        fs.writeFileSync(dbFilePath, fileData, 'utf-8')
+        const updatedData = existingData.concat(newData)
 
-        console.log('저장된 데이터:', updatedData)
-        res.json({
-            status: 'success',
-            message: '성공적으로 저장되었습니다',
-        })
+        fs.writeFileSync(
+            dbFilePath,
+            'module.exports = ' + JSON.stringify(updatedData, null, 2) + ';',
+            'utf-8'
+        )
+
+        res.json({ status: 'success', message: '성공적으로 저장되었습니다' })
     } catch (error) {
         console.error('저장 중 오류 발생:', error)
         res.status(500).json({
@@ -199,31 +201,36 @@ app.post('/api/save', (req: Request, res: Response): void => {
 })
 
 // db.js 데이터 로드
-app.get('/api/data', (req: Request, res: Response): void => {
+app.get('/api/data/:userId', (req: Request, res: Response): void => {
     try {
-        // db.js 파일 경로 설정
+        const { userId } = req.params
         const dbFilePath = path.join(process.cwd(), 'db.js')
-        if (fs.existsSync(dbFilePath)) {
-            const fileContent = fs.readFileSync(dbFilePath, 'utf-8')
-            // 파일 내용은 "module.exports = [...] ;" 형식이므로 앞부분과 마지막 세미콜론을 제거합니다.
-            const jsonStr = fileContent
-                .replace(/^module\.exports\s*=\s*/, '')
-                .replace(/;$/, '')
-            const data = JSON.parse(jsonStr)
-            res.json(data)
-        } else {
-            // 파일이 없으면 빈 배열 반환
+
+        if (!fs.existsSync(dbFilePath)) {
             res.json([])
+            return
         }
+
+        const fileContent = fs.readFileSync(dbFilePath, 'utf-8')
+        const jsonStr = fileContent
+            .replace(/^module\.exports\s*=\s*/, '')
+            .replace(/;$/, '')
+        const data = JSON.parse(jsonStr)
+
+        // 🔹 userId가 일치하는 데이터만 반환
+        const userData = data.filter((item: any) => item.userId === userId)
+
+        res.json(userData)
     } catch (error) {
-        console.error('db.js 파일 읽기 중 오류 발생:', error)
-        res.status(500).json({ error: 'db.js 파일 읽기 오류' })
+        console.error('데이터 조회 중 오류 발생:', error)
+        res.status(500).json({ error: '데이터 조회 오류' })
     }
 })
 
-app.delete('/api/data/:id', (req: Request, res: Response): void => {
+// db.js 데이터 삭제
+app.delete('/api/data/:userId/:id', (req: Request, res: Response): void => {
     try {
-        const id = req.params.id
+        const { userId, id } = req.params
         const dbFilePath = path.join(process.cwd(), 'db.js')
 
         if (!fs.existsSync(dbFilePath)) {
@@ -231,6 +238,7 @@ app.delete('/api/data/:id', (req: Request, res: Response): void => {
                 status: 'error',
                 message: '데이터 파일이 없습니다.',
             })
+            return
         }
 
         const fileContent = fs.readFileSync(dbFilePath, 'utf-8')
@@ -239,7 +247,11 @@ app.delete('/api/data/:id', (req: Request, res: Response): void => {
             .replace(/;$/, '')
         let data = JSON.parse(jsonStr)
 
-        const newData = data.filter((item: any) => item.id !== id)
+        // 🔹 userId와 id가 일치하는 데이터만 삭제
+        const newData = data.filter(
+            (item: any) => !(item.userId === userId && item.id === id)
+        )
+
         fs.writeFileSync(
             dbFilePath,
             'module.exports = ' + JSON.stringify(newData, null, 2) + ';',
