@@ -17,7 +17,7 @@ onMounted(async () => {
         const user = JSON.parse(storedUser)
         const userId = user.id
 
-        const response = await $axios.get(`/data/${userId}`)
+        const response = await $axios.get(`/mypage/data/${userId}`)
         items.value = response.data
     } catch (error) {
         console.error('데이터 불러오기 오류:', error)

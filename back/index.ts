@@ -24,7 +24,7 @@ const ADMIN_ID = 'edikchoi'
 const ADMIN_PASSWORD = 'anstn9231'
 const SECRET_KEY = 'super_secret_key' // 🔹 JWT 서명용 키 (보안 강화를 위해 .env 파일에서 관리 추천)
 
-// ✅ 관리자 인증 미들웨어
+// 관리자 인증 미들웨어
 const verifyAdmin = async (
     req: Request,
     res: Response,
@@ -45,13 +45,25 @@ const verifyAdmin = async (
             return
         }
 
-        next() // ✅ 인증 성공 시 다음 미들웨어로 이동
+        next() // 인증 성공 시 다음 미들웨어로 이동
     } catch (error) {
         res.status(401).json({ message: '토큰이 유효하지 않습니다.' })
     }
 }
 
-// ✅ 관리자 전체 데이터 조회 엔드포인트
+dotenv.config()
+
+const NAVER_CLIENT_ID = process.env.NAVER_CLIENT_ID
+const NAVER_CLIENT_SECRET = process.env.NAVER_CLIENT_SECRET
+const NAVER_REDIRECT_URI = process.env.NAVER_REDIRECT_URI
+
+// 이미지 업로드를 위한 설정 (업로드할 파일 저장 경로와 파일명 설정)
+const upload = multer({
+    dest: 'uploads/', // 저장할 폴더
+    limits: { fileSize: 10 * 1024 * 1024 }, // 파일 크기 제한 (10MB)
+})
+
+// 관리자 전체 데이터 조회 엔드포인트
 app.get(
     '/api/admin/data',
     verifyAdmin,
@@ -78,7 +90,7 @@ app.get(
     }
 )
 
-// ✅ 관리자 로그인 엔드포인트
+// 관리자 로그인 엔드포인트
 app.post('/api/admin/login', (req: Request, res: Response) => {
     const { id, password } = req.body
 
@@ -93,12 +105,6 @@ app.post('/api/admin/login', (req: Request, res: Response) => {
         })
     }
 })
-
-dotenv.config()
-
-const NAVER_CLIENT_ID = process.env.NAVER_CLIENT_ID
-const NAVER_CLIENT_SECRET = process.env.NAVER_CLIENT_SECRET
-const NAVER_REDIRECT_URI = process.env.NAVER_REDIRECT_URI
 
 // 네이버 로그인 URL 생성
 app.get('/auth/naver', (req: Request, res: Response) => {
@@ -162,16 +168,10 @@ app.get(
     }
 )
 
-// 이미지 업로드를 위한 설정 (업로드할 파일 저장 경로와 파일명 설정)
-const upload = multer({
-    dest: 'uploads/', // 저장할 폴더
-    limits: { fileSize: 10 * 1024 * 1024 }, // 파일 크기 제한 (10MB)
-})
-
-// 업로드된 파일을 클라이언트가 접근할 수 있도록 정적 파일 서빙
+// 업로드 파일 정적 제공
 app.use('/uploads', express.static('uploads'))
 
-// API: /api/upload - 이미지 업로드 처리
+// 이미지 업로드
 app.post(
     '/api/upload',
     upload.single('image'),
@@ -194,6 +194,7 @@ app.post(
     }
 )
 
+// 이미지 삭제
 app.delete('/api/upload/:filename', (req: Request, res: Response): void => {
     try {
         const filename = req.params.filename
@@ -309,11 +310,10 @@ app.get('/api/data/:id', async (req: Request, res: Response): Promise<void> => {
     }
 })
 
-// db.js 데이터 로드(userId)
-app.get('/api/data/:userId', (req: Request, res: Response): void => {
+// db.js 데이터 로드(mypage)
+app.get('/api/mypage/data/:userId', (req: Request, res: Response): void => {
     try {
         const { userId } = req.params
-        const token = req.headers.authorization?.split(' ')[1] // JWT 토큰 추출
         const dbFilePath = path.join(process.cwd(), 'db.js')
 
         if (!fs.existsSync(dbFilePath)) {
@@ -327,23 +327,7 @@ app.get('/api/data/:userId', (req: Request, res: Response): void => {
             .replace(/;$/, '')
         const data = JSON.parse(jsonStr)
 
-        // 🔹 관리자인 경우 모든 데이터 반환
-        if (token) {
-            try {
-                const decoded = jwt.verify(token, SECRET_KEY) as {
-                    role: string
-                }
-                if (decoded.role === 'admin') {
-                    console.log('관리자 계정 - 모든 데이터 반환')
-                    res.json(data) // ✅ 모든 데이터 반환
-                    return
-                }
-            } catch (error) {
-                console.warn('토큰 검증 실패:', error)
-            }
-        }
-
-        // 🔹 일반 사용자: userId가 일치하는 데이터만 반환
+        // 🔹 userId가 일치하는 데이터만 반환
         const userData = data.filter((item: any) => item.userId === userId)
 
         res.json(userData)
