@@ -1,7 +1,29 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { useAuth } from '@/composables/useAuth'
+
+const { user, loadUser, logout } = useAuth()
+
+const isStoredUserExist = ref(false)
+
+onMounted(() => {
+    loadUser()
+})
+
+onMounted(async () => {
+    try {
+        const storedUser = localStorage.getItem('naverUser')
+        if (storedUser) {
+            isStoredUserExist.value = true
+        }
+    } catch (error) {
+        console.error('로그인 체크 오류:', error)
+    }
+})
+</script>
 <template>
     <div class="header">
         <button>Home</button>
+        <p v-if="isStoredUserExist">{{ user.name }}님 환영합니다</p>
     </div>
 </template>
 

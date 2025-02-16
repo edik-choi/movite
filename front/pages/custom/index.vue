@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import { nameSample, greetingsSample } from '@/data/domain/custom'
 
-const isStoredUserExist = ref(false)
-
 const fontIndex = ref(0)
 const selectFontIndex = (index: number) => {
     fontIndex.value = index
@@ -206,6 +204,8 @@ const generateRandomId = (): string => {
 }
 
 const router = useRouter()
+
+const isStoredUserExist = ref(false)
 
 onMounted(async () => {
     try {
