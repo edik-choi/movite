@@ -99,6 +99,7 @@ declare global {
   const useAppConfig: typeof import('../../../front/node_modules/nuxt/dist/app/config')['useAppConfig']
   const useAsyncData: typeof import('../../../front/node_modules/nuxt/dist/app/composables/asyncData')['useAsyncData']
   const useAttrs: typeof import('../../../front/node_modules/vue')['useAttrs']
+  const useAuth: typeof import('../../../front/composables/useAuth')['useAuth']
   const useCookie: typeof import('../../../front/node_modules/nuxt/dist/app/composables/cookie')['useCookie']
   const useCssModule: typeof import('../../../front/node_modules/vue')['useCssModule']
   const useCssVars: typeof import('../../../front/node_modules/vue')['useCssVars']
@@ -278,6 +279,7 @@ declare module 'vue' {
     readonly useAppConfig: UnwrapRef<typeof import('../../../front/node_modules/nuxt/dist/app/config')['useAppConfig']>
     readonly useAsyncData: UnwrapRef<typeof import('../../../front/node_modules/nuxt/dist/app/composables/asyncData')['useAsyncData']>
     readonly useAttrs: UnwrapRef<typeof import('../../../front/node_modules/vue')['useAttrs']>
+    readonly useAuth: UnwrapRef<typeof import('../../../front/composables/useAuth')['useAuth']>
     readonly useCookie: UnwrapRef<typeof import('../../../front/node_modules/nuxt/dist/app/composables/cookie')['useCookie']>
     readonly useCssModule: UnwrapRef<typeof import('../../../front/node_modules/vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('../../../front/node_modules/vue')['useCssVars']>

@@ -1,6 +1,11 @@
 <script setup lang="ts">
-const router = useRouter()
-const user = ref<any>(null)
+import { useAuth } from '@/composables/useAuth'
+
+const { user, loadUser, logout } = useAuth()
+
+onMounted(() => {
+    loadUser()
+})
 
 const loginWithNaver = async () => {
     try {
@@ -11,24 +16,19 @@ const loginWithNaver = async () => {
         console.error('네이버 로그인 오류:', error)
     }
 }
-
-onMounted(() => {
-    const storedUser = localStorage.getItem('naverUser')
-    if (storedUser) {
-        user.value = JSON.parse(storedUser)
-    }
-})
 </script>
 
 <template>
     <div>
         <Container>
-            <h1>Login</h1>
             <div v-if="user">
-                <p>안녕하세요, {{ user.name }}님!</p>
-                <img :src="user.profile_image" alt="프로필 이미지" />
+                <p>이미 로그인된 상태입니다. {{ user.name }}님 👋</p>
+                <button @click="logout">로그아웃</button>
             </div>
-            <button v-else @click="loginWithNaver">네이버 로그인</button>
+
+            <div v-else>
+                <button @click="loginWithNaver">네이버 로그인</button>
+            </div>
         </Container>
     </div>
 </template>
