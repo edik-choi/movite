@@ -14,6 +14,8 @@ onMounted(async () => {
         const storedUser = localStorage.getItem('naverUser')
         if (storedUser) {
             isStoredUserExist.value = true
+        } else {
+            isStoredUserExist.value = false
         }
     } catch (error) {
         console.error('로그인 체크 오류:', error)
