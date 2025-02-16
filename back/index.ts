@@ -3,14 +3,89 @@ import cors from 'cors'
 import path from 'path'
 import fs from 'fs'
 import multer from 'multer'
+import axios from 'axios'
+import dotenv from 'dotenv'
 
 const app = express()
 const port = 5001
 
 // CORS 허용
-app.use(cors())
+app.use(
+    cors({
+        origin: 'http://localhost:3000', // ✅ 허용할 프론트엔드 URL
+        credentials: true, // ✅ 쿠키, 인증 정보 허용
+    })
+)
 // JSON 형식 데이터 파싱
 app.use(express.json())
+
+dotenv.config()
+
+const NAVER_CLIENT_ID = process.env.NAVER_CLIENT_ID
+const NAVER_CLIENT_SECRET = process.env.NAVER_CLIENT_SECRET
+const NAVER_REDIRECT_URI = process.env.NAVER_REDIRECT_URI
+
+// 네이버 로그인 URL 생성
+app.get('/auth/naver', (req: Request, res: Response) => {
+    const state = Math.random().toString(36).substring(7) // CSRF 방지를 위한 랜덤 값
+    const loginUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_CLIENT_ID}&state=${state}&redirect_uri=${NAVER_REDIRECT_URI}`
+
+    res.json({ url: loginUrl }) // 클라이언트에서 이 URL로 리디렉트
+})
+
+// 네이버 로그인 콜백
+app.get(
+    '/auth/naver/callback',
+    async (req: Request, res: Response): Promise<void> => {
+        try {
+            const { code, state } = req.query
+
+            if (!code || !state) {
+                res.status(400).json({ error: '잘못된 요청입니다.' })
+                return
+            }
+
+            const tokenResponse = await axios.post(
+                'https://nid.naver.com/oauth2.0/token',
+                null,
+                {
+                    params: {
+                        grant_type: 'authorization_code',
+                        client_id: NAVER_CLIENT_ID,
+                        client_secret: NAVER_CLIENT_SECRET,
+                        code,
+                        state,
+                    },
+                }
+            )
+
+            const { access_token } = tokenResponse.data
+
+            const userResponse = await axios.get(
+                'https://openapi.naver.com/v1/nid/me',
+                {
+                    headers: { Authorization: `Bearer ${access_token}` },
+                }
+            )
+
+            const userData = userResponse.data.response
+
+            // ✅ 성공 시 프론트엔드로 리디렉트
+            res.redirect(
+                `http://localhost:3000/auth/naver/callback?user=${encodeURIComponent(
+                    JSON.stringify(userData)
+                )}`
+            )
+            return // 🚀 명시적으로 함수 종료
+        } catch (error) {
+            console.error('네이버 로그인 실패:', error)
+
+            // ✅ 실패 시 프론트엔드 로그인 페이지로 이동
+            res.redirect('http://localhost:3000/login?error=naver_login_failed')
+            return // 🚀 명시적으로 함수 종료
+        }
+    }
+)
 
 // 이미지 업로드를 위한 설정 (업로드할 파일 저장 경로와 파일명 설정)
 const upload = multer({

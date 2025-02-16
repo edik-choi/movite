@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 interface Props {
     isEmpty?: boolean
-    emptyMessage: string
+    emptyMessage?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {})
@@ -19,6 +19,8 @@ const props = withDefaults(defineProps<Props>(), {})
     display: flex;
     list-style: none;
     li {
+        display: flex;
+        align-items: center;
         width: 100%;
         padding: 10px 10px;
         border-bottom: 1px solid #eee;
@@ -26,6 +28,7 @@ const props = withDefaults(defineProps<Props>(), {})
             border-left: 1px solid #eee;
         }
         &.empty {
+            justify-content: center;
             padding: 100px 0;
             color: #999;
             text-align: center;
