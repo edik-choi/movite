@@ -275,10 +275,45 @@ app.post('/api/save', (req: Request, res: Response): void => {
     }
 })
 
-// db.js 데이터 로드
+// db.js 데이터 로드(id)
+app.get('/api/data/:id', async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { id } = req.params
+        const dbFilePath = path.join(process.cwd(), 'db.js')
+
+        if (!fs.existsSync(dbFilePath)) {
+            res.status(404).json({ message: '데이터가 존재하지 않습니다.' })
+            return
+        }
+
+        const fileContent = fs.readFileSync(dbFilePath, 'utf-8')
+        const jsonStr = fileContent
+            .replace(/^module\.exports\s*=\s*/, '')
+            .replace(/;$/, '')
+        const data = JSON.parse(jsonStr)
+
+        // 🔹 ID에 해당하는 데이터 찾기
+        const item = data.find((item: any) => item.id === id)
+
+        if (!item) {
+            res.status(404).json({
+                message: `ID ${id}에 해당하는 데이터를 찾을 수 없습니다.`,
+            })
+            return
+        }
+
+        res.json(item) // ✅ 해당 ID의 데이터 반환
+    } catch (error) {
+        console.error('데이터 조회 오류:', error)
+        res.status(500).json({ message: '서버 오류 발생' })
+    }
+})
+
+// db.js 데이터 로드(userId)
 app.get('/api/data/:userId', (req: Request, res: Response): void => {
     try {
         const { userId } = req.params
+        const token = req.headers.authorization?.split(' ')[1] // JWT 토큰 추출
         const dbFilePath = path.join(process.cwd(), 'db.js')
 
         if (!fs.existsSync(dbFilePath)) {
@@ -292,7 +327,23 @@ app.get('/api/data/:userId', (req: Request, res: Response): void => {
             .replace(/;$/, '')
         const data = JSON.parse(jsonStr)
 
-        // 🔹 userId가 일치하는 데이터만 반환
+        // 🔹 관리자인 경우 모든 데이터 반환
+        if (token) {
+            try {
+                const decoded = jwt.verify(token, SECRET_KEY) as {
+                    role: string
+                }
+                if (decoded.role === 'admin') {
+                    console.log('관리자 계정 - 모든 데이터 반환')
+                    res.json(data) // ✅ 모든 데이터 반환
+                    return
+                }
+            } catch (error) {
+                console.warn('토큰 검증 실패:', error)
+            }
+        }
+
+        // 🔹 일반 사용자: userId가 일치하는 데이터만 반환
         const userData = data.filter((item: any) => item.userId === userId)
 
         res.json(userData)
@@ -302,7 +353,7 @@ app.get('/api/data/:userId', (req: Request, res: Response): void => {
     }
 })
 
-// db.js 데이터 삭제
+// db.js 데이터 삭제(mypage)
 app.delete('/api/data/:userId/:id', (req: Request, res: Response): void => {
     try {
         const { userId, id } = req.params
@@ -338,6 +389,61 @@ app.delete('/api/data/:userId/:id', (req: Request, res: Response): void => {
         res.status(500).json({ status: 'error', message: '서버 오류 발생' })
     }
 })
+
+// db.js 데이터 삭제(admin)
+app.delete(
+    '/api/admin/data/:id',
+    async (req: Request, res: Response): Promise<void> => {
+        try {
+            const { id } = req.params
+            const token = req.headers.authorization?.split(' ')[1]
+
+            if (!token) {
+                res.status(401).json({ message: '관리자 인증 필요' })
+                return
+            }
+
+            try {
+                const decoded = jwt.verify(token, SECRET_KEY) as {
+                    role: string
+                }
+                if (decoded.role !== 'admin') {
+                    res.status(403).json({ message: '권한이 없습니다.' })
+                    return
+                }
+            } catch (error) {
+                res.status(401).json({ message: '토큰이 유효하지 않습니다.' })
+                return
+            }
+
+            const dbFilePath = path.join(process.cwd(), 'db.js')
+
+            if (!fs.existsSync(dbFilePath)) {
+                res.status(404).json({ message: '데이터 파일이 없습니다.' })
+                return
+            }
+
+            const fileContent = fs.readFileSync(dbFilePath, 'utf-8')
+            const jsonStr = fileContent
+                .replace(/^module\.exports\s*=\s*/, '')
+                .replace(/;$/, '')
+            let data = JSON.parse(jsonStr)
+
+            // 🔹 ID에 해당하는 데이터 삭제
+            const newData = data.filter((item: any) => item.id !== id)
+            fs.writeFileSync(
+                dbFilePath,
+                'module.exports = ' + JSON.stringify(newData, null, 2) + ';',
+                'utf-8'
+            )
+
+            res.json({ message: `ID ${id} 데이터 삭제 완료` })
+        } catch (error) {
+            console.error('데이터 삭제 오류:', error)
+            res.status(500).json({ message: '서버 오류 발생' })
+        }
+    }
+)
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`)

@@ -30,10 +30,10 @@ const formattedDate = (item: string) => {
     return dayjs(new Date(item)).locale('ko').format('YYYY년 M월 D일')
 }
 
-const goToView = (id: string) => {
+/* const goToView = (id: string) => {
     const url = `/view/${id}`
     window.open(url, '_blank')
-}
+} */
 
 const selectedId = ref('')
 const selectedMaleName = ref('')
@@ -83,7 +83,7 @@ const cancelDelete = () => {
                 <li>{{ `${item.maleName} · ${item.femaleName}` }}</li>
                 <li>{{ item.id }}</li>
                 <li>
-                    <Button name="청첩장 열기" @click="goToView(item.id)" />
+                    <Button name="청첩장 수정" />
                 </li>
                 <li>
                     <Button

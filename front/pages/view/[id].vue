@@ -20,21 +20,10 @@ onMounted(async () => {
     try {
         const id = route.params.id as string
         const { $axios } = useNuxtApp()
-        const storedUser = localStorage.getItem('naverUser')
 
-        if (!storedUser) {
-            console.warn('로그인이 필요합니다.')
-            return
-        }
-
-        const user = JSON.parse(storedUser)
-        const userId = user.id
-
-        // 🔹 특정 유저의 데이터만 가져오기
-        const response = await $axios.get(`/data/${userId}`)
-        data.value = response.data.find(
-            (item: { id: string }) => item.id === id
-        )
+        // 🔹 특정 ID의 데이터만 가져오기
+        const response = await $axios.get(`/data/${id}`)
+        data.value = response.data
 
         if (data.value) {
             seoTitle.value = `${data.value.maleName} · ${data.value.femaleName}의 청첩장`

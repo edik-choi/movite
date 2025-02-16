@@ -56,6 +56,21 @@ const confirmDelete = async () => {
 
     try {
         const { $axios } = useNuxtApp()
+        const adminToken = localStorage.getItem('adminToken')
+
+        // 🔹 관리자 로그인 여부 확인
+        if (adminToken) {
+            console.log('관리자로 데이터 삭제 요청')
+            await $axios.delete(`/admin/data/${selectedId.value}`, {
+                headers: { Authorization: `Bearer ${adminToken}` },
+            })
+            items.value = items.value.filter(
+                (item) => item.id !== selectedId.value
+            )
+            return
+        }
+
+        // 🔹 일반 사용자 로그인 여부 확인
         const storedUser = localStorage.getItem('naverUser')
         if (!storedUser) {
             alert('로그인이 필요합니다.')
@@ -65,6 +80,8 @@ const confirmDelete = async () => {
         const user = JSON.parse(storedUser)
         const userId = user.id
 
+        // 🔹 일반 사용자 데이터 삭제 요청
+        console.log(`사용자 ${userId} 데이터 삭제 요청`)
         await $axios.delete(`/data/${userId}/${selectedId.value}`)
         items.value = items.value.filter((item) => item.id !== selectedId.value)
     } catch (error) {
