@@ -1,10 +1,11 @@
-import express, { Request, Response } from 'express'
+import express, { Request, Response, NextFunction } from 'express'
 import cors from 'cors'
 import path from 'path'
 import fs from 'fs'
 import multer from 'multer'
 import axios from 'axios'
 import dotenv from 'dotenv'
+import jwt from 'jsonwebtoken'
 
 const app = express()
 const port = 5001
@@ -18,6 +19,80 @@ app.use(
 )
 // JSON 형식 데이터 파싱
 app.use(express.json())
+
+const ADMIN_ID = 'edikchoi'
+const ADMIN_PASSWORD = 'anstn9231'
+const SECRET_KEY = 'super_secret_key' // 🔹 JWT 서명용 키 (보안 강화를 위해 .env 파일에서 관리 추천)
+
+// ✅ 관리자 인증 미들웨어
+const verifyAdmin = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    const token = req.headers.authorization?.split(' ')[1] // "Bearer token"에서 토큰만 추출
+
+    if (!token) {
+        res.status(401).json({ message: '관리자 인증 필요' })
+        return
+    }
+
+    try {
+        const decoded = jwt.verify(token, SECRET_KEY) as { role: string }
+
+        if (decoded.role !== 'admin') {
+            res.status(403).json({ message: '권한이 없습니다.' })
+            return
+        }
+
+        next() // ✅ 인증 성공 시 다음 미들웨어로 이동
+    } catch (error) {
+        res.status(401).json({ message: '토큰이 유효하지 않습니다.' })
+    }
+}
+
+// ✅ 관리자 전체 데이터 조회 엔드포인트
+app.get(
+    '/api/admin/data',
+    verifyAdmin,
+    async (req: Request, res: Response): Promise<void> => {
+        try {
+            const dbFilePath = path.join(process.cwd(), 'db.js')
+
+            if (!fs.existsSync(dbFilePath)) {
+                res.json([])
+                return
+            }
+
+            const fileContent = fs.readFileSync(dbFilePath, 'utf-8')
+            const jsonStr = fileContent
+                .replace(/^module\.exports\s*=\s*/, '')
+                .replace(/;$/, '')
+            const data = JSON.parse(jsonStr)
+
+            res.json(data) // ✅ 모든 사용자 데이터 반환
+        } catch (error) {
+            console.error('데이터 조회 오류:', error)
+            res.status(500).json({ message: '서버 오류 발생' })
+        }
+    }
+)
+
+// ✅ 관리자 로그인 엔드포인트
+app.post('/api/admin/login', (req: Request, res: Response) => {
+    const { id, password } = req.body
+
+    if (id === ADMIN_ID && password === ADMIN_PASSWORD) {
+        const token = jwt.sign({ role: 'admin' }, SECRET_KEY, {
+            expiresIn: '1h',
+        }) // 1시간 유효한 JWT 발급
+        res.json({ token })
+    } else {
+        res.status(401).json({
+            message: '아이디 또는 비밀번호가 잘못되었습니다.',
+        })
+    }
+})
 
 dotenv.config()
 

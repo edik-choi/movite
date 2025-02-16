@@ -3,25 +3,21 @@ import dayjs from 'dayjs'
 import 'dayjs/locale/ko'
 import { InvitationTableHeader } from '~/data/domain/admin'
 
-const router = useRouter()
-
 const items = ref<Array<any>>([])
 
 onMounted(async () => {
     try {
         const { $axios } = useNuxtApp()
-        const token = localStorage.getItem('adminToken')
-
-        if (!token) {
-            alert('관리자 로그인이 필요합니다.')
-            router.push('/admin/login')
+        const storedUser = localStorage.getItem('naverUser')
+        if (!storedUser) {
+            console.warn('로그인이 필요합니다.')
             return
         }
 
-        const response = await $axios.get('/admin/data', {
-            headers: { Authorization: `Bearer ${token}` },
-        })
+        const user = JSON.parse(storedUser)
+        const userId = user.id
 
+        const response = await $axios.get(`/data/${userId}`)
         items.value = response.data
     } catch (error) {
         console.error('데이터 불러오기 오류:', error)
