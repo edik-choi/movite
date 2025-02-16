@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { nameSample, greetingsSample } from '@/data/domain/custom'
 
+const isStoredUserExist = ref(false)
+
 const fontIndex = ref(0)
 const selectFontIndex = (index: number) => {
     fontIndex.value = index
@@ -203,6 +205,23 @@ const generateRandomId = (): string => {
     return randomPart + timestamp // 랜덤 값 + 타임스탬프 조합
 }
 
+const router = useRouter()
+
+onMounted(async () => {
+    try {
+        const storedUser = localStorage.getItem('naverUser')
+        if (!storedUser) {
+            alert('로그인이 필요합니다.')
+            router.push('/login')
+            return
+        } else {
+            isStoredUserExist.value = true
+        }
+    } catch (error) {
+        console.error('로그인 체크 오류:', error)
+    }
+})
+
 const save = async () => {
     try {
         const { $axios } = useNuxtApp()
@@ -273,7 +292,7 @@ const save = async () => {
 </script>
 
 <template>
-    <Container>
+    <Container v-if="isStoredUserExist">
         <template #side>
             <button @click="save">save</button>
             <CustomPreview
