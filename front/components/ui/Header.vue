@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 interface Props {
+    isAdmin?: boolean
     userName?: string
 }
 
@@ -11,6 +12,20 @@ const emits = defineEmits<{
 
 const router = useRouter()
 
+const isAdminLoggedIn = ref(false)
+
+onMounted(() => {
+    const token = localStorage.getItem('adminToken')
+    if (token) {
+        isAdminLoggedIn.value = true
+    }
+})
+
+const adminLogout = () => {
+    localStorage.removeItem('adminToken')
+    router.push('/')
+}
+
 const navigateToLogin = () => {
     router.push('/login')
 }
@@ -21,9 +36,13 @@ const handleLogOut = () => {
 </script>
 
 <template>
-    <div class="header">
+    <div class="header" :class="{ admin: isAdmin }">
         <button>Home</button>
-        <div class="header_right_wrap">
+        <div v-if="isAdmin && isAdminLoggedIn" class="header_right_wrap">
+            <p>관리자 모드</p>
+            <button @click="adminLogout">로그아웃</button>
+        </div>
+        <div v-if="!isAdmin" class="header_right_wrap">
             <p v-if="userName">{{ userName }}님 환영합니다</p>
             <button v-if="!userName" @click="navigateToLogin">로그인</button>
             <button v-else @click="handleLogOut">로그아웃</button>
@@ -46,6 +65,13 @@ const handleLogOut = () => {
     .header_right_wrap {
         display: flex;
         gap: 10px;
+    }
+    &.admin {
+        background: #000;
+        color: #fff;
+        button {
+            color: #fff;
+        }
     }
 }
 </style>

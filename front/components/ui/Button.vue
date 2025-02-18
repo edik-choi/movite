@@ -2,6 +2,7 @@
 interface Props {
     name: string
     lineType?: boolean
+    disabled?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {})
@@ -17,7 +18,11 @@ const handleClick = () => {
 
 <template>
     <div class="button_wrap">
-        <button :class="{ line: lineType }" @click="handleClick">
+        <button
+            :class="{ line: lineType }"
+            :disabled="disabled"
+            @click="handleClick"
+        >
             {{ name }}
         </button>
     </div>
@@ -38,6 +43,9 @@ const handleClick = () => {
             background: #fff;
             border: 1px solid #000;
         }
+    }
+    & + .button_wrap {
+        margin-left: 10px;
     }
 }
 </style>

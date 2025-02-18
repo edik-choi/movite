@@ -103,6 +103,7 @@ const cancelDelete = () => {
                 </li>
                 <li>{{ `${item.maleName} · ${item.femaleName}` }}</li>
                 <li>{{ item.id }}</li>
+                <li>{{ item.isFinalized ? '확정 완료' : '작업 중' }}</li>
                 <li>
                     <Button name="청첩장 열기" @click="goToView(item.id)" />
                 </li>

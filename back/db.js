@@ -1,7 +1,8 @@
 module.exports = [
   {
-    "id": "rf51ew",
+    "id": "mv8hho",
     "userId": "VSu-lrzlcKy1GbBt-njjEbwxLH6COMGBa7VK_lrKD8M",
+    "isFinalized": true,
     "fontIndex": 0,
     "themeColorIndex": 0,
     "maleName": "민수",
@@ -21,7 +22,7 @@ module.exports = [
     "greetingsTitle": "저희 결혼합니다",
     "greetingsContent": "두 사람의 인연이 사랑으로 피어나<br/>결혼이라는 결실을 맺게 되었습니다.<br /><br/>소중한 분들을 모시고<br />그 기쁨을 나누고자 하오니<br/>부디 참석하셔서<br />자리를 빛내 주시기 바랍니다.",
     "greetingsImageUrls": [],
-    "date": "2025-02-16T14:30:00.000Z",
+    "date": "2025-02-18T04:00:00.000Z",
     "address": "",
     "detailAddress": "",
     "detailDirections": "",
@@ -47,8 +48,9 @@ module.exports = [
     "femaleContactPhoneNumber3": ""
   },
   {
-    "id": "24tmge",
+    "id": "0vbjd4",
     "userId": "VSu-lrzlcKy1GbBt-njjEbwxLH6COMGBa7VK_lrKD8M",
+    "isFinalized": false,
     "fontIndex": 0,
     "themeColorIndex": 0,
     "maleName": "민수",
@@ -68,7 +70,7 @@ module.exports = [
     "greetingsTitle": "저희 결혼합니다",
     "greetingsContent": "두 사람의 인연이 사랑으로 피어나<br/>결혼이라는 결실을 맺게 되었습니다.<br /><br/>소중한 분들을 모시고<br />그 기쁨을 나누고자 하오니<br/>부디 참석하셔서<br />자리를 빛내 주시기 바랍니다.",
     "greetingsImageUrls": [],
-    "date": "2025-02-16T15:00:00.000Z",
+    "date": "2025-02-18T05:00:00.000Z",
     "address": "",
     "detailAddress": "",
     "detailDirections": "",

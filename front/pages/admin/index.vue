@@ -1,6 +1,11 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+definePageMeta({
+    layout: false,
+})
+</script>
 
 <template>
+    <Header isAdmin />
     <Container>
         <AdminInvitationList />
     </Container>

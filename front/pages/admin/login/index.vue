@@ -3,10 +3,23 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useNuxtApp } from '#app'
 
+definePageMeta({
+    layout: false,
+})
+
 const router = useRouter()
 const adminId = ref('')
 const adminPassword = ref('')
 const errorMessage = ref('')
+
+const isAdminLoggedIn = ref(false)
+
+onMounted(() => {
+    const token = localStorage.getItem('adminToken')
+    if (token) {
+        isAdminLoggedIn.value = true
+    }
+})
 
 const login = async () => {
     try {
@@ -27,17 +40,20 @@ const login = async () => {
 </script>
 
 <template>
-    <div class="login-container">
-        <h1>관리자 로그인</h1>
-        <input v-model="adminId" placeholder="아이디 입력" />
-        <input
-            v-model="adminPassword"
-            type="password"
-            placeholder="비밀번호 입력"
-        />
-        <button @click="login">로그인</button>
-        <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
-    </div>
+    <Header isAdmin />
+    <Container>
+        <div v-if="!isAdminLoggedIn" class="login-container">
+            <input v-model="adminId" placeholder="아이디 입력" />
+            <input
+                v-model="adminPassword"
+                type="password"
+                placeholder="비밀번호 입력"
+            />
+            <button @click="login">로그인</button>
+            <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+        </div>
+        <div v-else>관리자 모드입니다</div>
+    </Container>
 </template>
 
 <style scoped>

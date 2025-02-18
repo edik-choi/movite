@@ -236,7 +236,8 @@ const save = async () => {
 
         const dataToSave = {
             id: generateRandomId(),
-            userId, // ✅ 사용자 ID 추가
+            userId, // ✅ 사용자 ID
+            isFinalized: false,
             fontIndex: fontIndex.value,
             themeColorIndex: themeColorIndex.value,
             maleName: maleName.value,

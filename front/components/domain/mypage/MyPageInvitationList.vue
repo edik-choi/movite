@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import dayjs from 'dayjs'
 import 'dayjs/locale/ko'
-import { InvitationTableHeader } from '~/data/domain/admin'
+import { InvitationTableHeader } from '~/data/domain/mypage'
 
 const items = ref<Array<any>>([])
 
@@ -30,14 +30,38 @@ const formattedDate = (item: string) => {
     return dayjs(new Date(item)).locale('ko').format('YYYY년 M월 D일')
 }
 
-/* const goToView = (id: string) => {
-    const url = `/view/${id}`
-    window.open(url, '_blank')
-} */
-
 const selectedId = ref('')
 const selectedMaleName = ref('')
 const selectedFemaleName = ref('')
+
+const finalizeInvitation = async (id: string) => {
+    try {
+        const { $axios } = useNuxtApp()
+        const storedUser = localStorage.getItem('naverUser')
+
+        if (!storedUser) {
+            alert('로그인이 필요합니다.')
+            return
+        }
+
+        const user = JSON.parse(storedUser)
+        const userId = user.id
+
+        // ✅ 백엔드에 `isFinalized: true`로 업데이트 요청
+        await $axios.put(`/data/${userId}/${id}`, { isFinalized: true })
+
+        // ✅ 프론트엔드에서도 `items` 배열 업데이트 (UI 즉시 반영)
+        const item = items.value.find((item) => item.id === id)
+        if (item) {
+            item.isFinalized = true
+        }
+
+        alert('청첩장이 확정되었습니다.')
+    } catch (error) {
+        console.error('초대장 확정 오류:', error)
+        alert('초대장 확정 중 오류가 발생했습니다.')
+    }
+}
 
 const isDeleteInvitationModalVisible = ref(false)
 const deleteInvitation = (id: string, maleName: string, femaleName: string) => {
@@ -81,10 +105,11 @@ const cancelDelete = () => {
                     {{ formattedDate(item.date) }}
                 </li>
                 <li>{{ `${item.maleName} · ${item.femaleName}` }}</li>
-                <li>{{ item.id }}</li>
-                <li>
-                    <Button name="청첩장 수정" />
+                <li v-if="!item.isFinalized">
+                    <Button lineType name="수정" disabled />
+                    <Button name="확정" @click="finalizeInvitation(item.id)" />
                 </li>
+                <li v-else>확정 완료</li>
                 <li>
                     <Button
                         lineType

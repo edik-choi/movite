@@ -337,6 +337,56 @@ app.get('/api/mypage/data/:userId', (req: Request, res: Response): void => {
     }
 })
 
+// db.js 확정 처리
+app.put(
+    '/api/data/:userId/:id',
+    async (req: Request, res: Response): Promise<void> => {
+        try {
+            const { userId, id } = req.params
+            const { isFinalized } = req.body
+            const dbFilePath = path.join(process.cwd(), 'db.js')
+
+            if (!fs.existsSync(dbFilePath)) {
+                res.status(404).json({ message: '데이터 파일이 없습니다.' })
+                return
+            }
+
+            const fileContent = fs.readFileSync(dbFilePath, 'utf-8')
+            const jsonStr = fileContent
+                .replace(/^module\.exports\s*=\s*/, '')
+                .replace(/;$/, '')
+            let data = JSON.parse(jsonStr)
+
+            // ✅ 해당 userId와 id에 맞는 데이터 찾기
+            const itemIndex = data.findIndex(
+                (item: any) => item.userId === userId && item.id === id
+            )
+
+            if (itemIndex === -1) {
+                res.status(404).json({
+                    message: '해당 데이터를 찾을 수 없습니다.',
+                })
+                return
+            }
+
+            // ✅ `isFinalized` 값 업데이트
+            data[itemIndex].isFinalized = isFinalized
+
+            // ✅ 변경된 데이터를 다시 저장
+            fs.writeFileSync(
+                dbFilePath,
+                'module.exports = ' + JSON.stringify(data, null, 2) + ';',
+                'utf-8'
+            )
+
+            res.json({ message: `ID ${id} 데이터가 업데이트되었습니다.` })
+        } catch (error) {
+            console.error('데이터 업데이트 오류:', error)
+            res.status(500).json({ message: '서버 오류 발생' })
+        }
+    }
+)
+
 // db.js 데이터 삭제(mypage)
 app.delete('/api/data/:userId/:id', (req: Request, res: Response): void => {
     try {
