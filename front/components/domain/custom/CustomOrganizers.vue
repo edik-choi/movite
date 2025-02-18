@@ -1,4 +1,17 @@
 <script lang="ts" setup>
+interface Props {
+    maleName?: string
+    maleRelation?: string
+    maleFatherName?: string
+    maleMotherName?: string
+    femaleName?: string
+    femaleRelation?: string
+    femaleFatherName?: string
+    femaleMotherName?: string
+}
+
+const props = withDefaults(defineProps<Props>(), {})
+
 const emits = defineEmits<{
     (e: 'updateMaleName', value: string): void
     (e: 'updateMaleRelation', value: string): void
@@ -112,48 +125,98 @@ const selectShowDeceasedAsFlower = (_value: boolean) => {
 <template>
     <InputForm required title="신랑측">
         <InputFormItem>
-            <Text :initValue="maleName" :placeholder="maleNamePlaceholder" @input="updateMaleName" />
-            <Text :initValue="maleRelation" :placeholder="maleRelationPlaceholder" @input="updateMaleRelation" />
+            <Text
+                :initValue="props.maleName || ''"
+                :placeholder="maleNamePlaceholder"
+                @input="updateMaleName"
+            />
+            <Text
+                :initValue="props.maleRelation || ''"
+                :placeholder="maleRelationPlaceholder"
+                @input="updateMaleRelation"
+            />
         </InputFormItem>
         <InputFormItem>
-            <Text :initValue="maleFatherName" :placeholder="maleFatherNamePlaceholder" @input="updateMaleFatherName" />
-            <CheckBox id="DECEASED_MALE_FATHER" label="故人" @input="selectMaleFatherDeceased" />
+            <Text
+                :initValue="props.maleFatherName || ''"
+                :placeholder="maleFatherNamePlaceholder"
+                @input="updateMaleFatherName"
+            />
+            <CheckBox
+                id="DECEASED_MALE_FATHER"
+                label="故人"
+                @input="selectMaleFatherDeceased"
+            />
         </InputFormItem>
         <InputFormItem>
-            <Text :initValue="maleMotherName" :placeholder="maleMotherNamePlaceholder" @input="updateMaleMotherName" />
-            <CheckBox id="DECEASED_MALE_MOTHER" label="故人" @input="selectMaleMotherDeceased" />
+            <Text
+                :initValue="props.maleMotherName || ''"
+                :placeholder="maleMotherNamePlaceholder"
+                @input="updateMaleMotherName"
+            />
+            <CheckBox
+                id="DECEASED_MALE_MOTHER"
+                label="故人"
+                @input="selectMaleMotherDeceased"
+            />
         </InputFormItem>
     </InputForm>
     <InputForm required devided title="신부측">
         <InputFormItem>
-            <Text :initValue="femaleName" :placeholder="femaleNamePlaceholder" @input="updateFemaleName" />
-            <Text :initValue="femaleRelation" :placeholder="femaleRelationPlaceholder" @input="updateFemaleRelation" />
+            <Text
+                :initValue="props.femaleName || ''"
+                :placeholder="femaleNamePlaceholder"
+                @input="updateFemaleName"
+            />
+            <Text
+                :initValue="props.femaleRelation || ''"
+                :placeholder="femaleRelationPlaceholder"
+                @input="updateFemaleRelation"
+            />
         </InputFormItem>
         <InputFormItem>
             <Text
-                :initValue="femaleFatherName"
+                :initValue="props.femaleFatherName || ''"
                 :placeholder="femaleFatherNamePlaceholder"
                 @input="updateFemaleFatherName"
             />
-            <CheckBox id="DECEASED_FEMALE_FATHER" name="DECEASED" label="故人" @input="selectFemaleFatherDeceased" />
+            <CheckBox
+                id="DECEASED_FEMALE_FATHER"
+                name="DECEASED"
+                label="故人"
+                @input="selectFemaleFatherDeceased"
+            />
         </InputFormItem>
         <InputFormItem>
             <Text
-                :initValue="femaleMotherName"
+                :initValue="props.femaleMotherName || ''"
                 :placeholder="femaleMotherNamePlaceholder"
                 @input="updateFemaleMotherName"
             />
-            <CheckBox id="DECEASED_FEMALE_MOTHER" name="DECEASED" label="故人" @input="selectFemaleMotherDeceased" />
+            <CheckBox
+                id="DECEASED_FEMALE_MOTHER"
+                name="DECEASED"
+                label="故人"
+                @input="selectFemaleMotherDeceased"
+            />
         </InputFormItem>
     </InputForm>
     <InputForm devided title="표기 순서">
         <InputFormItem>
-            <CheckBox id="FEMALE_FIRST" label="신부 먼저 표기" @input="selectShowFemaleFirst" />
+            <CheckBox
+                id="FEMALE_FIRST"
+                label="신부 먼저 표기"
+                @input="selectShowFemaleFirst"
+            />
         </InputFormItem>
     </InputForm>
     <InputForm title="故人 표기">
         <InputFormItem>
-            <CheckBox id="DECEASED_AS_FLOWER" label="故人 대신 꽃으로 표기" @input="selectShowDeceasedAsFlower" />
+            <CheckBox
+                id="DECEASED_AS_FLOWER"
+                label="故人 대신 꽃으로 표기"
+                @input="selectShowDeceasedAsFlower"
+            />
         </InputFormItem>
     </InputForm>
 </template>

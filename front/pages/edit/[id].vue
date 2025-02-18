@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { nameSample, greetingsSample } from '@/data/domain/custom'
+import { greetingsSample } from '@/data/domain/custom'
 
 const id = ref('')
 const editId = ref('')
@@ -15,7 +15,7 @@ const selectThemeColorIndex = (index: number) => {
     themeColorIndex.value = index
 }
 
-const maleName = ref(nameSample.male)
+const maleName = ref('')
 const updateMaleName = (_value: string) => {
     maleName.value = _value
 }
@@ -27,7 +27,7 @@ const isMaleFatherDeceased = ref(false)
 const selectMaleFatherDeceased = (_value: boolean) => {
     isMaleFatherDeceased.value = _value
 }
-const maleFatherName = ref(nameSample.maleFather)
+const maleFatherName = ref('')
 const updateMaleFatherName = (_value: string) => {
     maleFatherName.value = _value
 }
@@ -35,12 +35,12 @@ const isMaleMotherDeceased = ref(false)
 const selectMaleMotherDeceased = (_value: boolean) => {
     isMaleMotherDeceased.value = _value
 }
-const maleMotherName = ref(nameSample.maleMother)
+const maleMotherName = ref('')
 const updateMaleMotherName = (_value: string) => {
     maleMotherName.value = _value
 }
 
-const femaleName = ref(nameSample.female)
+const femaleName = ref('')
 const updateFemaleName = (_value: string) => {
     femaleName.value = _value
 }
@@ -52,7 +52,7 @@ const isFemaleFatherDeceased = ref(false)
 const selectFemaleFatherDeceased = (_value: boolean) => {
     isFemaleFatherDeceased.value = _value
 }
-const femaleFatherName = ref(nameSample.femaleFather)
+const femaleFatherName = ref('')
 const updateFemaleFatherName = (_value: string) => {
     femaleFatherName.value = _value
 }
@@ -60,7 +60,7 @@ const isFemaleMotherDeceased = ref(false)
 const selectFemaleMotherDeceased = (_value: boolean) => {
     isFemaleMotherDeceased.value = _value
 }
-const femaleMotherName = ref(nameSample.femaleMother)
+const femaleMotherName = ref('')
 const updateFemaleMotherName = (_value: string) => {
     femaleMotherName.value = _value
 }
@@ -417,6 +417,14 @@ const save = async () => {
             </Accordion>
             <Accordion expanded title="성함">
                 <CustomOrganizers
+                    :maleName="maleName"
+                    :maleRelation="maleRelation"
+                    :maleFatherName="maleFatherName"
+                    :maleMotherName="maleMotherName"
+                    :femaleName="femaleName"
+                    :femaleRelation="femaleRelation"
+                    :femaleFatherName="femaleFatherName"
+                    :femaleMotherName="femaleMotherName"
                     @updateMaleName="updateMaleName"
                     @updateMaleRelation="updateMaleRelation"
                     @selectMaleFatherDeceased="selectMaleFatherDeceased"
