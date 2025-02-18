@@ -30,9 +30,11 @@ const formattedDate = (item: string) => {
     return dayjs(new Date(item)).locale('ko').format('YYYY년 M월 D일')
 }
 
-const selectedId = ref('')
-const selectedMaleName = ref('')
-const selectedFemaleName = ref('')
+const router = useRouter()
+
+const navigateToInvitationEdit = (editId: string) => {
+    router.push(`/edit/${editId}`)
+}
 
 const finalizeInvitation = async (id: string) => {
     try {
@@ -62,6 +64,10 @@ const finalizeInvitation = async (id: string) => {
         alert('초대장 확정 중 오류가 발생했습니다.')
     }
 }
+
+const selectedId = ref('')
+const selectedMaleName = ref('')
+const selectedFemaleName = ref('')
 
 const isDeleteInvitationModalVisible = ref(false)
 const deleteInvitation = (id: string, maleName: string, femaleName: string) => {
@@ -106,7 +112,11 @@ const cancelDelete = () => {
                 </li>
                 <li>{{ `${item.maleName} · ${item.femaleName}` }}</li>
                 <li v-if="!item.isFinalized">
-                    <Button lineType name="수정" disabled />
+                    <Button
+                        lineType
+                        name="수정"
+                        @click="navigateToInvitationEdit(item.editId)"
+                    />
                     <Button name="확정" @click="finalizeInvitation(item.id)" />
                 </li>
                 <li v-else>확정 완료</li>
