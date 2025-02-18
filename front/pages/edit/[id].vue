@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import { nameSample, greetingsSample } from '@/data/domain/custom'
 
+const id = ref('')
+const editId = ref('')
+const userId = ref('')
+
 const fontIndex = ref(0)
 const selectFontIndex = (index: number) => {
     fontIndex.value = index
@@ -197,15 +201,75 @@ const updateFemaleContactPhoneNumber3 = (_value: string) => {
     femaleContactPhoneNumber3.value = _value
 }
 
-const generateRandomId = (): string => {
-    const timestamp = Date.now().toString(36).slice(-3) // 현재 시간을 36진수로 변환 (뒤 3자리 사용)
-    const randomPart = Math.random().toString(36).substring(2, 5) // 3자리 랜덤 문자열
-    return randomPart + timestamp // 랜덤 값 + 타임스탬프 조합
-}
-
+const route = useRoute()
 const router = useRouter()
 
 const isStoredUserExist = ref(false)
+
+const loadCustomData = async () => {
+    try {
+        const { $axios } = useNuxtApp()
+        const editIdParam = route.params.id as string // 🔹 URL의 editId 값
+
+        // ✅ `editId`를 사용하여 데이터 요청
+        const response = await $axios.get(`/edit/data/${editIdParam}`)
+        const savedData = response.data
+
+        if (!savedData) {
+            alert('데이터를 찾을 수 없습니다.')
+            return
+        }
+
+        id.value = savedData[0].id
+        editId.value = savedData[0].editId
+        userId.value = savedData[0].userId
+        fontIndex.value = savedData[0].fontIndex
+        themeColorIndex.value = savedData[0].themeColorIndex
+        maleName.value = savedData[0].maleName
+        maleRelation.value = savedData[0].maleRelation
+        maleFatherName.value = savedData[0].maleFatherName
+        isMaleFatherDeceased.value = savedData[0].isMaleFatherDeceased
+        maleMotherName.value = savedData[0].maleMotherName
+        isMaleMotherDeceased.value = savedData[0].isMaleMotherDeceased
+        femaleName.value = savedData[0].femaleName
+        femaleRelation.value = savedData[0].femaleRelation
+        femaleFatherName.value = savedData[0].femaleFatherName
+        isFemaleFatherDeceased.value = savedData[0].isFemaleFatherDeceased
+        femaleMotherName.value = savedData[0].femaleMotherName
+        isFemaleMotherDeceased.value = savedData[0].isFemaleMotherDeceased
+        isShowFemaleFirst.value = savedData[0].isShowFemaleFirst
+        isShowDeceasedAsFlower.value = savedData[0].isShowDeceasedAsFlower
+        greetingsTitle.value = savedData[0].greetingsTitle
+        greetingsContent.value = savedData[0].greetingsContent
+        greetingsImageUrls.value = savedData[0].greetingsImageUrls
+        date.value = savedData[0].date
+        address.value = savedData[0].address
+        detailAddress.value = savedData[0].detailAddress
+        detailDirections.value = savedData[0].detailDirections
+        directionsImageUrls.value = savedData[0].directionsImageUrls
+        isMapVisible.value = savedData[0].isMapVisible
+        isNaviVisible.value = savedData[0].isNaviVisible
+        geocodeX.value = savedData[0].geocodeX
+        geocodeY.value = savedData[0].geocodeY
+        noticeTitle.value = savedData[0].noticeTitle
+        noticeContent.value = savedData[0].noticeContent
+        closingsContent.value = savedData[0].closingsContent
+        maleContactName1.value = savedData[0].maleContactName1
+        maleContactPhoneNumber1.value = savedData[0].maleContactPhoneNumber1
+        maleContactName2.value = savedData[0].maleContactName2
+        maleContactPhoneNumber2.value = savedData[0].maleContactPhoneNumber2
+        maleContactName3.value = savedData[0].maleContactName3
+        maleContactPhoneNumber3.value = savedData[0].maleContactPhoneNumber3
+        femaleContactName1.value = savedData[0].femaleContactName1
+        femaleContactPhoneNumber1.value = savedData[0].femaleContactPhoneNumber1
+        femaleContactName2.value = savedData[0].femaleContactName2
+        femaleContactPhoneNumber2.value = savedData[0].femaleContactPhoneNumber2
+        femaleContactName3.value = savedData[0].femaleContactName3
+        femaleContactPhoneNumber3.value = savedData[0].femaleContactPhoneNumber3
+    } catch (error) {
+        console.error('데이터 불리오기 중 오류가 발생했습니다:', error)
+    }
+}
 
 onMounted(async () => {
     try {
@@ -216,6 +280,7 @@ onMounted(async () => {
             return
         } else {
             isStoredUserExist.value = true
+            loadCustomData()
         }
     } catch (error) {
         console.error('로그인 체크 오류:', error)
@@ -231,13 +296,13 @@ const save = async () => {
             return
         }
 
-        const user = JSON.parse(storedUser) // 🔹 로그인한 사용자 정보
-        const userId = user.id // 🔹 네이버 로그인 ID 사용
+        const user = JSON.parse(storedUser)
+        const userId = user.id
 
         const dataToSave = {
-            id: generateRandomId(),
-            editId: generateRandomId(),
-            userId, // ✅ 사용자 ID
+            id: id.value,
+            editId: editId.value,
+            userId: userId.value,
             isFinalized: false,
             fontIndex: fontIndex.value,
             themeColorIndex: themeColorIndex.value,

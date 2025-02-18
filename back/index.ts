@@ -337,6 +337,33 @@ app.get('/api/mypage/data/:userId', (req: Request, res: Response): void => {
     }
 })
 
+// db.js 데이터 수정(editId)
+app.get('/api/edit/data/:editId', (req: Request, res: Response): void => {
+    try {
+        const { editId } = req.params
+        const dbFilePath = path.join(process.cwd(), 'db.js')
+
+        if (!fs.existsSync(dbFilePath)) {
+            res.json([])
+            return
+        }
+
+        const fileContent = fs.readFileSync(dbFilePath, 'utf-8')
+        const jsonStr = fileContent
+            .replace(/^module\.exports\s*=\s*/, '')
+            .replace(/;$/, '')
+        const data = JSON.parse(jsonStr)
+
+        // 🔹 editId가 일치하는 데이터만 반환
+        const userData = data.filter((item: any) => item.editId === editId)
+
+        res.json(userData)
+    } catch (error) {
+        console.error('데이터 조회 중 오류 발생:', error)
+        res.status(500).json({ error: '데이터 조회 오류' })
+    }
+})
+
 // db.js 확정 처리
 app.put(
     '/api/data/:userId/:id',
