@@ -337,7 +337,7 @@ app.get('/api/mypage/data/:userId', (req: Request, res: Response): void => {
     }
 })
 
-// db.js 데이터 수정(editId)
+// db.js 데이터 수정 로드(editId)
 app.get('/api/edit/data/:editId', (req: Request, res: Response): void => {
     try {
         const { editId } = req.params
@@ -363,6 +363,56 @@ app.get('/api/edit/data/:editId', (req: Request, res: Response): void => {
         res.status(500).json({ error: '데이터 조회 오류' })
     }
 })
+
+// db.js 데이터 수정 저장(eidtId)
+app.put(
+    '/api/edit/data/:editId',
+    async (req: Request, res: Response): Promise<void> => {
+        try {
+            const { editId } = req.params
+            const { userId, data } = req.body
+            const dbFilePath = path.join(process.cwd(), 'db.js')
+
+            if (!fs.existsSync(dbFilePath)) {
+                res.status(404).json({ message: '데이터 파일이 없습니다.' })
+                return
+            }
+
+            const fileContent = fs.readFileSync(dbFilePath, 'utf-8')
+            const jsonStr = fileContent
+                .replace(/^module\.exports\s*=\s*/, '')
+                .replace(/;$/, '')
+            let dbData = JSON.parse(jsonStr)
+
+            // ✅ 해당 editId의 데이터 찾기
+            const itemIndex = dbData.findIndex(
+                (item: any) => item.editId === editId && item.userId === userId
+            )
+
+            if (itemIndex === -1) {
+                res.status(404).json({
+                    message: '해당 데이터를 찾을 수 없습니다.',
+                })
+                return
+            }
+
+            // ✅ 기존 데이터를 새로운 데이터로 업데이트
+            dbData[itemIndex] = { ...dbData[itemIndex], ...data }
+
+            // ✅ 변경된 데이터 저장
+            fs.writeFileSync(
+                dbFilePath,
+                'module.exports = ' + JSON.stringify(dbData, null, 2) + ';',
+                'utf-8'
+            )
+
+            res.json({ message: `ID ${editId} 데이터가 업데이트되었습니다.` })
+        } catch (error) {
+            console.error('데이터 업데이트 오류:', error)
+            res.status(500).json({ message: '서버 오류 발생' })
+        }
+    }
+)
 
 // db.js 확정 처리
 app.put(

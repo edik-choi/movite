@@ -298,11 +298,12 @@ const save = async () => {
 
         const user = JSON.parse(storedUser)
         const userId = user.id
+        const editIdParam = route.params.id as string // 🔹 현재 라우트의 editId 값
 
         const dataToSave = {
             id: id.value,
             editId: editId.value,
-            userId: userId.value,
+            userId: userId,
             isFinalized: false,
             fontIndex: fontIndex.value,
             themeColorIndex: themeColorIndex.value,
@@ -349,8 +350,22 @@ const save = async () => {
             femaleContactPhoneNumber3: femaleContactPhoneNumber3.value,
         }
 
-        await $axios.post('/save', { userId, data: dataToSave })
-        alert('저장되었습니다!')
+        // ✅ 서버에 `editId`가 존재하는지 확인
+        const response = await $axios.get(`/edit/data/${editIdParam}`)
+        const existingData = response.data
+
+        if (existingData.length > 0) {
+            // ✅ `editId`가 존재하면 업데이트 요청
+            await $axios.put(`/edit/data/${editIdParam}`, {
+                userId,
+                data: dataToSave,
+            })
+            alert('청첩장 정보가 업데이트되었습니다!')
+        } else {
+            // ✅ `editId`가 없으면 새로 추가
+            await $axios.post('/save', { userId, data: dataToSave })
+            alert('청첩장이 저장되었습니다!')
+        }
     } catch (error) {
         console.error('저장 중 오류가 발생했습니다:', error)
         alert('저장에 실패했습니다.')
